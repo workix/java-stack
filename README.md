@@ -28,15 +28,15 @@ https://pipe.social/startup/907/perfil
 **Screenshots**
 
 ## na Web
-<img src="https://workix.com.br/docs/web.png" title="Workix on web screenshot">
+<img src="https://github.com/workix/java-stack/raw/docs/docs/web.png" title="Workix on web screenshot">
 
 ## no Celular
-<img src="https://workix.com.br/docs/android.png" title="Workix on mobile screenshot" width="70%" height="35%">
+<img src="https://github.com/workix/java-stack/raw/docs/docs/android.png" title="Workix on mobile screenshot" width="70%" height="35%">
 
 **Veja funcionando no Youtube**
 https://www.youtube.com/playlist?list=PLDzyDVZ4JbDhYUQvZf_fti3kDujvt4o5F
 
-[![See on Youtube](https://workix.com.br/docs/workix.gif)](https://www.youtube.com/playlist?list=PLDzyDVZ4JbDhYUQvZf_fti3kDujvt4o5F)
+[![See on Youtube](https://github.com/workix/java-stack/raw/docs/docs/workix.gif)](https://www.youtube.com/playlist?list=PLDzyDVZ4JbDhYUQvZf_fti3kDujvt4o5F)
 
 
 ### Documentação Java
@@ -50,7 +50,7 @@ GNU General Public License v3.0
 ### Patrocínio
 **Nós preferimos Intellij**
 --
-<img src="https://workix.com.br/docs/jet-brains-logos/logo-variant-4.png" title="Workix powered by Intellij" width="40%" height="20%">
+<img src="https://github.com/workix/java-stack/raw/docs/docs/jet-brains-logos/logo-variant-4.png" title="Workix powered by Intellij" width="40%" height="20%">
 
 ### Desenvolvedores
  * Felipe Rodrigues Michetti - Main Developer

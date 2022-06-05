@@ -18,5 +18,5 @@ import javax.ws.rs.core.Application;
  * @since 1.0
  * @version 1.0
  */
-@ApplicationPath("services")
+@ApplicationPath("services/v1")
 public class JAXRSConfiguration extends Application{}

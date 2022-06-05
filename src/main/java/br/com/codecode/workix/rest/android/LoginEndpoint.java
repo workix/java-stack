@@ -19,7 +19,6 @@ import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.models.Locale;
 import br.com.codecode.workix.jpa.models.User;
 import br.com.codecode.workix.rest.BaseEndpoint;
-import io.swagger.annotations.Api;
 
 /**
  * Login JaxRs Endpoint
@@ -29,7 +28,6 @@ import io.swagger.annotations.Api;
  * @since 1.0
  * @version 1.1
  */
-@Api
 @Path("login")
 public class LoginEndpoint extends BaseEndpoint {
 

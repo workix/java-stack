@@ -1,8 +1,6 @@
 package br.com.codecode.workix.rest.android;
 
 import br.com.codecode.workix.config.JAXRSConfiguration;
-import io.swagger.annotations.Api;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -20,7 +18,6 @@ import javax.ws.rs.core.Response.Status;
  * @version 1.1
  */
 
-@Api
 @Path("ping")
 public class PingEndpoint {
 

@@ -27,8 +27,8 @@ public class EntityManagerProducer implements Serializable {
 
     private static final long serialVersionUID = -1826763804778726145L;
 
-//    @PersistenceUnit(unitName = "postgresDS")
-//    private EntityManagerFactory emfPostGres;
+    @PersistenceUnit(unitName = "PostgresDS")
+    private EntityManagerFactory emfPostGres;
 
     @PersistenceUnit(unitName = "MySqlDS")
     private EntityManagerFactory emfMysql;
@@ -38,13 +38,13 @@ public class EntityManagerProducer implements Serializable {
      * 
      * @return EntityManager PostgreSQL Implementation
      */
-//    @Produces
-//    @RequestScoped
-//    @Factory
-//    @PostgreSQL
-//    public EntityManager getPostgreSQLEntityManager() {
-//	return emfPostGres.createEntityManager();
-//    }
+    @Produces
+    @RequestScoped
+    @Factory
+    @PostgreSQL
+    public EntityManager getPostgreSQLEntityManager() {
+	    return emfPostGres.createEntityManager();
+    }
     /**
      * Produce EntityManager for CDI Injection Points
      * 
@@ -55,7 +55,7 @@ public class EntityManagerProducer implements Serializable {
     @Factory
     @MySQL
     public EntityManager getMySQLEntityManager() {
-	return emfMysql.createEntityManager();
+	    return emfMysql.createEntityManager();
     }
 
     /**
@@ -77,7 +77,7 @@ public class EntityManagerProducer implements Serializable {
         switch (getContextParam()) {
             case "PostgreSQL":
 
-                //emf = emfPostGres;
+                emf = emfPostGres;
 
                 break;
             case "MySQL":

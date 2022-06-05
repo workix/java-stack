@@ -6,7 +6,7 @@
     <persistence-unit name="MySqlDS" transaction-type="JTA">
         <description>Persistence Unit for MySQL</description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <jta-data-source>java:/MySqlDS</jta-data-source>
+        <jta-data-source>java:jboss/datasources/MySqlDS</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.ejb.cfgfile" value="META-INF/hibernate.cfg.xml"/>
@@ -14,15 +14,15 @@
         </properties>
     </persistence-unit>
 
-    <!--<persistence-unit name="postgresDS" transaction-type="JTA">-->
-    <!--<description>Persistence Unit for Postgres</description>-->
-    <!--<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
-    <!--<jta-data-source>java:/PostgresDS</jta-data-source>-->
-    <!--<exclude-unlisted-classes>false</exclude-unlisted-classes>-->
-    <!--<properties>-->
-    <!--<property name="hibernate.ejb.cfgfile" value="META-INF/hibernate.cfg.xml" />-->
-    <!--<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />-->
-    <!--<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />-->
-    <!--</properties>-->
-    <!--</persistence-unit>-->
+    <persistence-unit name="PostgresDS" transaction-type="JTA">
+        <description>Persistence Unit for Postgres</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:jboss/datasources/PostgresDS</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.ejb.cfgfile" value="META-INF/hibernate.cfg.xml" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
+        </properties>
+    </persistence-unit>
 </persistence>

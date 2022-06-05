@@ -1,8 +1,6 @@
 package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.Job;
-import io.swagger.annotations.Api;
-
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import javax.ws.rs.*;
@@ -15,7 +13,6 @@ import java.util.List;
  * 
  */
 @Stateless
-@Api
 @Path("/jobs")
 public class JobEndpoint {
 	@PersistenceContext(unitName = "MySqlDS")

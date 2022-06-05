@@ -35,8 +35,15 @@
         </plugins>
     </build>
 
-    <dependencies>
+    <repositories>
+        <repository>
+            <id>repository.jboss.org-public</id>
+            <name>JBoss.org Maven repository</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
 
+    <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -52,11 +59,6 @@
             <optional>true</optional>
         </dependency>
 
-        <dependency>
-            <groupId>org.jboss.as</groupId>
-            <artifactId>jboss-as-security</artifactId>
-            <version>7.2.0.Final</version>
-        </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -111,24 +113,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.12</version>
-        </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>br.com.codecode</groupId>-->
-        <!--<artifactId>workix</artifactId>-->
-        <!--<version>0.0</version>-->
-        <!--</dependency>-->
-
-        <!-- https://mvnrepository.com/artifact/com.sun/tools -->
-        <dependency>
-            <groupId>com.sun</groupId>
-            <artifactId>tools</artifactId>
-            <version>LATEST</version>
-            <scope>system</scope>
-            <!-- $ whereis javac to discover path of javac ....-->
-            <!-- <systemPath>/usr/lib/jvm/java-8-oracle/lib/tools.jar</systemPath>-->
-            <systemPath>C:\Program Files\Java\jdk1.8.0_211\lib\tools.jar</systemPath>
+            <version>1.18.24</version>
         </dependency>
 
         <dependency>
@@ -136,36 +121,43 @@
             <artifactId>swagger-jaxrs</artifactId>
             <version>1.5.22</version>
         </dependency>
+
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>
         </dependency>
+
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>
         </dependency>
+
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>
         </dependency>
+
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>
         </dependency>
+
+
 
     </dependencies>
 
 
     <properties>
+        <maven.version>3.6.3</maven.version>
         <skipTests>true</skipTests>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <jackson-version>LATEST</jackson-version>
         <version.jboss.bom>10.0.0.Final</version.jboss.bom>
         <version.api>7.0</version.api>

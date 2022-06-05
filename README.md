@@ -52,6 +52,11 @@ GNU General Public License v3.0
 --
 <img src="https://github.com/workix/java-stack/raw/docs/docs/jet-brains-logos/logo-variant-4.png" title="Workix powered by Intellij" width="40%" height="20%">
 
+### Patente
+** Este software é patenteado
+--
+<img src="https://github.com/workix/java-stack/raw/docs/docs/workix_patente.png" title="Workix certificado de patente" width="60%" height="20%">
+
 ### Desenvolvedores
  * Felipe Rodrigues Michetti - Main Developer
 

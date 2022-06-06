@@ -1,0 +1,3 @@
+in blog.xhtml
+<!-- FIX ME ERROR 500 get(0) for Hash-->
+<!-- <h:graphicImage url="#{blog.getPicturesAsList.get(0)}" styleClass="img-responsive" alt="Blog Post" /> -->

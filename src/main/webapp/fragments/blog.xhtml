@@ -25,13 +25,12 @@
 							
 						<!-- Blog -->
 						<div>
-							<!-- FIX ME ERROR 500 get(0) for Hash-->
-							<h:graphicImage url="#{blog.picturesAsList.get(0)}" styleClass="img-responsive" alt="Blog Post" />
+
 
 							<h4><h:outputText value="#{blog.title}"/></h4>
 							
 							<h5>							
-								<span><i class="fa fa-calendar"></i><h:outputText value="#{blog.publishDate}" /></span>
+								<span><i class="fa fa-calendar"></i><h:outputText value="#{blog.date}" /></span>
 								<span><i class="fa fa-comment"></i><h:outputText value="#{blogsMB.comments.rowCount}" /> Comentários</span>
 							</h5>
 							

@@ -2,21 +2,12 @@ package br.com.codecode.workix.jpa.models;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -56,11 +47,11 @@ public class Blog extends MyEntity implements Persistable {
 
     private long id;
 
-    private List<String> pictures;
+    private Set<String> pictures;
 
     private String resume;
 
-    private List<Tag> tags;    
+    private Set<Tag> tags;
 
     private String title;
 
@@ -99,7 +90,7 @@ public class Blog extends MyEntity implements Persistable {
 
     public void addPicture(String picture){
 	if(pictures == null){
-	    pictures = new ArrayList<>();
+	    pictures = new HashSet<>();
 	}
 
 	pictures.add(picture);
@@ -107,7 +98,7 @@ public class Blog extends MyEntity implements Persistable {
 
     public void addTag(Tag tag){
 	if(tags == null){
-	    tags = new ArrayList<>();
+	    tags = new HashSet<>();
 	}
 	tags.add(tag);
     }
@@ -167,10 +158,20 @@ public class Blog extends MyEntity implements Persistable {
     /**
      * @return the pictures
      */
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "Blog_Pictures", joinColumns = @JoinColumn(name = "id"))
-    public List<String> getPictures() {
+    public Set<String> getPictures() {
 	return pictures;
+    }
+
+    @Transient
+    public List<String> getPicturesAsList() {
+        return getPictures().stream().collect(Collectors.toList());
+    }
+
+    @Transient
+    public void setPicturesAsList(){
+
     }
 
     /**
@@ -188,7 +189,7 @@ public class Blog extends MyEntity implements Persistable {
      */
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "Blog_Tags", joinColumns = @JoinColumn(name = "id"))
-    public List<Tag> getTags() {
+    public Set<Tag> getTags() {
 	return tags;
     }
 
@@ -200,7 +201,7 @@ public class Blog extends MyEntity implements Persistable {
 
     public void removePicture(String picture){
 	if(pictures == null){
-	    pictures = new ArrayList<>();
+	    pictures = new HashSet<>();
 	}
 
 	pictures.remove(picture);
@@ -208,7 +209,7 @@ public class Blog extends MyEntity implements Persistable {
 
     public void removeTag(Tag tag){
 	if(tags == null){
-	    tags = new ArrayList<>();
+	    tags = new HashSet<>();
 	}
 	tags.remove(tag);
     }
@@ -258,7 +259,7 @@ public class Blog extends MyEntity implements Persistable {
     /**
      * @param pictures the pictures to set
      */
-    public void setPictures(List<String> pictures) {
+    public void setPictures(Set<String> pictures) {
 	this.pictures = pictures;
     }
 
@@ -272,7 +273,7 @@ public class Blog extends MyEntity implements Persistable {
     /**
      * @param tags the tags to set
      */
-    public void setTags(List<Tag> tags) {
+    public void setTags(Set<Tag> tags) {
 	this.tags = tags;
     }
 
@@ -325,7 +326,7 @@ public class Blog extends MyEntity implements Persistable {
 	    return this;
 	}
 
-	public Builder withPictures(List<String> pictures) {
+	public Builder withPictures(Set<String> pictures) {
 	    super.pictures = pictures;
 	    return this;
 	}
@@ -335,7 +336,7 @@ public class Blog extends MyEntity implements Persistable {
 	    return this;
 	}
 
-	public Builder withTags(List<Tag> tags) {
+	public Builder withTags(Set<Tag> tags) {
 	    super.tags = tags;
 	    return this;
 	}

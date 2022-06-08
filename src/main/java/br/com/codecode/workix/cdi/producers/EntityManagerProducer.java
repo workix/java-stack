@@ -12,7 +12,11 @@ import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.stream.Collectors;
 
 /**
  * Entity Manager Producer
@@ -70,20 +74,18 @@ public class EntityManagerProducer implements Serializable {
     @Default
     public EntityManager getDefaultEntityManager() {
 
-	System.out.println("INIT PARAM >> " + getContextParam());
+    String database = getContextParam();
+
+	System.out.println("INIT PARAM >> " + database);
 
 	EntityManagerFactory emf = null;
 
-        switch (getContextParam()) {
+        switch (database) {
             case "PostgreSQL":
-
                 emf = emfPostGres;
-
                 break;
             case "MySQL":
-
                 emf = emfMysql;
-
                 break;
             default:
                 throw new RuntimeException("Context Param is NULL or Undefined");
@@ -115,9 +117,9 @@ public class EntityManagerProducer implements Serializable {
      */
     private String getContextParam() throws RuntimeException {
 
-	String s = "MySQL";
+	String s = System.getProperty("default.database", "MySQL");
 
-	if (!s.isEmpty()) {
+	if (s != null && !s.isEmpty()) {
 	    return s;
 	} else
 	    throw new RuntimeException("Impossible to Discover Runtime Environment");

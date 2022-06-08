@@ -99,4 +99,29 @@ public class JobEndpoint {
 
 		return Response.noContent().build();
 	}
+
+	@GET
+	@Path(value = "/feature")
+	@Produces("application/json")
+	public List<Job> listAllWithFeature(@QueryParam("start") Integer startPosition,
+							 @QueryParam("max") Integer maxResult, @QueryParam("feature") boolean feature) {
+		String sql;
+
+		if(feature){
+			sql = "SELECT DISTINCT j FROM Job j LEFT JOIN FETCH j.company WHERE j.feature = true ORDER BY j.id";
+		}else{
+			sql = "SELECT DISTINCT j FROM Job j LEFT JOIN FETCH j.company ORDER BY j.id";
+		}
+
+		TypedQuery<Job> findAllQuery = em.createQuery(sql, Job.class);
+
+		if (startPosition != null) {
+			findAllQuery.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			findAllQuery.setMaxResults(maxResult);
+		}
+		final List<Job> results = findAllQuery.getResultList();
+		return results;
+	}
 }

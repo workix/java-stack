@@ -31,6 +31,8 @@ public class Company extends Person {
     
     private String segment;
 
+	private String logo;
+
     /**
      * Public Default Constructor for JPA Compatibility Only
      */
@@ -49,7 +51,8 @@ public class Company extends Person {
 	this.setName(builder.getName());	
 	this.setContact(builder.getContact());
 	this.setLocale(builder.getLocale());
-	this.setUser(builder.getUser());	
+	this.setUser(builder.getUser());
+	this.setLogo(builder.getLogo());
     }
 
     /**
@@ -101,6 +104,11 @@ public class Company extends Person {
     public String getSegment() {
 	return segment;
     }
+
+	@Column(nullable = true)
+	public String getLogo(){
+		return logo;
+	}
     
     @Override
     public int hashCode() {
@@ -129,6 +137,10 @@ public class Company extends Person {
     public void setSegment(String companySegment) {
 	this.segment = companySegment;
     }
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
 
     /**
      * Builder to build {@link Company}.
@@ -183,6 +195,10 @@ public class Company extends Person {
 	public Builder withUser(User user) {
 	    super.setUser(user);
 	    return this;
+	}
+	public Builder withLogo(String logo){
+		super.setLogo(logo);
+		return this;
 	}
     }
 

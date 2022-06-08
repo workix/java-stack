@@ -77,6 +77,24 @@ public class CompanyEndpoint {
 		return results;
 	}
 
+	@GET
+	@Path(value = "/logos")
+	@Produces("application/json")
+	public List<String> listRandomLogos(@QueryParam("start") Integer startPosition,
+								 @QueryParam("max") Integer maxResult) {
+		Query q = em.createNativeQuery("SELECT logo FROM companies ORDER BY RAND()");
+
+		if (startPosition != null) {
+			q.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			q.setMaxResults(maxResult);
+		}
+
+		final List<String> results = q.getResultList();;
+		return results;
+	}
+
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")

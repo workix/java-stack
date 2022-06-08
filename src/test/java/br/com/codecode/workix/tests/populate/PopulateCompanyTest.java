@@ -97,8 +97,9 @@ public class PopulateCompanyTest extends BaseTest implements CommonPopTest<Compa
 	    
 	    for (int i = 0; i < 5; i++) {
 		c.setDescription(c.getDescription().concat(c.getDescription()));
-	    }  
-	    
+	    }
+
+		c.setLogo("http://localhost:8080/workix/resources/placeholder/220x100.jpg");
 
 	    assertNotNull(c);
 

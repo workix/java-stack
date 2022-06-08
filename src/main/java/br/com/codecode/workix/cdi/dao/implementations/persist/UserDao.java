@@ -68,9 +68,9 @@ public class UserDao extends BaseDao implements Crud<User> {
     }
 
     @Override
-    public BigInteger countRegisters() {
+    public BigInteger countRegisters(String entityName) {
 
-	return (BigInteger) em.createNativeQuery("SELECT count(1) FROM " + User.class.getSimpleName())
+	return (BigInteger) em.createNativeQuery("SELECT count(1) FROM " + entityName)
 		.getSingleResult();
     }
 

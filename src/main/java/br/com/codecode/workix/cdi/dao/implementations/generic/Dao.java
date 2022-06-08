@@ -111,8 +111,8 @@ public class Dao<T extends Persistable & Serializable> implements Crud<T>, Seria
     }
 
     @Override
-    public BigInteger countRegisters() {
-        return (BigInteger) em.createNativeQuery("SELECT count(1) FROM " + clazz.getSimpleName()).getSingleResult();
+    public BigInteger countRegisters(String entityName) {
+        return (BigInteger) em.createNativeQuery("SELECT count(1) FROM " + entityName).getSingleResult();
     }
 
 }

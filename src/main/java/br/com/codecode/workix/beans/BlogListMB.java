@@ -95,7 +95,7 @@ public class BlogListMB extends BaseMB {
     @Override
     public void init() {
 
-        totalRows = dao.countRegisters().intValue();
+        totalRows = dao.countRegisters("blogs").intValue();
 
         paginator = new Paginator(limitRows, page, totalRows);
 

@@ -61,8 +61,8 @@ public class SelectiveProcessDao extends BaseDao implements Crud<SelectiveProces
     }
 
     @Override
-    public BigInteger countRegisters() {
-	return (BigInteger) em.createNativeQuery("SELECT count(1) FROM " + SelectiveProcess.class.getSimpleName())
+    public BigInteger countRegisters(String entityName) {
+	return (BigInteger) em.createNativeQuery("SELECT count(1) FROM " + entityName)
 		.getSingleResult();
     }
 

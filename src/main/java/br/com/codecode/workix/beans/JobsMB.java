@@ -88,7 +88,7 @@ public class JobsMB extends BaseMB {
     @Override
     public void init() {
 
-        totalRows = dao.countRegisters().intValue();
+        totalRows = dao.countRegisters("jobs").intValue();
 
         paginator = new Paginator(limitRows, page, totalRows);
 

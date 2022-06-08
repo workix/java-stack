@@ -45,15 +45,15 @@ public class StatsMB extends BaseMB {
     @Override
     protected void init() {
 
-        jobDao.countRegisters();
+        jobDao.countRegisters("jobs");
 
-        counterJobs = jobDao.countRegisters().intValue();
+        counterJobs = jobDao.countRegisters("jobs").intValue();
 
-        counterEmployeers = companyDao.countRegisters().intValue();
+        counterEmployeers = companyDao.countRegisters("companies").intValue();
 
-        counterCandidates = candidateDao.countRegisters().intValue();
+        counterCandidates = candidateDao.countRegisters("candidates").intValue();
 
-        counterResumes = resumeDao.countRegisters().intValue();
+        counterResumes = resumeDao.countRegisters("resumes").intValue();
 
     }
 

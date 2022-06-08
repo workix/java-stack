@@ -59,5 +59,14 @@ public interface Crud<T extends Persistable & Serializable> extends BaseCrud<T> 
      * @throws NotImplementedYetException
      *             if Method is Not Implemented Yet
      */
-    public BigInteger countRegisters();
+    // public BigInteger countRegisters();
+
+    /**
+     * Count Registers on Database
+     * @param entityName
+     * @return Total Rows of Entity
+     * @throws NotImplementedYetException
+     *             if Method is Not Implemented Yet
+     */
+    public BigInteger countRegisters(String entityName);
 }

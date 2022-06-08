@@ -71,7 +71,7 @@ public class CandidatesMB extends BaseMB {
 
 	try {
 
-	    totalRows = dao.countRegisters().intValue();
+	    totalRows = dao.countRegisters("candidates").intValue();
 
 	    paginator = new Paginator(limitRows, page, totalRows);
 

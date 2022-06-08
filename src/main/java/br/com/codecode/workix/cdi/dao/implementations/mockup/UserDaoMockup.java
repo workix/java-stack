@@ -71,8 +71,8 @@ public class UserDaoMockup extends BaseDaoMockup implements Crud<User> {
     }
 
     @Override
-    public BigInteger countRegisters() {
-	return (BigInteger) em.createNativeQuery("SELECT count(1) FROM " + User.class.getSimpleName())
+    public BigInteger countRegisters(String entityName) {
+	return (BigInteger) em.createNativeQuery("SELECT count(1) FROM " + entityName)
 		.getSingleResult();
     }
 

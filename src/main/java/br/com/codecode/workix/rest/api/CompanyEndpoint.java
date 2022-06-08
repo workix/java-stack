@@ -1,12 +1,16 @@
 package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.Company;
+import br.com.codecode.workix.rest.dto.out.CompanyLogo;
+
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -80,9 +84,9 @@ public class CompanyEndpoint {
 	@GET
 	@Path(value = "/logos")
 	@Produces("application/json")
-	public List<String> listRandomLogos(@QueryParam("start") Integer startPosition,
-								 @QueryParam("max") Integer maxResult) {
-		Query q = em.createNativeQuery("SELECT logo FROM companies ORDER BY RAND()");
+	public List<CompanyLogo> listRandomLogos(@QueryParam("start") Integer startPosition,
+											 @QueryParam("max") Integer maxResult) {
+		Query q = em.createNativeQuery("SELECT id,name,logo FROM companies ORDER BY RAND()");
 
 		if (startPosition != null) {
 			q.setFirstResult(startPosition);
@@ -91,7 +95,9 @@ public class CompanyEndpoint {
 			q.setMaxResults(maxResult);
 		}
 
-		final List<String> results = q.getResultList();;
+		final List<Object[]> rows = q.getResultList();
+		List<CompanyLogo> results = new ArrayList<>();
+		rows.stream().forEach(r -> results.add(new CompanyLogo(Long.parseLong(r[0].toString()), r[1].toString(), r[2].toString())) );
 		return results;
 	}
 

@@ -33,6 +33,8 @@ public class Job extends MyEntity {
 
     private boolean active;
 
+	private boolean feature;
+
     /**
      * Many {@link Job} To One {@link Company}
      */
@@ -62,6 +64,7 @@ public class Job extends MyEntity {
      */
     private Job(Builder builder) {	
 	this.active = builder.isActive();
+	this.feature = builder.isFeature();
 	this.title = builder.getTitle();
 	this.description = builder.getDescription();
 	this.requirement = builder.getRequirement();
@@ -170,16 +173,25 @@ public class Job extends MyEntity {
 	minPayment = BigDecimal.ZERO;
 	maxPayment = BigDecimal.ZERO;
 	active = true;
+	feature = false;
     }
 
     @Column
     public boolean isActive() {
 	return active;
     }
+	@Column(nullable = true)
+	public boolean isFeature() {
+		return feature;
+	}
 
     public void setActive(boolean active) {
 	this.active = active;
     }
+
+	public void setFeature(boolean feature) {
+		this.feature = feature;
+	}
 
     public void setBenefits(String benefits) {
 	this.benefits = benefits;
@@ -244,6 +256,11 @@ public class Job extends MyEntity {
 	public Builder withActive(boolean active) {
 	    super.active = active;
 	    return this;
+	}
+
+	public Builder withFeature(boolean feature) {
+		super.feature = feature;
+		return this;
 	}
 
 	public Builder withBenefits(String benefits) {

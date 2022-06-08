@@ -128,12 +128,12 @@ public class JobEndpoint {
 	@GET
 	@Path(value = "/random_featured")
 	@Produces("application/json")
-	public List<Job> getRandomFeature() {
+	public Job getRandomFeature() {
 		String sql = "SELECT j FROM Job j LEFT JOIN FETCH j.company WHERE j.feature = true ORDER BY RAND()";
 
 		TypedQuery<Job> findQuery = em.createQuery(sql, Job.class);
 
 		final List<Job> result = findQuery.setMaxResults(1).getResultList();
-		return result;
+		return result.get(0);
 	}
 }

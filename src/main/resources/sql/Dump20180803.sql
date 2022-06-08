@@ -409,7 +409,7 @@ CREATE TABLE `Member` (
 
 LOCK TABLES `Member` WRITE;
 /*!40000 ALTER TABLE `Member` DISABLE KEYS */;
-INSERT INTO `Member` (`id`, `createdAt`, `updatedAt`, `uuid`, `version`, `name`, `occupation`, `picture`, `shortText`) VALUES (331,'2018-08-03 15:10:57',NULL,'d95adc9c-ec28-48de-b671-dd8d683555ad',0,'FELIPE RODRIGUES MICHETTI','Fundador e Desenvolvedor','http://localhost/resources/images/members/felipe_140_140.jpg','Porque pagar por um conteúdo que você não tem certeza de sua verdade?'),(332,'2018-08-03 15:10:57',NULL,'31e5b25d-803b-40e0-a7f2-c7a58b47b31f',0,'JEFFERSON PEDROSO','Co-Founder e CMO','http://localhost/resources/placeholder/140x140.jpg','Muitas idéias boas parecem loucura ou impossíveis em primeiro lugar.');
+INSERT INTO `Member` (`id`, `createdAt`, `updatedAt`, `uuid`, `version`, `name`, `occupation`, `picture`, `shortText`) VALUES (331,'2018-08-03 15:10:57',NULL,'d95adc9c-ec28-48de-b671-dd8d683555ad',0,'FELIPE RODRIGUES MICHETTI','Fundador e Desenvolvedor','http://localhost/resources/images/members/felipe_140_140.jpg','Porque pagar por um conteúdo que você não tem certeza de sua verdade?');
 /*!40000 ALTER TABLE `Member` ENABLE KEYS */;
 UNLOCK TABLES;
 

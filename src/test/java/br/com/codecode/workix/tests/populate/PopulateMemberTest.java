@@ -59,21 +59,6 @@ public class PopulateMemberTest extends BaseTest implements CommonPopTest<Member
 	    System.out.println("[create] " + felipe.getName());
 
 	    addToList(felipe);
-	    
-	    Member jefferson = Member.builder()
-	    
-	    .withName("JEFFERSON PEDROSO")
-	    
-	    .withOccupation("Co-Founder e CMO")
-	    
-	    .withShortText("Muitas idéias boas parecem loucura ou impossível em primeiro lugar.");
-	    
-	    jefferson.setPicture("http://localhost:8080/workix/resources/placeholder/140x140.jpg");
-
-	    System.out.println("[create] " + jefferson.getName());
-
-	    addToList(jefferson); 
-	
 
 	assertEquals(2 , members.size());
 

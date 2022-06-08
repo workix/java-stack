@@ -20,6 +20,7 @@ import java.util.Set;
  * @see MyEntity
  */
 @Entity
+@Table(name = "resumes")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @Persist
@@ -115,13 +116,13 @@ public class Resume extends MyEntity {
     }
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "Resume_Educations", joinColumns = @JoinColumn(name = "id"))
+	@CollectionTable(name = "resumes_educations", joinColumns = @JoinColumn(name = "id"))
     public Set<Education> getEducations() {
 	return educations;
     }
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "Resume_Experiences", joinColumns = @JoinColumn(name = "id"))
+	@CollectionTable(name = "resumes_experiences", joinColumns = @JoinColumn(name = "id"))
     public Set<Experience> getExperiences() {
 	return experiences;
     }
@@ -140,7 +141,7 @@ public class Resume extends MyEntity {
     }
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "Resume_Skills", joinColumns = @JoinColumn(name = "id"))
+	@CollectionTable(name = "resumes_skills", joinColumns = @JoinColumn(name = "id"))
     public Set<Skill> getSkills() {
 	return skills;
     }

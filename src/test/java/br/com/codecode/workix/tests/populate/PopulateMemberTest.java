@@ -60,7 +60,7 @@ public class PopulateMemberTest extends BaseTest implements CommonPopTest<Member
 
 	    addToList(felipe);
 
-	assertEquals(2 , members.size());
+	assertEquals(1 , members.size());
 
     }
 

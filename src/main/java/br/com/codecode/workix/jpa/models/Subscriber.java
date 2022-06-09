@@ -62,7 +62,7 @@ public class Subscriber extends MyEntity {
      * @return the email
      */
     @NotEmpty
-    @Column
+    @Column(unique = true)
     public String getEmail() {
 	return email;
     }

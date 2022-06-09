@@ -2,6 +2,7 @@ package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.Subscriber;
 import br.com.codecode.workix.rest.BaseEndpoint;
+import br.com.codecode.workix.rest.dto.out.Subscribe;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -97,5 +99,31 @@ public class SubscriberEndpoint extends BaseEndpoint {
 		}
 
 		return Response.noContent().build();
+	}
+
+	@POST
+	@Path("/subscribe")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Subscribe subscribe(Subscriber entity) {
+		Subscribe subscribe;
+		Query selectID = em.createNativeQuery("SELECT id FROM subscribers WHERE email = :email")
+				.setParameter("email", entity.getEmail());
+		try {
+			BigInteger singleResult = (BigInteger) selectID.getSingleResult();
+			if (singleResult != null) {
+				entity.setId(singleResult.longValue());
+				em.remove(em.getReference(Subscriber.class, entity.getId()));
+				subscribe = new Subscribe(false, entity.getEmail() + " foi desinscrito com sucesso!");
+			} else{
+				em.persist(entity);
+				subscribe = new Subscribe(true, entity.getEmail() + " foi inscrito com sucesso!");
+			}
+		}catch (NoResultException e){
+			em.persist(entity);
+			subscribe = new Subscribe(true, entity.getEmail() + " foi inscrito com sucesso!");
+		}
+
+		return subscribe;
 	}
 }

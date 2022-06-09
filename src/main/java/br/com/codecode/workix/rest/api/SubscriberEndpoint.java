@@ -1,6 +1,8 @@
 package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.Subscriber;
+import br.com.codecode.workix.rest.BaseEndpoint;
+
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import javax.ws.rs.*;
@@ -14,9 +16,7 @@ import java.util.List;
  */
 @Stateless
 @Path("/subscribers")
-public class SubscriberEndpoint {
-	@PersistenceContext(unitName = "MySqlDS")
-	private EntityManager em;
+public class SubscriberEndpoint extends BaseEndpoint {
 
 	@POST
 	@Consumes("application/json")

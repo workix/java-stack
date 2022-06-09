@@ -1,6 +1,8 @@
 package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.Blog;
+import br.com.codecode.workix.rest.BaseEndpoint;
+
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import javax.ws.rs.*;
@@ -15,9 +17,9 @@ import java.util.List;
 @Stateless
 
 @Path("/blogs")
-public class BlogEndpoint {
-	@PersistenceContext(unitName = "MySqlDS")
-	private EntityManager em;
+public class BlogEndpoint extends BaseEndpoint {
+	/*@PersistenceContext(unitName = "MySqlDS")
+	private EntityManager em;*/
 
 	@POST
 	@Consumes("application/json")

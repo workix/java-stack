@@ -1,6 +1,8 @@
 package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jaas.models.JAASUser;
+import br.com.codecode.workix.rest.BaseEndpoint;
+
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import javax.ws.rs.*;
@@ -14,10 +16,7 @@ import java.util.List;
  */
 @Stateless
 @Path("/jaasusers")
-public class JAASUserEndpoint {
-	@PersistenceContext(unitName = "MySqlDS")
-	private EntityManager em;
-
+public class JAASUserEndpoint extends BaseEndpoint {
 	@POST
 	@Consumes("application/json")
 	public Response create(JAASUser entity) {

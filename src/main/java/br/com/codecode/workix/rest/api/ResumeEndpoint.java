@@ -1,6 +1,8 @@
 package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.Resume;
+import br.com.codecode.workix.rest.BaseEndpoint;
+
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import javax.ws.rs.*;
@@ -14,9 +16,7 @@ import java.util.List;
  */
 @Stateless
 @Path("/resumes")
-public class ResumeEndpoint {
-	@PersistenceContext(unitName = "MySqlDS")
-	private EntityManager em;
+public class ResumeEndpoint extends BaseEndpoint {
 
 	@POST
 	@Consumes("application/json")

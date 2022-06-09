@@ -1,6 +1,8 @@
 package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.Testimonial;
+import br.com.codecode.workix.rest.BaseEndpoint;
+
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import javax.ws.rs.*;
@@ -14,9 +16,7 @@ import java.util.List;
  */
 @Stateless
 @Path("/testimonials")
-public class TestimonialEndpoint {
-	@PersistenceContext(unitName = "MySqlDS")
-	private EntityManager em;
+public class TestimonialEndpoint extends BaseEndpoint {
 
 	@POST
 	@Consumes("application/json")

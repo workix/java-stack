@@ -1,6 +1,7 @@
 package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.Company;
+import br.com.codecode.workix.rest.BaseEndpoint;
 import br.com.codecode.workix.rest.dto.out.CompanyLogo;
 
 import javax.ejb.Stateless;
@@ -19,9 +20,9 @@ import java.util.List;
 @Stateless
 
 @Path("/companies")
-public class CompanyEndpoint {
-	@PersistenceContext(unitName = "MySqlDS")
-	private EntityManager em;
+public class CompanyEndpoint extends BaseEndpoint {
+	/*@PersistenceContext(unitName = "MySqlDS")
+	private EntityManager em;*/
 
 	@POST
 	@Consumes("application/json")

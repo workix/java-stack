@@ -1,6 +1,7 @@
 package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.Comment;
+import br.com.codecode.workix.rest.BaseEndpoint;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
@@ -15,9 +16,9 @@ import java.util.List;
  */
 @Stateless
 @Path("/comments")
-public class CommentEndpoint {
-	@PersistenceContext(unitName = "MySqlDS")
-	private EntityManager em;
+public class CommentEndpoint extends BaseEndpoint {
+	/*@PersistenceContext(unitName = "MySqlDS")
+	private EntityManager em;*/
 
 	@POST
 	@Consumes("application/json")

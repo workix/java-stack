@@ -9,6 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -134,5 +135,24 @@ public class JobEndpoint extends BaseEndpoint {
 
 		final List<Job> result = findQuery.setMaxResults(1).getResultList();
 		return result.get(0);
+	}
+
+	@GET
+	@Path("/company/{id:[0-9][0-9]*}")
+	@Produces("application/json")
+	public List<Job> findByCompanyId(@PathParam("id") long id) {
+		TypedQuery<Job> findByIdQuery = em
+				.createQuery(
+						"SELECT DISTINCT j FROM Job j LEFT JOIN FETCH j.company WHERE j.company.id = :companyId ORDER BY j.id",
+						Job.class);
+		findByIdQuery.setParameter("companyId", id);
+		List<Job> entities;
+		try {
+			entities = findByIdQuery.getResultList();
+		} catch (NoResultException nre) {
+			entities = new ArrayList<>();
+		}
+
+		return entities;
 	}
 }

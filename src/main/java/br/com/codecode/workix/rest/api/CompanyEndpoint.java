@@ -21,8 +21,6 @@ import java.util.List;
 
 @Path("/companies")
 public class CompanyEndpoint extends BaseEndpoint {
-	/*@PersistenceContext(unitName = "MySqlDS")
-	private EntityManager em;*/
 
 	@POST
 	@Consumes("application/json")

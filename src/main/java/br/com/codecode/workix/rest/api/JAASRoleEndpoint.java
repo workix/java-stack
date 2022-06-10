@@ -17,8 +17,6 @@ import java.util.List;
 @Stateless
 @Path("/jaasroles")
 public class JAASRoleEndpoint extends BaseEndpoint {
-	/*@PersistenceContext(unitName = "MySqlDS")
-	private EntityManager em;*/
 
 	@POST
 	@Consumes("application/json")

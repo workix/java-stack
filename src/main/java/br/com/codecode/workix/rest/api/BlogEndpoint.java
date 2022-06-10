@@ -20,8 +20,6 @@ import java.util.List;
 
 @Path("/blogs")
 public class BlogEndpoint extends BaseEndpoint {
-	/*@PersistenceContext(unitName = "MySqlDS")
-	private EntityManager em;*/
 
 	@POST
 	@Consumes("application/json")

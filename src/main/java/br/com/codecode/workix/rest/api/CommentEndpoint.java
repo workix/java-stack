@@ -17,8 +17,6 @@ import java.util.List;
 @Stateless
 @Path("/comments")
 public class CommentEndpoint extends BaseEndpoint {
-	/*@PersistenceContext(unitName = "MySqlDS")
-	private EntityManager em;*/
 
 	@POST
 	@Consumes("application/json")

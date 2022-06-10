@@ -2,6 +2,7 @@ package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.Blog;
 import br.com.codecode.workix.rest.BaseEndpoint;
+import br.com.codecode.workix.rest.dto.out.BlogTimePeriod;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -111,5 +113,20 @@ public class BlogEndpoint extends BaseEndpoint {
 
 		final List<String> results = nativeQuery.getResultList();
 		return results;
+	}
+
+	@GET
+	@Path("/time_periods")
+	@Produces("application/json")
+	public List<BlogTimePeriod> listTimePeriods() {
+		Query nativeQuery = em.createNativeQuery("SELECT YEAR(b.createdAt) as year, MONTH(b.createdAt) as month from blogs b\n" +
+				"                   GROUP BY YEAR(b.createdAt), MONTH(b.createdAt)");
+
+		final List<Object[]> rows = nativeQuery.getResultList();
+
+		ArrayList<BlogTimePeriod> blogTimePeriods = new ArrayList<>();
+
+		rows.stream().forEach(r -> blogTimePeriods.add(new BlogTimePeriod(Integer.parseInt(r[0].toString()), Integer.parseInt(r[1].toString()))));
+		return blogTimePeriods;
 	}
 }

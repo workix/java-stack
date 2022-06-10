@@ -129,4 +129,23 @@ public class BlogEndpoint extends BaseEndpoint {
 		rows.stream().forEach(r -> blogTimePeriods.add(new BlogTimePeriod(Integer.parseInt(r[0].toString()), Integer.parseInt(r[1].toString()))));
 		return blogTimePeriods;
 	}
+
+	@GET
+	@Path("/recents")
+	@Produces("application/json")
+	public List<Blog> listAllRecents(@QueryParam("start") Integer startPosition,
+							  @QueryParam("max") Integer maxResult) {
+		TypedQuery<Blog> findAllQuery = em
+				.createQuery(
+						"SELECT DISTINCT b FROM Blog b LEFT JOIN FETCH b.author ORDER BY b.createdAt DESC",
+						Blog.class);
+		if (startPosition != null) {
+			findAllQuery.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			findAllQuery.setMaxResults(maxResult);
+		}
+		final List<Blog> results = findAllQuery.getResultList();
+		return results;
+	}
 }

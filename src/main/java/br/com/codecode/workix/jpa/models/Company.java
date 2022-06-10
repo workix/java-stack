@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlTransient;
 import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.interfaces.Buildable;
 
+import java.util.List;
+
 /**
  * Company JPA with Inherited Fields and Methods 
  * @see Person
@@ -33,7 +35,9 @@ public class Company extends Person {
 
 	private String logo;
 
-    /**
+	private List<SocialMedia> medias;
+
+	/**
      * Public Default Constructor for JPA Compatibility Only
      */
     public Company(){}
@@ -140,6 +144,15 @@ public class Company extends Person {
 
 	public void setLogo(String logo) {
 		this.logo = logo;
+	}
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "companies_medias", joinColumns = @JoinColumn(name = "id"))
+	public List<SocialMedia> getMedias() {
+		return medias;
+	}
+
+	public void setMedias(List<SocialMedia> medias) {
+		this.medias = medias;
 	}
 
     /**

@@ -44,7 +44,7 @@ public class CommentEndpoint extends BaseEndpoint {
 	public Response findById(@PathParam("id") long id) {
 		TypedQuery<Comment> findByIdQuery = em
 				.createQuery(
-						"SELECT DISTINCT c FROM Comment c LEFT JOIN FETCH c.blog WHERE c.id = :entityId ORDER BY c.id",
+						"SELECT DISTINCT c FROM Comment c WHERE c.id = :entityId ORDER BY c.id",
 						Comment.class);
 		findByIdQuery.setParameter("entityId", id);
 		Comment entity;
@@ -65,7 +65,7 @@ public class CommentEndpoint extends BaseEndpoint {
 			@QueryParam("max") Integer maxResult) {
 		TypedQuery<Comment> findAllQuery = em
 				.createQuery(
-						"SELECT DISTINCT c FROM Comment c LEFT JOIN FETCH c.blog ORDER BY c.id",
+						"SELECT DISTINCT c FROM Comment c ORDER BY c.id",
 						Comment.class);
 		if (startPosition != null) {
 			findAllQuery.setFirstResult(startPosition);
@@ -98,5 +98,24 @@ public class CommentEndpoint extends BaseEndpoint {
 		}
 
 		return Response.noContent().build();
+	}
+
+	@GET
+	@Path("/recents")
+	@Produces("application/json")
+	public List<Comment> listAllRecents(@QueryParam("start") Integer startPosition,
+								 @QueryParam("max") Integer maxResult) {
+		TypedQuery<Comment> findAllQuery = em
+				.createQuery(
+						"SELECT DISTINCT c FROM Comment c ORDER BY c.createdAt DESC",
+						Comment.class);
+		if (startPosition != null) {
+			findAllQuery.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			findAllQuery.setMaxResults(maxResult);
+		}
+		final List<Comment> results = findAllQuery.getResultList();
+		return results;
 	}
 }

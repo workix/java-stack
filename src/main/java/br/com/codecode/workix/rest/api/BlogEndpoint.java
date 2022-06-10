@@ -102,4 +102,14 @@ public class BlogEndpoint extends BaseEndpoint {
 
 		return Response.noContent().build();
 	}
+
+	@GET
+	@Path("/categories")
+	@Produces("application/json")
+	public List<String> listAllCategories() {
+		Query nativeQuery = em.createNativeQuery("SELECT DISTINCT category FROM blogs b");
+
+		final List<String> results = nativeQuery.getResultList();
+		return results;
+	}
 }

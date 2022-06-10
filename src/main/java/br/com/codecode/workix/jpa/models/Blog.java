@@ -56,6 +56,8 @@ public class Blog extends MyEntity implements Persistable {
 
     private String title;
 
+    private Set<Comment> comments;
+
     /**
      * Public Default Constructor for JPA Compatibility Only
      */
@@ -173,6 +175,14 @@ public class Blog extends MyEntity implements Persistable {
     @Transient
     public void setPicturesAsList(){
 
+    }
+    @OneToMany(fetch=FetchType.EAGER)
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     /**

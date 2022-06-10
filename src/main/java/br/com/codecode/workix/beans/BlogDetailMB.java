@@ -145,8 +145,6 @@ public class BlogDetailMB extends BaseMB implements Serializable{
 
 		comments = daoComment.listAll(0, Integer.MAX_VALUE);
 
-		comments = comments.stream().filter(c -> c.getBlog().getId() == id)
-			.collect(Collectors.toList());
 
 	    } catch (NotImplementedYetException e) {
 
@@ -173,14 +171,11 @@ public class BlogDetailMB extends BaseMB implements Serializable{
     @Transactional
     public String saveComment(){
 
-        daoComment.save(Comment.builder().withBlog(currentBlog).withEmail(email).withName(name).withText(text).build());
+        daoComment.save(Comment.builder().withEmail(email).withName(name).withText(text).build());
 
         messagesHelper.addFlash(new FacesMessage("Comentário Enviado !"));
 
         comments = daoComment.listAll(0, Integer.MAX_VALUE);
-
-        comments = comments.stream().filter(c -> c.getBlog().getId() == id)
-            .collect(Collectors.toList());
 
         return prefix + "/post.xhtml?id=" + currentBlog.getId() + sufix;
     }

@@ -30,7 +30,6 @@ public class Comment extends MyEntity implements Persistable {
    
     private static final long serialVersionUID = 7358996279677908814L;
 
-    private Blog blog; 
 
     private String email;    
 
@@ -56,7 +55,6 @@ public class Comment extends MyEntity implements Persistable {
 	this.email = builder.getEmail();
 	this.name = builder.getName();
 	this.text = builder.getText();
-	this.blog = builder.getBlog();
     }
 
     /**
@@ -68,14 +66,6 @@ public class Comment extends MyEntity implements Persistable {
 	return new Builder();
     }
 
-
-    /**
-     * @return the blog
-     */
-    @ManyToOne
-    public Blog getBlog() {
-	return blog;
-    }    
 
     /**
      * @return the email
@@ -113,13 +103,6 @@ public class Comment extends MyEntity implements Persistable {
     @Lob
     public String getText() {
 	return text;
-    }
-
-    /**
-     * @param blog the blog to set
-     */
-    public void setBlog(Blog blog) {
-	this.blog = blog;
     }
 
     /**
@@ -167,11 +150,6 @@ public class Comment extends MyEntity implements Persistable {
 	@Override
 	public Comment build() {
 	    return new Comment(this);
-	}
-
-	public Builder withBlog(Blog blog) {
-	    super.blog = blog;
-	    return this;
 	}
 
 	public Builder withEmail(String email) {

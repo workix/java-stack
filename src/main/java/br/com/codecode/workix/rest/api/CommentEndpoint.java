@@ -1,7 +1,9 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.jpa.models.Blog;
 import br.com.codecode.workix.jpa.models.Comment;
 import br.com.codecode.workix.rest.BaseEndpoint;
+import br.com.codecode.workix.rest.dto.in.BlogComment;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
@@ -117,5 +119,30 @@ public class CommentEndpoint extends BaseEndpoint {
 		}
 		final List<Comment> results = findAllQuery.getResultList();
 		return results;
+	}
+
+	@POST
+	@Path("/blog")
+	@Consumes("application/json")
+	public Response createBlogComment(BlogComment entity) {
+		Comment.Builder builder = Comment.builder();
+		Comment comment = builder.withEmail(entity.email).withName(entity.name).withText(entity.message).build();
+
+		if (entity == null) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		Blog blog = em.find(Blog.class, entity.postId);
+		if (blog == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}else {
+			em.persist(comment);
+			em.flush();
+			blog.addComment(comment);
+			em.merge(blog);
+		}
+
+		return Response.created(
+				UriBuilder.fromResource(CommentEndpoint.class)
+						.path(String.valueOf(blog.getId())).build()).build();
 	}
 }

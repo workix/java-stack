@@ -89,7 +89,20 @@ public class Blog extends MyEntity implements Persistable {
     @XmlTransient
     public static Builder builder() {
 	return new Builder();
-    }   
+    }
+
+    public void addComment(Comment comment){
+        if(comments == null){
+            comments = new HashSet<>();
+        }
+        comments.add(comment);
+    }
+    public void removeComment(Comment comment){
+        if(comments == null){
+            comments = new HashSet<>();
+        }
+        comments.remove(comment);
+    }
 
     public void addPicture(String picture){
 	if(pictures == null){

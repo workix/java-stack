@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -80,14 +79,12 @@ public class User extends MyEntity implements Notificable {
     public String getEmail() {
 	return email;
     }
-	@JsonIgnore
     @NotEmpty
     @Column
     @Override
     public String getFirebaseMessageToken() {
 	return firebaseMessageToken;
     }
-	@JsonIgnore
     @NotEmpty
     @Column
     @Override

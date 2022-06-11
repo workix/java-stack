@@ -12,6 +12,8 @@ import javax.persistence.Version;
 
 import br.com.codecode.workix.interfaces.Persistable;
 import br.com.codecode.workix.interfaces.Traceable;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * MyEntity JPA with Inherited Fields and Methods <br>
@@ -54,12 +56,13 @@ abstract class MyEntity implements Traceable, Persistable, Serializable {
     public void generateUUID() {
 	this.setUuid(UUID.randomUUID().toString());
     }
-
+    @JsonSerialize
     @Column(updatable = false, nullable = false)    
     private LocalDateTime getCreatedAt() {
 	return createdAt;
     }
 
+    @JsonSerialize
     @Column
     private LocalDateTime getUpdatedAt() {
 	return updatedAt;

@@ -3,11 +3,14 @@ package br.com.codecode.workix.cdi.dao.implementations.persist;
 import java.math.BigInteger;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Persist;
+import br.com.codecode.workix.core.exceptions.NotImplementedYetException;
 import br.com.codecode.workix.jpa.models.Candidate;
+import br.com.codecode.workix.jpa.models.Company;
 
 /**
  * DAO Implementation for Candidate
@@ -47,7 +50,7 @@ public class CandidateDao extends BaseDao implements Crud<Candidate> {
     }
 
     @Override
-    public List<Candidate> listAll(int startPosition, int maxResult) {
+    public List<Candidate> listAll(Integer startPosition, Integer maxResult) {
 
 	TypedQuery<Candidate> findAllQuery = em.createQuery("SELECT DISTINCT c FROM Candidate c ORDER BY c.id",
 		Candidate.class);
@@ -63,6 +66,14 @@ public class CandidateDao extends BaseDao implements Crud<Candidate> {
     public BigInteger countRegisters(String entityName) {
 	return (BigInteger) em.createNativeQuery("SELECT count(1) FROM " + entityName)
 		.getSingleResult();
+    }
+
+    @Override
+    public Candidate findByIdOrdened(long id) throws NotImplementedYetException, NoResultException {
+        TypedQuery<Candidate> findByIdQuery = em
+                .createQuery("SELECT DISTINCT c FROM Candidate c WHERE c.id = :id ORDER BY c.id", Candidate.class);
+        findByIdQuery.setParameter("id", id);
+        return findByIdQuery.getSingleResult();
     }
 
     @Override

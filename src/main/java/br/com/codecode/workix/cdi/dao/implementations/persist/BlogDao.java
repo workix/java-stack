@@ -4,7 +4,9 @@ import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.core.exceptions.NotImplementedYetException;
 import br.com.codecode.workix.jpa.models.Blog;
+import br.com.codecode.workix.jpa.models.Company;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.math.BigInteger;
 import java.util.List;
@@ -35,7 +37,7 @@ public class BlogDao extends BaseDao implements Crud<Blog> {
     }
 
     @Override
-    public List<Blog> listAll(int start, int end) {
+    public List<Blog> listAll(Integer start, Integer end) {
         TypedQuery<Blog> findAllQuery = em.createQuery("SELECT DISTINCT b FROM Blog b LEFT JOIN FETCH b.author ORDER BY b.id", Blog.class);
 
         findAllQuery.setFirstResult(start);
@@ -43,6 +45,14 @@ public class BlogDao extends BaseDao implements Crud<Blog> {
         findAllQuery.setMaxResults(end);
 
         return findAllQuery.getResultList();
+    }
+
+    @Override
+    public Blog findByIdOrdened(long id) throws NotImplementedYetException, NoResultException {
+        TypedQuery<Blog> findByIdQuery = em
+                .createQuery("SELECT DISTINCT b FROM Blog b WHERE b.id = :id ORDER BY b.id", Blog.class);
+        findByIdQuery.setParameter("id", id);
+        return findByIdQuery.getSingleResult();
     }
 
     @Override

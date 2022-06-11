@@ -3,6 +3,7 @@ package br.com.codecode.workix.cdi.dao;
 import br.com.codecode.workix.core.exceptions.NotImplementedYetException;
 import br.com.codecode.workix.interfaces.Persistable;
 
+import javax.persistence.NoResultException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -57,8 +58,10 @@ public abstract interface BaseCrud<T extends Persistable & Serializable> {
      *            Fetch for Entity by id Field and Delete
      * @throws NotImplementedYetException
      *             if Methods is Not Implemented Yet
+     * @throws IllegalArgumentException
+     *             if incorrect id is provided
      */
-    public void deleteById(long id) throws NotImplementedYetException;
+    public void deleteById(long id) throws NotImplementedYetException, IllegalArgumentException;
 
     /**
      * List Registers of an Entity between Start and End Index
@@ -71,5 +74,5 @@ public abstract interface BaseCrud<T extends Persistable & Serializable> {
      * @throws NotImplementedYetException
      *             if Methods is Not Implemented Yet
      */
-    public List<T> listAll(int start, int end);
+    public List<T> listAll(Integer start, Integer end);
 }

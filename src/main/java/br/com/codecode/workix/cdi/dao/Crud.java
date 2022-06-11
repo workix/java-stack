@@ -3,6 +3,7 @@ package br.com.codecode.workix.cdi.dao;
 import br.com.codecode.workix.core.exceptions.NotImplementedYetException;
 import br.com.codecode.workix.interfaces.Persistable;
 
+import javax.persistence.NoResultException;
 import java.io.Serializable;
 import java.math.BigInteger;
 
@@ -40,6 +41,15 @@ public interface Crud<T extends Persistable & Serializable> extends BaseCrud<T> 
 
 	return entity;
     }
+
+    /**
+     * Fetch for {@link Persistable} Entities with id
+     * @param id
+     * @return Fetched Entity with Order
+     * @throws NotImplementedYetException if Method is Not Implemented Yet
+     * @throws NoResultException if No Entity is returned
+     */
+    public T findByIdOrdened(long id) throws NotImplementedYetException, NoResultException;
 
     /**
      * Fetch for {@link Persistable} Entities with Id

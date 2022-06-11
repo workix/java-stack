@@ -2,13 +2,16 @@ package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.User;
 import br.com.codecode.workix.rest.BaseEndpoint;
+import br.com.codecode.workix.rest.dto.out.DefaultError;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 /**
@@ -19,12 +22,18 @@ import java.util.List;
 public class UserEndpoint extends BaseEndpoint {
 
 	@POST
-	@Consumes("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(User entity) {
-		em.persist(entity);
-		return Response.created(
-				UriBuilder.fromResource(UserEndpoint.class)
-						.path(String.valueOf(entity.getId())).build()).build();
+		if (entity == null) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		try {
+			em.persist(entity);
+		} catch (Exception ex){
+			return Response.status(Status.BAD_REQUEST).entity(new DefaultError(ex)).build();
+		}
+		return Response.status(Status.CREATED).entity(entity).build();
 	}
 
 	@DELETE
@@ -40,7 +49,7 @@ public class UserEndpoint extends BaseEndpoint {
 
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("id") long id) {
 		TypedQuery<User> findByIdQuery = em
 				.createQuery(
@@ -60,7 +69,7 @@ public class UserEndpoint extends BaseEndpoint {
 	}
 
 	@GET
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> listAll(@QueryParam("start") Integer startPosition,
 			@QueryParam("max") Integer maxResult) {
 		TypedQuery<User> findAllQuery = em.createQuery(
@@ -77,7 +86,8 @@ public class UserEndpoint extends BaseEndpoint {
 
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
-	@Consumes("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, User entity) {
 		if (entity == null) {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -95,6 +105,6 @@ public class UserEndpoint extends BaseEndpoint {
 					.entity(e.getEntity()).build();
 		}
 
-		return Response.noContent().build();
+		return Response.ok(entity).build();
 	}
 }

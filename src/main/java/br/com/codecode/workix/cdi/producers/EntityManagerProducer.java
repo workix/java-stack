@@ -76,8 +76,6 @@ public class EntityManagerProducer implements Serializable {
 
     String database = getContextParam();
 
-	System.out.println("INIT PARAM >> " + database);
-
 	EntityManagerFactory emf = null;
 
         switch (database) {

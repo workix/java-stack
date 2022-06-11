@@ -1,14 +1,21 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.cdi.dao.Crud;
+import br.com.codecode.workix.cdi.qualifiers.Generic;
+
 import br.com.codecode.workix.jpa.models.Job;
+import br.com.codecode.workix.jsf.util.helper.Paginator;
 import br.com.codecode.workix.rest.BaseEndpoint;
+import br.com.codecode.workix.rest.dto.out.PaginatedList;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +25,10 @@ import java.util.List;
 @Stateless
 @Path("/jobs")
 public class JobEndpoint extends BaseEndpoint {
+
+	@Inject
+	@Generic
+	private Crud<Job> jobDao;
 	@POST
 	@Consumes("application/json")
 	public Response create(Job entity) {
@@ -154,5 +165,27 @@ public class JobEndpoint extends BaseEndpoint {
 		}
 
 		return entities;
+	}
+
+	@GET
+	@Path("/paginated")
+	@Produces("application/json")
+	public PaginatedList<Job> listAllPaginated(@QueryParam("page") Integer page, @QueryParam("limit") Integer limit) {
+
+		BigInteger totalRows = jobDao.countRegisters("jobs");
+
+		Paginator paginator = new Paginator(limit, page, totalRows.intValue());
+
+		int totalPages = paginator.getTotalPages();
+
+		int start = paginator.getStart();
+
+		int end = paginator.getEnd();
+
+		List<Job> jobs = jobDao.listAll(start - 1, limit);
+
+		PaginatedList<Job> paginatedList = new PaginatedList<>(jobs,paginator.getStart(),paginator.getEnd(),paginator.getTotalPages(),paginator.getCurrentPage(),paginator.getLimitRows(),paginator.getMaxRows());
+
+		return paginatedList;
 	}
 }

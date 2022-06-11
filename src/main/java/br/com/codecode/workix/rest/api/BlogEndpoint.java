@@ -173,7 +173,7 @@ public class BlogEndpoint extends BaseEndpoint {
 
 		int end = paginator.getEnd();
 
-		List<Blog> blogs = bloDao.listAll(start - 1, end);
+		List<Blog> blogs = bloDao.listAll(start - 1, limit);
 
 		PaginatedList<Blog> paginatedList = new PaginatedList<>(blogs,paginator.getStart(),paginator.getEnd(),paginator.getTotalPages(),paginator.getCurrentPage(),paginator.getLimitRows(),paginator.getMaxRows());
 

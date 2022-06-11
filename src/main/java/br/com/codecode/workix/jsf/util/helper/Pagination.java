@@ -70,8 +70,9 @@ public class Pagination {
      * @return end Point for Pagination
      */
     public int discoverEndRange(int limitRows, int currentPage, int totalPages) {
+        int startRange = discoverStartRange(limitRows, currentPage, totalPages);
 
-	return discoverStartRange(limitRows, currentPage, totalPages) + limitRows - (1 * currentPage);
+	return startRange + limitRows - (1);
 
     }
 

@@ -1,17 +1,20 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.cdi.dao.Crud;
+import br.com.codecode.workix.cdi.qualifiers.Generic;
+
+import br.com.codecode.workix.core.exceptions.NotImplementedYetException;
 import br.com.codecode.workix.jpa.models.User;
 import br.com.codecode.workix.rest.BaseEndpoint;
 import br.com.codecode.workix.rest.dto.out.DefaultError;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 /**
@@ -21,6 +24,10 @@ import java.util.List;
 @Path("/users")
 public class UserEndpoint extends BaseEndpoint {
 
+	@Inject
+	@Generic
+	private Crud<User> userDao;
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -29,7 +36,7 @@ public class UserEndpoint extends BaseEndpoint {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 		try {
-			em.persist(entity);
+			userDao.save(entity);
 		} catch (Exception ex){
 			return Response.status(Status.BAD_REQUEST).entity(new DefaultError(ex)).build();
 		}
@@ -38,12 +45,15 @@ public class UserEndpoint extends BaseEndpoint {
 
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteById(@PathParam("id") long id) {
-		User entity = em.find(User.class, id);
-		if (entity == null) {
+		try {
+			userDao.deleteById(id);
+		} catch (IllegalArgumentException e) {
 			return Response.status(Status.NOT_FOUND).build();
+		} catch (NotImplementedYetException e){
+			return Response.status(Status.NOT_IMPLEMENTED).entity(new DefaultError(e)).build();
 		}
-		em.remove(entity);
 		return Response.noContent().build();
 	}
 
@@ -51,19 +61,13 @@ public class UserEndpoint extends BaseEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("id") long id) {
-		TypedQuery<User> findByIdQuery = em
-				.createQuery(
-						"SELECT DISTINCT u FROM User u WHERE u.id = :entityId ORDER BY u.id",
-						User.class);
-		findByIdQuery.setParameter("entityId", id);
 		User entity;
 		try {
-			entity = findByIdQuery.getSingleResult();
-		} catch (NoResultException nre) {
-			entity = null;
-		}
-		if (entity == null) {
+			entity = userDao.findByIdOrdened(id);
+		} catch (NoResultException e) {
 			return Response.status(Status.NOT_FOUND).build();
+		} catch (NotImplementedYetException e){
+			return Response.status(Status.NOT_IMPLEMENTED).entity(new DefaultError(e)).build();
 		}
 		return Response.ok(entity).build();
 	}
@@ -72,15 +76,8 @@ public class UserEndpoint extends BaseEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> listAll(@QueryParam("start") Integer startPosition,
 			@QueryParam("max") Integer maxResult) {
-		TypedQuery<User> findAllQuery = em.createQuery(
-				"SELECT DISTINCT u FROM User u ORDER BY u.id", User.class);
-		if (startPosition != null) {
-			findAllQuery.setFirstResult(startPosition);
-		}
-		if (maxResult != null) {
-			findAllQuery.setMaxResults(maxResult);
-		}
-		final List<User> results = findAllQuery.getResultList();
+
+		final List<User> results = userDao.listAll(startPosition, maxResult);
 		return results;
 	}
 
@@ -95,11 +92,13 @@ public class UserEndpoint extends BaseEndpoint {
 		if (id != entity.getId()) {
 			return Response.status(Status.CONFLICT).entity(entity).build();
 		}
-		if (em.find(User.class, id) == null) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
 		try {
-			entity = em.merge(entity);
+			if (userDao.findById(id) == null) {
+				return Response.status(Status.NOT_FOUND).build();
+			}
+			entity = userDao.update(entity);
+		} catch (NotImplementedYetException e) {
+			return Response.status(Status.NOT_IMPLEMENTED).entity(new DefaultError(e)).build();
 		} catch (OptimisticLockException e) {
 			return Response.status(Response.Status.CONFLICT)
 					.entity(e.getEntity()).build();

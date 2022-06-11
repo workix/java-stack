@@ -3,11 +3,14 @@ package br.com.codecode.workix.cdi.dao.implementations.generic;
 import br.com.codecode.workix.cdi.dao.BaseCrud;
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.producers.GenericDaoProducer;
+import br.com.codecode.workix.core.exceptions.NotImplementedYetException;
 import br.com.codecode.workix.interfaces.Persistable;
+import br.com.codecode.workix.jpa.models.Company;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -88,6 +91,14 @@ public class Dao<T extends Persistable & Serializable> implements Crud<T>, Seria
     }
 
     @Override
+    public T findByIdOrdened(long id) throws NotImplementedYetException, NoResultException {
+        TypedQuery<?> findByIdQuery = em
+                .createQuery("SELECT DISTINCT x FROM " + clazz.getSimpleName() + " x WHERE x.id = :id ORDER BY x.id", clazz);
+        findByIdQuery.setParameter("id", id);
+        return (T) findByIdQuery.getSingleResult();
+    }
+
+    @Override
     public T findByUuid(String uuid) {
 
         String jpql = "SELECT x FROM " + clazz.getSimpleName() + "x WHERE x.uuid = :uuid";
@@ -98,14 +109,17 @@ public class Dao<T extends Persistable & Serializable> implements Crud<T>, Seria
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<T> listAll(int start, int end) {
+    public List<T> listAll(Integer start, Integer end) {
 
         TypedQuery<?> findAllQuery = em
                 .createQuery("SELECT DISTINCT x FROM " + clazz.getSimpleName() + " x ORDER BY x.id", clazz);
 
-        findAllQuery.setFirstResult(start);
-
-        findAllQuery.setMaxResults(end);
+        if (start != null) {
+            findAllQuery.setFirstResult(start);
+        }
+        if (end != null) {
+            findAllQuery.setMaxResults(end);
+        }
 
         return (List<T>) findAllQuery.getResultList();
     }

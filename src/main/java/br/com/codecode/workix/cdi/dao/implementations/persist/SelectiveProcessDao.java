@@ -3,10 +3,13 @@ package br.com.codecode.workix.cdi.dao.implementations.persist;
 import java.math.BigInteger;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Persist;
+import br.com.codecode.workix.core.exceptions.NotImplementedYetException;
+import br.com.codecode.workix.jpa.models.Company;
 import br.com.codecode.workix.jpa.models.SelectiveProcess;
 
 /**
@@ -47,7 +50,7 @@ public class SelectiveProcessDao extends BaseDao implements Crud<SelectiveProces
     }
 
     @Override
-    public List<SelectiveProcess> listAll(int startPosition, int maxResult) {
+    public List<SelectiveProcess> listAll(Integer startPosition, Integer maxResult) {
 
 	TypedQuery<SelectiveProcess> findAllQuery = em.createQuery(
 		"SELECT DISTINCT s FROM SelectiveProcess s LEFT JOIN FETCH s.job LEFT JOIN FETCH s.employeer LEFT JOIN FETCH s.candidates ORDER BY s.id",
@@ -64,6 +67,14 @@ public class SelectiveProcessDao extends BaseDao implements Crud<SelectiveProces
     public BigInteger countRegisters(String entityName) {
 	return (BigInteger) em.createNativeQuery("SELECT count(1) FROM " + entityName)
 		.getSingleResult();
+    }
+
+    @Override
+    public SelectiveProcess findByIdOrdened(long id) throws NotImplementedYetException, NoResultException {
+        TypedQuery<SelectiveProcess> findByIdQuery = em
+                .createQuery("SELECT DISTINCT sp FROM SelectiveProcess sp WHERE sp.id = :id ORDER BY sp.id", SelectiveProcess.class);
+        findByIdQuery.setParameter("id", id);
+        return findByIdQuery.getSingleResult();
     }
 
     @Override

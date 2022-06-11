@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.event.Event;
 import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import br.com.codecode.workix.cdi.dao.Crud;
@@ -59,7 +60,7 @@ public class UserDaoMockup extends BaseDaoMockup implements Crud<User> {
     }
 
     @Override
-    public List<User> listAll(int start, int end) {
+    public List<User> listAll(Integer start, Integer end) {
 
 	TypedQuery<User> findAllQuery = em.createQuery("SELECT DISTINCT u FROM User u ORDER BY u.id", User.class);
 
@@ -74,6 +75,11 @@ public class UserDaoMockup extends BaseDaoMockup implements Crud<User> {
     public BigInteger countRegisters(String entityName) {
 	return (BigInteger) em.createNativeQuery("SELECT count(1) FROM " + entityName)
 		.getSingleResult();
+    }
+
+    @Override
+    public User findByIdOrdened(long id) throws NotImplementedYetException, NoResultException {
+        throw new NotImplementedYetException();
     }
 
     @Override

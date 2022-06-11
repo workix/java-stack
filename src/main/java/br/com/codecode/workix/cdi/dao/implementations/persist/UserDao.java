@@ -5,10 +5,14 @@ import java.util.List;
 
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.TypedQuery;
 
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Persist;
+import br.com.codecode.workix.core.exceptions.NotImplementedYetException;
+import br.com.codecode.workix.jpa.models.Company;
 import br.com.codecode.workix.jpa.models.User;
 
 /**
@@ -38,11 +42,13 @@ public class UserDao extends BaseDao implements Crud<User> {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(long id) throws IllegalArgumentException {
 	User entity = em.find(User.class, id);
-	if (entity != null) {
-	    em.remove(entity);
-	}
+        if (entity == null) {
+            throw new IllegalArgumentException(String.format("User with id: %s not found", id));
+        } else {
+            em.remove(entity);
+        }
     }
 
     @Override
@@ -51,18 +57,20 @@ public class UserDao extends BaseDao implements Crud<User> {
     }
 
     @Override
-    public User update(User entity) {
+    public User update(User entity) throws OptimisticLockException {
 	return em.merge(entity);
     }
 
     @Override
-    public List<User> listAll(int startPosition, int maxResult) {
+    public List<User> listAll(Integer startPosition, Integer maxResult) {
 
 	TypedQuery<User> findAllQuery = em.createQuery("SELECT DISTINCT u FROM User u ORDER BY u.id", User.class);
-
-	findAllQuery.setFirstResult(startPosition);
-
-	findAllQuery.setMaxResults(maxResult);
+        if (startPosition != null) {
+            findAllQuery.setFirstResult(startPosition);
+        }
+        if (maxResult != null) {
+            findAllQuery.setMaxResults(maxResult);
+        }
 
 	return findAllQuery.getResultList();
     }
@@ -72,6 +80,14 @@ public class UserDao extends BaseDao implements Crud<User> {
 
 	return (BigInteger) em.createNativeQuery("SELECT count(1) FROM " + entityName)
 		.getSingleResult();
+    }
+
+    @Override
+    public User findByIdOrdened(long id) throws NotImplementedYetException, NoResultException {
+        TypedQuery<User> findByIdQuery = em
+                .createQuery("SELECT DISTINCT u FROM User u WHERE u.id = :id ORDER BY u.id", User.class);
+        findByIdQuery.setParameter("id", id);
+        return findByIdQuery.getSingleResult();
     }
 
     @Override

@@ -37,10 +37,12 @@ import java.util.Set;
 								@ColumnResult(name = "presence", type = Integer.class),
 								@ColumnResult(name = "candidateId", type = Long.class),
 								@ColumnResult(name="name", type=String.class),
+								@ColumnResult(name="city", type=String.class),
+								@ColumnResult(name="estate", type=String.class),
 								})})
 @NamedNativeQuery(
 		name="ResumesWithCandidate",
-		query="SELECT r.id, r.objective, r.carrerLevel, r.presence , c.id as candidateId, c.name FROM resumes r INNER JOIN candidates c on r.candidate_id = c.id ORDER BY r.id",
+		query="SELECT r.id, r.objective, r.carrerLevel, r.presence , c.id as candidateId, c.name, c.city, c.estate FROM resumes r INNER JOIN candidates c on r.candidate_id = c.id ORDER BY r.id",
 		resultSetMapping = "ResumeWithCandidateShortResult")
 public class Resume extends MyEntity {
    

@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.interfaces.Buildable;
 import br.com.codecode.workix.jaxrs.converter.LocalDateAdapter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Experience JPA Embeddable
@@ -70,7 +71,7 @@ public class Experience implements Serializable {
      * Creates builder to build {@link Experience}.
      * @return created builder
      */
-    @XmlTransient
+    @JsonIgnore
     public static Builder builder() {
 	return new Builder();
     }

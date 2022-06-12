@@ -56,20 +56,34 @@ public class PopulateResumeTest extends BaseTest implements CommonPopTest<Resume
 	for (Candidate c : candidates) {
 
 	    Resume r = Resume.builder()
-		    .withContent("Conteúdo de " + c.getName())
+		    .withContent("Conteúdo de " + c.getName() + " \n" +
+					"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n" +
+					"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n" +
+					"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n" +
+					"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n" +
+					"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n" +
+					"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n" +
+					"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n" +
+					"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n" +
+					"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n" +
+					"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 		    .withObjective("Objetivo do " + c.getName())
 		    .withCandidate(c);
 
-	    r.addExperience(Experience.builder().withEmployerName("Empregador 1")
-		    .withDescription("Cargo 1")
-		    .withStartDate(LocalDate.now())
-		    .withEndDate(LocalDate.now())
+	    r.addExperience(Experience.builder()
+				.withEmployerName("Empregador 1")
+				.withJobTitle("Titulo do Trabalho")
+		    	.withDescription("Cargo 1")
+		    	.withStartDate(LocalDate.now())
+		    	.withEndDate(LocalDate.now().plusDays(365))
 		    .build());
 
-	    r.addExperience(Experience.builder().withEmployerName("Empregador 2")
-		    .withDescription("Cargo 2")
-		    .withStartDate(LocalDate.now())
-		    .withEndDate(LocalDate.now())
+	    r.addExperience(Experience.builder()
+				.withEmployerName("Empregador 2")
+				.withJobTitle("Titulo do Trabalho")
+			    .withDescription("Cargo 2")
+			    .withStartDate(LocalDate.now())
+			    .withEndDate(LocalDate.now().plusDays(365))
 		    .build());
 
 	    r.addEducation(Education.builder().withSchoolName("Escola 1")

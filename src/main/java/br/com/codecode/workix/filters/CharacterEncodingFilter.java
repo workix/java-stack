@@ -21,7 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * @version 1.1
  * @see Filter
  */
-// @WebFilter(filterName = "CharacterEncodingFilter", urlPatterns = { "/services/v1/*" }, asyncSupported = true)
+@WebFilter(filterName = "CharacterEncodingFilter", urlPatterns = { "/services/v1/*" }, asyncSupported = true)
 public final class CharacterEncodingFilter implements Filter {
 
     @Override
@@ -36,15 +36,9 @@ public final class CharacterEncodingFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
 	    throws IOException, ServletException {
 
-    try {
         request.setCharacterEncoding(UTF_8.displayName());
         response.setCharacterEncoding(UTF_8.displayName());
         filterChain.doFilter(request, response);
-    }catch (Exception e) {
-        System.err.println("ERRO NO FILTER");
-    }
-
-
     }
 
 }

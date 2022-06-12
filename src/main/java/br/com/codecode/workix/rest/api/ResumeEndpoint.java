@@ -1,15 +1,22 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.cdi.dao.Crud;
+import br.com.codecode.workix.cdi.qualifiers.Generic;
+import br.com.codecode.workix.jpa.models.Job;
 import br.com.codecode.workix.jpa.models.Resume;
 import br.com.codecode.workix.jpa.resultsqldto.ResumeWithCandidateShort;
+import br.com.codecode.workix.jsf.util.helper.Paginator;
 import br.com.codecode.workix.rest.BaseEndpoint;
+import br.com.codecode.workix.rest.dto.out.PaginatedList;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -18,6 +25,10 @@ import java.util.List;
 @Stateless
 @Path("/resumes")
 public class ResumeEndpoint extends BaseEndpoint {
+
+	@Inject
+	@Generic
+	private Crud<Resume> resumeDao;
 
 	@POST
 	@Consumes("application/json")
@@ -116,5 +127,30 @@ public class ResumeEndpoint extends BaseEndpoint {
 		}
 		final List<ResumeWithCandidateShort> results = findAllQuery.getResultList();
 		return results;
+	}
+
+	@GET
+	@Path("/list_with_candidates_short_paginated")
+	@Produces("application/json")
+	public PaginatedList<ResumeWithCandidateShort> listAllResumeWithCandidateShortPaginated(@QueryParam("page") Integer page, @QueryParam("limit") Integer limit) {
+
+		BigInteger totalRows = resumeDao.countRegisters("resumes");
+
+		Paginator paginator = new Paginator(limit, page, totalRows.intValue());
+
+		int totalPages = paginator.getTotalPages();
+
+		int start = paginator.getStart();
+
+		int end = paginator.getEnd();
+
+		Query findAllQuery = em.createNamedQuery("ResumesWithCandidate");
+
+		List<ResumeWithCandidateShort> resumes = findAllQuery.setFirstResult(start -1).setMaxResults(end).getResultList();
+
+		PaginatedList<ResumeWithCandidateShort> paginatedList = new PaginatedList<>(resumes,paginator.getStart(),paginator.getEnd(),paginator.getTotalPages(),paginator.getCurrentPage(),paginator.getLimitRows(),paginator.getMaxRows());
+
+
+		return paginatedList;
 	}
 }

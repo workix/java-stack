@@ -146,7 +146,7 @@ public class ResumeEndpoint extends BaseEndpoint {
 
 		Query findAllQuery = em.createNamedQuery("ResumesWithCandidate");
 
-		List<ResumeWithCandidateShort> resumes = findAllQuery.setFirstResult(start -1).setMaxResults(end).getResultList();
+		List<ResumeWithCandidateShort> resumes = findAllQuery.setFirstResult(start -1).setMaxResults(limit).getResultList();
 
 		PaginatedList<ResumeWithCandidateShort> paginatedList = new PaginatedList<>(resumes,paginator.getStart(),paginator.getEnd(),paginator.getTotalPages(),paginator.getCurrentPage(),paginator.getLimitRows(),paginator.getMaxRows());
 

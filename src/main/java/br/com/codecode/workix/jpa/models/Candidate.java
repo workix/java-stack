@@ -1,6 +1,7 @@
 package br.com.codecode.workix.jpa.models;
 
 import br.com.codecode.workix.cdi.qualifiers.Persist;
+import br.com.codecode.workix.jpa.resultsqldto.CandidateResume;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
@@ -23,6 +24,14 @@ import java.util.Date;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @Persist
+@SqlResultSetMapping(name="CandidateResumeResult",
+        classes={
+                @ConstructorResult(
+                        targetClass= CandidateResume.class,
+                        columns={
+                                @ColumnResult(name="id", type=Long.class),
+                                @ColumnResult(name="name", type=String.class),
+                                @ColumnResult(name="objective", type = String.class)})})
 public class Candidate extends Person {
 
     private static final long serialVersionUID = 531807027259604477L;

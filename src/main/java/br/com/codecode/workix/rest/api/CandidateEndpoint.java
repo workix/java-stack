@@ -1,6 +1,7 @@
 package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.Candidate;
+import br.com.codecode.workix.jpa.resultsqldto.CandidateResume;
 import br.com.codecode.workix.rest.BaseEndpoint;
 
 import javax.ejb.Stateless;
@@ -97,5 +98,23 @@ public class CandidateEndpoint extends BaseEndpoint {
 		}
 
 		return Response.noContent().build();
+	}
+
+	@GET
+	@Path("/short_list")
+	@Produces("application/json")
+	public List<CandidateResume> listAllCandidateResume(@QueryParam("start") Integer startPosition,
+								   @QueryParam("max") Integer maxResult) {
+		Query findAllQuery = em.createNativeQuery(
+				"SELECT c.id, c.name, r.objective FROM candidates c INNER JOIN resumes r ON c.id = r.candidate_id ORDER BY c.id", "CandidateResumeResult"
+				);
+		if (startPosition != null) {
+			findAllQuery.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			findAllQuery.setMaxResults(maxResult);
+		}
+		final List<CandidateResume> results = findAllQuery.getResultList();
+		return results;
 	}
 }

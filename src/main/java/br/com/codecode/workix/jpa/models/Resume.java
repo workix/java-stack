@@ -2,6 +2,8 @@ package br.com.codecode.workix.jpa.models;
 
 import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.interfaces.Buildable;
+import br.com.codecode.workix.jpa.resultsqldto.CandidateResume;
+import br.com.codecode.workix.jpa.resultsqldto.ResumeWithCandidateShort;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
@@ -24,11 +26,31 @@ import java.util.Set;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @Persist
+@SqlResultSetMapping(name="ResumeWithCandidateShortResult",
+		classes={
+				@ConstructorResult(
+						targetClass= ResumeWithCandidateShort.class,
+						columns={
+								@ColumnResult(name="id", type=Long.class),
+								@ColumnResult(name="objective", type = String.class),
+								@ColumnResult(name = "carrerLevel", type = Integer.class),
+								@ColumnResult(name = "presence", type = Integer.class),
+								@ColumnResult(name = "candidateId", type = Long.class),
+								@ColumnResult(name="name", type=String.class),
+								})})
+@NamedNativeQuery(
+		name="ResumesWithCandidate",
+		query="SELECT r.id, r.objective, r.carrerLevel, r.presence , c.id as candidateId, c.name FROM resumes r INNER JOIN candidates c on r.candidate_id = c.id ORDER BY r.id",
+		resultSetMapping = "ResumeWithCandidateShortResult")
 public class Resume extends MyEntity {
    
     private static final long serialVersionUID = 7569771700044121495L;
 
-    /**
+	private CarrerLevel carrerLevel;
+
+	private Presence presence;
+
+	/**
      * Owner of Resume<br>
      * One {@link Resume} To One {@link Candidate}
      */
@@ -103,6 +125,17 @@ public class Resume extends MyEntity {
 	    this.skills.add(skill);
 
     }
+	@Enumerated(EnumType.ORDINAL)
+	@Column
+	public CarrerLevel getCarrerLevel() {
+		return carrerLevel;
+	}
+	@Enumerated(EnumType.ORDINAL)
+	@Column
+	public Presence getPresence() {
+		return presence;
+	}
+
 
 	@OneToOne(fetch = FetchType.EAGER, optional = false)
     public Candidate getCandidate() {
@@ -114,6 +147,14 @@ public class Resume extends MyEntity {
     public String getContent() {
 	return content;
     }
+
+	public void setCarrerLevel(CarrerLevel carrerLevel) {
+		this.carrerLevel = carrerLevel;
+	}
+
+	public void setPresence(Presence presence) {
+		this.presence = presence;
+	}
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "resumes_educations", joinColumns = @JoinColumn(name = "id"))

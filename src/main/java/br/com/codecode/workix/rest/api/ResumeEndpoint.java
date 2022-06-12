@@ -1,6 +1,7 @@
 package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jpa.models.Resume;
+import br.com.codecode.workix.jpa.resultsqldto.ResumeWithCandidateShort;
 import br.com.codecode.workix.rest.BaseEndpoint;
 
 import javax.ejb.Stateless;
@@ -98,5 +99,22 @@ public class ResumeEndpoint extends BaseEndpoint {
 		}
 
 		return Response.noContent().build();
+	}
+
+	@GET
+	@Path("/list_with_candidates_short")
+	@Produces("application/json")
+	public List<ResumeWithCandidateShort> listAllResumeWithCandidateShort(@QueryParam("start") Integer startPosition,
+												  @QueryParam("max") Integer maxResult) {
+		Query findAllQuery = em
+				.createNamedQuery("ResumesWithCandidate");
+		if (startPosition != null) {
+			findAllQuery.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			findAllQuery.setMaxResults(maxResult);
+		}
+		final List<ResumeWithCandidateShort> results = findAllQuery.getResultList();
+		return results;
 	}
 }

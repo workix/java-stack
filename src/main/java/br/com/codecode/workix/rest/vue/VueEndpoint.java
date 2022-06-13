@@ -1,5 +1,7 @@
 package br.com.codecode.workix.rest.vue;
 
+import br.com.codecode.workix.cdi.dao.Crud;
+import br.com.codecode.workix.cdi.qualifiers.Generic;
 import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.models.Company;
 import br.com.codecode.workix.jpa.models.Job;
@@ -38,6 +40,18 @@ public class VueEndpoint extends BaseEndpoint {
     @Inject
     private JwtBuilder jwtBuilder;
 
+    @Inject
+    @Generic
+    private Crud<User> userDao;
+
+    @Inject
+    @Generic
+    private Crud<Candidate> candidateDao;
+
+    @Inject
+    @Generic
+    private Crud<Company> companyDao;
+
     @POST
     @Path("/create_candidate")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -51,14 +65,15 @@ public class VueEndpoint extends BaseEndpoint {
                     .withFirebaseUUID(entity.firebaseUUID)
                     .build();
 
-            em.persist(u);
+            userDao.save(u);
 
             Candidate c = new Candidate();
             c.setBirthDate(Date.from(entity.birthDate.atZone(ZoneId.systemDefault()).toInstant()));
             c.setName(entity.name);
             c.setCpf(entity.cpf);
             c.setUser(u);
-            em.persist(c);
+
+            candidateDao.save(c);
 
             String jwtToken = jwtBuilder
                     .setId(u.getFirebaseUUID())
@@ -83,11 +98,11 @@ public class VueEndpoint extends BaseEndpoint {
                     .withFirebaseUUID(entity.firebaseUUID)
                     .build();
 
-            em.persist(u);
+            userDao.save(u);
 
             Company c = Company.builder().withCnpj(entity.cnpj).withName(entity.name).withUser(u).build();
 
-            em.persist(c);
+            companyDao.save(c);
 
             String jwtToken = jwtBuilder
                     .setId(u.getFirebaseUUID())

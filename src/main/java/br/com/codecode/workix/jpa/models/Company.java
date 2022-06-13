@@ -104,7 +104,7 @@ public class Company extends Person {
 	return this.id;
     }
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     public String getSegment() {
 	return segment;
     }

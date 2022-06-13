@@ -1,12 +1,15 @@
 package br.com.codecode.workix.rest.vue;
 
 import br.com.codecode.workix.jpa.models.Candidate;
+import br.com.codecode.workix.jpa.models.Company;
 import br.com.codecode.workix.jpa.models.Job;
 import br.com.codecode.workix.jpa.models.User;
 import br.com.codecode.workix.rest.BaseEndpoint;
 import br.com.codecode.workix.rest.api.JobEndpoint;
 import br.com.codecode.workix.rest.dto.in.CreateCandidate;
+import br.com.codecode.workix.rest.dto.in.CreateCompany;
 import br.com.codecode.workix.rest.dto.out.CandidateCreated;
+import br.com.codecode.workix.rest.dto.out.CompanyCreated;
 import br.com.codecode.workix.rest.dto.out.DefaultError;
 import br.com.codecode.workix.rest.dto.out.JWTToken;
 import io.jsonwebtoken.Jwts;
@@ -70,6 +73,45 @@ public class VueEndpoint extends BaseEndpoint {
 
             return Response.status(Response.Status.CREATED).entity(new CandidateCreated(c, new JWTToken(jwtToken))).build();
         } catch (Exception ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(new DefaultError(ex)).build();
+        }
+    }
+
+    @POST
+    @Path("/create_company")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createCompany(CreateCompany entity) {
+        try {
+            User u = User.builder()
+                    .withEmail(entity.email)
+                    .withActive(true)
+                    .withFirebaseUUID(entity.firebaseUUID)
+                    .build();
+
+            em.persist(u);
+
+            Company c = Company.builder().withCnpj(entity.cnpj).withName(entity.name).withUser(u).build();
+
+            em.persist(c);
+
+            SecretKey key = Keys.hmacShaKeyFor(CHAVE.getBytes(StandardCharsets.UTF_8));
+
+            String jwtToken = Jwts.builder()
+                    .setId(u.getFirebaseUUID())
+                    .setSubject(u.getEmail())
+                    .setIssuer("localhost:8080")
+                    .setIssuedAt(new Date())
+                    .setExpiration(
+                            Date.from(
+                                    LocalDateTime.now().plusMinutes(15L)
+                                            .atZone(ZoneId.systemDefault())
+                                            .toInstant()))
+                    .signWith(key).compact();
+
+            return Response.status(Response.Status.CREATED).entity(new CompanyCreated(c, new JWTToken(jwtToken))).build();
+
+        }catch (Exception ex) {
             return Response.status(Response.Status.BAD_REQUEST).entity(new DefaultError(ex)).build();
         }
     }

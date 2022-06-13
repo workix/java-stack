@@ -4,6 +4,7 @@ import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
 
 import br.com.codecode.workix.core.exceptions.NotImplementedYetException;
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.User;
 import br.com.codecode.workix.rest.BaseEndpoint;
 import br.com.codecode.workix.rest.dto.out.DefaultError;
@@ -71,7 +72,7 @@ public class UserEndpoint extends BaseEndpoint {
 		}
 		return Response.ok(entity).build();
 	}
-
+	@Authorize
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> listAll(@QueryParam("start") Integer startPosition,

@@ -6,14 +6,12 @@ import br.com.codecode.workix.rest.dto.in.FirebaseAuthToken;
 import br.com.codecode.workix.rest.dto.out.DefaultError;
 import br.com.codecode.workix.rest.dto.out.JWTPayload;
 import br.com.codecode.workix.rest.dto.out.JWTToken;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -32,7 +30,11 @@ import java.util.Date;
 @Stateless
 @Path("/auth")
 public class AuthEndpoint extends BaseEndpoint {
-    private final String CHAVE = "ABCDEFGHIJ123456789ABCDEFGHIJ123456789ABCDEFGHIJ123456789ABCDEFGHIJ123456789";
+    @Inject
+    private JwtParser jwtParser;
+
+    @Inject
+    private JwtBuilder jwtBuilder;
 
     @POST
     @Path("/login")
@@ -44,21 +46,13 @@ public class AuthEndpoint extends BaseEndpoint {
             TypedQuery<User> findQuery = em.createQuery("SELECT DISTINCT u FROM User u WHERE u.firebaseUUID = :firebaseUUID AND u.email = :email ORDER BY u.id", User.class);
             findQuery.setParameter("firebaseUUID", firebaseAuthToken.firebaseUUID);
             findQuery.setParameter("email", firebaseAuthToken.email);
+
             User user = findQuery.getSingleResult();
 
-                SecretKey key = Keys.hmacShaKeyFor(CHAVE.getBytes(StandardCharsets.UTF_8));
-
-                String jwtToken = Jwts.builder()
+                String jwtToken = jwtBuilder
                         .setId(user.getFirebaseUUID())
                         .setSubject(user.getEmail())
-                        .setIssuer("localhost:8080")
-                        .setIssuedAt(new Date())
-                        .setExpiration(
-                                Date.from(
-                                        LocalDateTime.now().plusMinutes(15L)
-                                                .atZone(ZoneId.systemDefault())
-                                                .toInstant()))
-                        .signWith(key).compact();
+                        .compact();
 
                 return Response.status(Response.Status.OK).entity(new JWTToken(jwtToken)).build();
 
@@ -75,17 +69,11 @@ public class AuthEndpoint extends BaseEndpoint {
     @Path("/me")
     @Produces(MediaType.APPLICATION_JSON)
     public Response aboutMe(@Context HttpHeaders headers) {
-
         String authorization = headers.getRequestHeader("Authorization").get(0);
-
         String jwtToken = authorization.substring("Bearer".length()).trim();
-        SecretKey key = Keys.hmacShaKeyFor(CHAVE.getBytes(StandardCharsets.UTF_8));
 
         try {
-            Jws<Claims> claimsJws = Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(jwtToken);
+            Jws<Claims> claimsJws = jwtParser.parseClaimsJws(jwtToken);
 
             return Response.status(Response.Status.OK).entity(new JWTPayload(claimsJws.getBody())).build();
         }catch (Exception ex){

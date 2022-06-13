@@ -12,11 +12,13 @@ import br.com.codecode.workix.rest.dto.out.CandidateCreated;
 import br.com.codecode.workix.rest.dto.out.CompanyCreated;
 import br.com.codecode.workix.rest.dto.out.DefaultError;
 import br.com.codecode.workix.rest.dto.out.JWTToken;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -33,7 +35,8 @@ import java.util.Date;
 @Path("/vue")
 public class VueEndpoint extends BaseEndpoint {
 
-    private final String CHAVE = "ABCDEFGHIJ123456789ABCDEFGHIJ123456789ABCDEFGHIJ123456789ABCDEFGHIJ123456789";
+    @Inject
+    private JwtBuilder jwtBuilder;
 
     @POST
     @Path("/create_candidate")
@@ -57,19 +60,10 @@ public class VueEndpoint extends BaseEndpoint {
             c.setUser(u);
             em.persist(c);
 
-            SecretKey key = Keys.hmacShaKeyFor(CHAVE.getBytes(StandardCharsets.UTF_8));
-
-            String jwtToken = Jwts.builder()
+            String jwtToken = jwtBuilder
                     .setId(u.getFirebaseUUID())
                     .setSubject(u.getEmail())
-                    .setIssuer("localhost:8080")
-                    .setIssuedAt(new Date())
-                    .setExpiration(
-                            Date.from(
-                                    LocalDateTime.now().plusMinutes(15L)
-                                            .atZone(ZoneId.systemDefault())
-                                            .toInstant()))
-                    .signWith(key).compact();
+                    .compact();
 
             return Response.status(Response.Status.CREATED).entity(new CandidateCreated(c, new JWTToken(jwtToken))).build();
         } catch (Exception ex) {
@@ -95,19 +89,10 @@ public class VueEndpoint extends BaseEndpoint {
 
             em.persist(c);
 
-            SecretKey key = Keys.hmacShaKeyFor(CHAVE.getBytes(StandardCharsets.UTF_8));
-
-            String jwtToken = Jwts.builder()
+            String jwtToken = jwtBuilder
                     .setId(u.getFirebaseUUID())
                     .setSubject(u.getEmail())
-                    .setIssuer("localhost:8080")
-                    .setIssuedAt(new Date())
-                    .setExpiration(
-                            Date.from(
-                                    LocalDateTime.now().plusMinutes(15L)
-                                            .atZone(ZoneId.systemDefault())
-                                            .toInstant()))
-                    .signWith(key).compact();
+                    .compact();
 
             return Response.status(Response.Status.CREATED).entity(new CompanyCreated(c, new JWTToken(jwtToken))).build();
 

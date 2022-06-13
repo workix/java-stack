@@ -80,7 +80,7 @@ public class User extends MyEntity implements Notificable {
     public String getEmail() {
 	return email;
     }
-    @NotEmpty
+
     @Column
     @Override
     public String getFirebaseMessageToken() {

@@ -26,8 +26,8 @@ public class MailSessionProducer {
      @Resource(mappedName = "java:jboss/mail/gmail")
      private Session sessionGmail;
 
-     // @Resource(mappedName = "java:jboss/mail/fake")
-     // private Session sessionFake;
+     @Resource(mappedName = "java:jboss/mail/fake")
+     private Session sessionFake;
 
     /**
      * Produces Session for {@link MailSender} use in CDI Injection Points
@@ -47,12 +47,12 @@ public class MailSessionProducer {
      * 
      * @return Session Instance for {@link MailSender}
      */
-//    @Produces
-//    @Dependent
-//    @Factory
-//    @Fake
-//    public Session getSessionFake() {
-//	return sessionFake;
-//    }
+    @Produces
+    @Dependent
+    @Factory
+    @Fake
+    public Session getSessionFake() {
+	return sessionFake;
+    }
 
 }

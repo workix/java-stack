@@ -23,13 +23,13 @@ import javax.jms.Destination;
 @ApplicationScoped
 public class JmsDestinationProducer {
 
-    @Resource(mappedName = "java:/jms/topics/jobsTopic")
+    @Resource(mappedName = "java:/jms/topics/jobsTopic", name = "jobsTopic")
     private Destination jobsTopic;
 
-    @Resource(mappedName = "java:/jms/topics/usersTopic")
+    @Resource(mappedName = "java:/jms/topics/usersTopic", name = "usersTopic")
     private Destination usersTopic;
 
-    @Resource(mappedName = "java:/jms/topics/selectiveProcessesTopic")
+    @Resource(mappedName = "java:/jms/topics/selectiveProcessesTopic", name = "selectiveProcessesTopic")
     private Destination selectiveProcessesTopic;
 
     /**

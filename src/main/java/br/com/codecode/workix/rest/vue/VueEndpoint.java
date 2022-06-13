@@ -2,12 +2,13 @@ package br.com.codecode.workix.rest.vue;
 
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
+import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.models.Company;
-import br.com.codecode.workix.jpa.models.Job;
+
 import br.com.codecode.workix.jpa.models.User;
 import br.com.codecode.workix.rest.BaseEndpoint;
-import br.com.codecode.workix.rest.api.JobEndpoint;
+
 import br.com.codecode.workix.rest.dto.in.CreateCandidate;
 import br.com.codecode.workix.rest.dto.in.CreateCompany;
 import br.com.codecode.workix.rest.dto.out.CandidateCreated;
@@ -15,10 +16,7 @@ import br.com.codecode.workix.rest.dto.out.CompanyCreated;
 import br.com.codecode.workix.rest.dto.out.DefaultError;
 import br.com.codecode.workix.rest.dto.out.JWTToken;
 import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 
-import javax.crypto.SecretKey;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -27,9 +25,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
+
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -41,7 +37,7 @@ public class VueEndpoint extends BaseEndpoint {
     private JwtBuilder jwtBuilder;
 
     @Inject
-    @Generic
+    @Persist
     private Crud<User> userDao;
 
     @Inject

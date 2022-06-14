@@ -70,7 +70,7 @@ public class Candidate extends Person {
      */
     @PostConstruct
     private void init() {
-        birthDate = LocalDate.now();
+
     }
 
     public void setBirthDate(LocalDate birthDate) {

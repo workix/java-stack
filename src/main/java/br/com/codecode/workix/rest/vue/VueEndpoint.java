@@ -70,7 +70,7 @@ public class VueEndpoint extends BaseEndpoint {
             userDao.save(u);
 
             Candidate c = new Candidate();
-            c.setBirthDate(LocalDate.now());
+            c.setBirthDate(entity.birthDate.toLocalDate());
             c.setName(entity.name);
             c.setCpf(entity.cpf);
             c.setUser(u);

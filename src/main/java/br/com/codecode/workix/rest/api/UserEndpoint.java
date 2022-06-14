@@ -72,7 +72,7 @@ public class UserEndpoint extends BaseEndpoint {
 		}
 		return Response.ok(entity).build();
 	}
-	@Authorize
+	// @Authorize
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> listAll(@QueryParam("start") Integer startPosition,

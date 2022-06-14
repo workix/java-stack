@@ -103,7 +103,7 @@ public class LoginEndpoint extends BaseEndpoint {
 
 
 
-		candidate.setBirthDate(new Date());
+		candidate.setBirthDate(LocalDate.now());
 
 	    candidate.setUser(user);
 	    

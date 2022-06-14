@@ -3,6 +3,7 @@ package br.com.codecode.workix.jpa.models;
 import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.core.enums.Estate;
 import br.com.codecode.workix.interfaces.Buildable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -51,7 +52,7 @@ public class Locale implements Serializable {
      * Creates builder to build {@link Locale}.
      * @return created builder
      */
-	@XmlTransient
+	@JsonIgnore
 	public static Builder builder() {
 	return new Builder();
     }

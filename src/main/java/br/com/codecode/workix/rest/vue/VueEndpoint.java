@@ -6,26 +6,29 @@ import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.models.Company;
 
+import br.com.codecode.workix.jpa.models.Person;
 import br.com.codecode.workix.jpa.models.User;
 import br.com.codecode.workix.rest.BaseEndpoint;
 
 import br.com.codecode.workix.rest.dto.in.CreateCandidate;
 import br.com.codecode.workix.rest.dto.in.CreateCompany;
+import br.com.codecode.workix.rest.dto.in.UpdateCandidateCompany;
 import br.com.codecode.workix.rest.dto.out.CandidateCreated;
 import br.com.codecode.workix.rest.dto.out.CompanyCreated;
 import br.com.codecode.workix.rest.dto.out.DefaultError;
 import br.com.codecode.workix.rest.dto.out.JWTToken;
-import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.*;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.persistence.OptimisticLockException;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -35,6 +38,9 @@ public class VueEndpoint extends BaseEndpoint {
 
     @Inject
     private JwtBuilder jwtBuilder;
+
+    @Inject
+    private JwtParser jwtParser;
 
     @Inject
     @Persist
@@ -64,7 +70,7 @@ public class VueEndpoint extends BaseEndpoint {
             userDao.save(u);
 
             Candidate c = new Candidate();
-            c.setBirthDate(Date.from(entity.birthDate.atZone(ZoneId.systemDefault()).toInstant()));
+            c.setBirthDate(LocalDate.now());
             c.setName(entity.name);
             c.setCpf(entity.cpf);
             c.setUser(u);
@@ -110,5 +116,56 @@ public class VueEndpoint extends BaseEndpoint {
         }catch (Exception ex) {
             return Response.status(Response.Status.BAD_REQUEST).entity(new DefaultError(ex)).build();
         }
+    }
+
+    @PUT
+    @Path("/update_by_token")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response update(@Context HttpHeaders headers, UpdateCandidateCompany updateCandidateCompany) {
+
+        String authorization = headers.getRequestHeader("Authorization").get(0);
+        String jwtToken = authorization.substring("Bearer".length()).trim();
+        Jws<Claims> claimsJws;
+        try {
+            claimsJws = jwtParser.parseClaimsJws(jwtToken);
+        }catch (ExpiredJwtException ex){
+            return Response.status(Response.Status.BAD_REQUEST).entity(new DefaultError(ex)).build();
+        }
+
+        Person entity;
+
+        if(updateCandidateCompany.candidate != null){
+            entity = updateCandidateCompany.candidate;
+        } else if (updateCandidateCompany.company != null) {
+            entity = updateCandidateCompany.company;
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        if (entity == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        if (!claimsJws.getBody().getId().equals(entity.getUser().getFirebaseUUID()) ) {
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+        if(entity.getClass() == Candidate.class){
+            if (em.find(Candidate.class, entity.getId()) == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+        }else {
+            if (em.find(Company.class, entity.getId()) == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+        }
+
+        try {
+            entity = em.merge(entity);
+        } catch (OptimisticLockException e) {
+            return Response.status(Response.Status.CONFLICT)
+                    .entity(new DefaultError(e)).build();
+        }
+
+        return Response.status(Response.Status.OK).entity(entity).build();
     }
 }

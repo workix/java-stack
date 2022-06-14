@@ -77,7 +77,7 @@ public class PopulateCandidateTest extends BaseTest implements CommonPopTest<Can
 
 	    Candidate c = new Candidate();
 
-	    c.setBirthDate(new Date());
+	    c.setBirthDate(LocalDate.now());
 
 	    c.setName("Candidato 'Mockup' N# " + String.valueOf(u.getId()));
 

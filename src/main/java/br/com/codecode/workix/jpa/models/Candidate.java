@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -36,7 +37,7 @@ public class Candidate extends Person {
 
     private static final long serialVersionUID = 531807027259604477L;
 
-    private Date birthDate;
+    private LocalDate birthDate;
 
     private long id, cpf;
 
@@ -45,9 +46,9 @@ public class Candidate extends Person {
      */
     public Candidate(){}
 
-    @Temporal(TemporalType.DATE)
+
     @Column(nullable = false)
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
@@ -69,10 +70,10 @@ public class Candidate extends Person {
      */
     @PostConstruct
     private void init() {
-        birthDate = new Date();
+        birthDate = LocalDate.now();
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

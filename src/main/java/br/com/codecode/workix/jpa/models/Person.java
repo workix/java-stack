@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * DeSerializing Abstract Types</a>
  */
 @MappedSuperclass
-abstract class Person extends MyEntity {
+public abstract class Person extends MyEntity {
    
     private static final long serialVersionUID = 703693002246144451L;
     

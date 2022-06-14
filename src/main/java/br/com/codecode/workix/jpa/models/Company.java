@@ -4,10 +4,11 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+
 
 import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.interfaces.Buildable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class Company extends Person {
      * Creates builder to build {@link Company}.
      * @return created builder
      */
-    @XmlTransient
+    @JsonIgnore
     public static Builder builder() {
 	return new Builder();
     }

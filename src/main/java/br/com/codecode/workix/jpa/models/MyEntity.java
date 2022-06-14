@@ -41,8 +41,6 @@ abstract class MyEntity implements Traceable, Persistable, Serializable {
    
     private final static long serialVersionUID = -5791260209364116790L;
     
-    private int version;    
-    
     private LocalDateTime createdAt, updatedAt;
   
     private String uuid;
@@ -73,12 +71,6 @@ abstract class MyEntity implements Traceable, Persistable, Serializable {
 	return uuid;
     }
 
-    @Version
-    @Column
-    private int getVersion() {
-	return version;
-    }
-
     @Override
     public void insertTimeStamp() {
 	this.setCreatedAt(LocalDateTime.now());
@@ -100,11 +92,6 @@ abstract class MyEntity implements Traceable, Persistable, Serializable {
 
     private void setUuid(String uuid) {
 	this.uuid = uuid;
-    }
-
-    @SuppressWarnings("unused")
-    private void setVersion(int version) {
-	this.version = version;
     }
 
     @PreUpdate

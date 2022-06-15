@@ -1,10 +1,14 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.cdi.notify.Notification;
+import br.com.codecode.workix.cdi.qualifiers.Email;
+import br.com.codecode.workix.cdi.qualifiers.Push;
 import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.resultsqldto.CandidateResume;
 import br.com.codecode.workix.rest.BaseEndpoint;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -18,6 +22,14 @@ import java.util.List;
 @Stateless
 @Path("/candidates")
 public class CandidateEndpoint extends BaseEndpoint {
+
+	@Inject
+	@Push
+	private Notification pushNotification;
+
+	@Inject
+	@Email
+	private Notification mailNotification;
 
 	@POST
 	@Consumes("application/json")
@@ -116,5 +128,20 @@ public class CandidateEndpoint extends BaseEndpoint {
 		}
 		final List<CandidateResume> results = findAllQuery.getResultList();
 		return results;
+	}
+
+	@POST
+	@Path("notify")
+	@Consumes("application/json")
+	public Response notify(br.com.codecode.workix.rest.dto.in.Notification entity) {
+		if (entity.type.equals("mail")){
+			mailNotification.doSendMessage(entity.user, entity.title, entity.message);
+		} else if (entity.type.equals("push")){
+			pushNotification.doSendMessage(entity.user, entity.title, entity.message);
+		} else {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+
+		return Response.ok().build();
 	}
 }

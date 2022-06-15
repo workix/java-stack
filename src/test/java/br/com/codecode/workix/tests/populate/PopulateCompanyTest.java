@@ -66,7 +66,7 @@ public class PopulateCompanyTest extends BaseTest implements CommonPopTest<Compa
 
 	users = users.subList((users.size() / 2), users.size());
 
-	assertEquals(51L, users.get(0).getId());
+	assertTrue(users.get(0).getId() == 51L);
 
 	companies = new ArrayList<>();
 

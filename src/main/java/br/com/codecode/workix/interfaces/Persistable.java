@@ -23,11 +23,11 @@ public interface Persistable {
     /**
      * @return the Id
      */
-    long getId();
+    Long getId();
 
     /**
      * @param id define the Id
      */
-    void setId(long id);
+    void setId(Long id);
 
 }

@@ -46,7 +46,7 @@ public class Blog extends MyEntity implements Persistable {
 
     private LocalDate date;
 
-    private long id;
+    private Long id;
 
     private Set<String> pictures;
 
@@ -167,7 +167,7 @@ public class Blog extends MyEntity implements Persistable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     @Override
-    public long getId() {
+    public Long getId() {
 	return id;
     }
 
@@ -276,7 +276,7 @@ public class Blog extends MyEntity implements Persistable {
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
 	this.id = id;	
     }
 

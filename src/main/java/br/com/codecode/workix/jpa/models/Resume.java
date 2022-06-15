@@ -68,7 +68,7 @@ public class Resume extends MyEntity {
      */
     private Set<Experience> experiences;
 
-    private long id;
+    private Long id;
 
     private String objective, content;
 
@@ -174,7 +174,7 @@ public class Resume extends MyEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(updatable = false, nullable = false)
 	@Override
-    public long getId() {
+    public Long getId() {
 	return this.id;
     }
 
@@ -237,7 +237,7 @@ public class Resume extends MyEntity {
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
 	this.id = id;
     }
 

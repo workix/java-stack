@@ -19,7 +19,7 @@ public class Blog extends MyEntity {
 
 	private Date publishDate;
 
-	private long id;
+	private Long id;
 
 	private Set<String> pictures;
 
@@ -113,7 +113,7 @@ public class Blog extends MyEntity {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -201,7 +201,7 @@ public class Blog extends MyEntity {
 	}
 
 	@Override
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

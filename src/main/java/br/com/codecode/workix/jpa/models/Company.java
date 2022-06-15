@@ -30,7 +30,7 @@ public class Company extends Person {
 
     private String description;
     
-    private long id, cnpj;
+    private Long id, cnpj;
     
     private String segment;
 
@@ -84,7 +84,7 @@ public class Company extends Person {
     }
 
     @Column(nullable = false, unique = true)
-    public long getCnpj() {
+    public Long getCnpj() {
 	return cnpj;
     }
 
@@ -101,7 +101,7 @@ public class Company extends Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     @Override
-    public long getId() {
+    public Long getId() {
 	return this.id;
     }
 
@@ -123,7 +123,7 @@ public class Company extends Person {
 	return result;
     }
 
-    public void setCnpj(long cnpj) {
+    public void setCnpj(Long cnpj) {
 	this.cnpj = cnpj;
     }
 
@@ -135,7 +135,7 @@ public class Company extends Person {
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
 	this.id = id;
     }
 
@@ -176,7 +176,7 @@ public class Company extends Person {
 	    return new Company(this);
 	}
 
-	public Builder withCnpj(long cnpj) {
+	public Builder withCnpj(Long cnpj) {
 	    super.cnpj = cnpj;
 	    return this;
 	}

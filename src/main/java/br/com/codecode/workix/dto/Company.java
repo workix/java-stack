@@ -8,7 +8,7 @@ public class Company extends Person {
 
 	private String description;
 
-	private long id, cnpj;
+	private Long id, cnpj;
 
 	private String segment;
 
@@ -55,7 +55,7 @@ public class Company extends Person {
 		return true;
 	}
 
-	public long getCnpj() {
+	public Long getCnpj() {
 		return cnpj;
 	}
 
@@ -67,7 +67,7 @@ public class Company extends Person {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
@@ -83,7 +83,7 @@ public class Company extends Person {
 		return result;
 	}
 
-	public void setCnpj(long cnpj) {
+	public void setCnpj(Long cnpj) {
 		this.cnpj = cnpj;
 	}
 
@@ -95,7 +95,7 @@ public class Company extends Person {
 	}
 
 	@Override
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

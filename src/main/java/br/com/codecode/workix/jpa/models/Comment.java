@@ -33,7 +33,7 @@ public class Comment extends MyEntity implements Persistable {
 
     private String email;    
 
-    private long id;
+    private Long id;
 
     private String name;
 
@@ -82,7 +82,7 @@ public class Comment extends MyEntity implements Persistable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     @Override
-    public long getId() {	
+    public Long getId() {
 	return id;
     }
 
@@ -113,7 +113,7 @@ public class Comment extends MyEntity implements Persistable {
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
 	this.id = id;	
     }
 

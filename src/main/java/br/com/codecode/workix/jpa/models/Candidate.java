@@ -39,7 +39,7 @@ public class Candidate extends Person {
 
     private LocalDate birthDate;
 
-    private long id, cpf;
+    private Long id, cpf;
 
     /**
      * Public Default Constructor for JPA Compatibility Only
@@ -53,7 +53,7 @@ public class Candidate extends Person {
     }
 
     @Column(nullable = false, unique = true)
-    public long getCpf() {
+    public Long getCpf() {
         return cpf;
     }
 
@@ -61,7 +61,7 @@ public class Candidate extends Person {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false, nullable = false)
     @Override
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
@@ -77,12 +77,12 @@ public class Candidate extends Person {
         this.birthDate = birthDate;
     }
 
-    public void setCpf(long cpf) {
+    public void setCpf(Long cpf) {
         this.cpf = cpf;
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

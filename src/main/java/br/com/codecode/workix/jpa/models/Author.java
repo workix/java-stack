@@ -30,7 +30,7 @@ public class Author extends MyEntity {
 
     private String aboutText;
 
-    private long id;
+    private Long id;
 
     private List<SocialMedia> medias;
 
@@ -94,7 +94,7 @@ public class Author extends MyEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false, nullable = false)
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -144,7 +144,7 @@ public class Author extends MyEntity {
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

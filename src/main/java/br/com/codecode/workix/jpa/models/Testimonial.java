@@ -32,7 +32,7 @@ public class Testimonial extends MyEntity {
 
     private Author author;
 
-    private long id;
+    private Long id;
 
     private String picture;
 
@@ -88,7 +88,7 @@ public class Testimonial extends MyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     @Override
-    public long getId() {
+    public Long getId() {
 	return this.id;
     }
 
@@ -132,7 +132,7 @@ public class Testimonial extends MyEntity {
      * @param id the id to set
      */
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
 	this.id = id;
     }
 

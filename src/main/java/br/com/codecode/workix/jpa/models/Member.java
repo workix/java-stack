@@ -29,7 +29,7 @@ public class Member extends MyEntity {
 
     private static final long serialVersionUID = -9177132485712227287L;
 
-    private long id;
+    private Long id;
 
     private List<SocialMedia> medias;
 
@@ -90,7 +90,7 @@ public class Member extends MyEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false, nullable = false)
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -155,7 +155,7 @@ public class Member extends MyEntity {
     /**
      * @param id the id to set
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -31,7 +31,7 @@ public class Subscriber extends MyEntity {
 
     private String email;
 
-    private long id;
+    private Long id;
 
     /**
      * Public Default Constructor for JPA Compatibility Only
@@ -71,7 +71,7 @@ public class Subscriber extends MyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     @Override
-    public long getId() {
+    public Long getId() {
 	return this.id;
     }
 
@@ -84,7 +84,7 @@ public class Subscriber extends MyEntity {
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
 	this.id = id;
     }
 

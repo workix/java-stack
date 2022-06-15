@@ -18,7 +18,7 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
 
     private Date expire;
 
-    private long id;
+    private Long id;
 
     private Job job;
 
@@ -76,7 +76,7 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
     }
 
     @Override
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
@@ -201,7 +201,7 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

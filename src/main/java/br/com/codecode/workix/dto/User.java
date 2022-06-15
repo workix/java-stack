@@ -12,7 +12,7 @@ public class User extends MyEntity implements Notificable {
 
 	private String email, firebaseUUID, firebaseMessageToken;
 
-	private long id;
+	private Long id;
 
 	/**
 	 * Public Default Constructor for JPA Compatibility Only
@@ -59,7 +59,7 @@ public class User extends MyEntity implements Notificable {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
@@ -87,7 +87,7 @@ public class User extends MyEntity implements Notificable {
 	}
 
 	@Override
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

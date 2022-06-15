@@ -17,7 +17,7 @@ public class Job extends MyEntity {
 	 */
 	private Company company;
 
-	private long id;
+	private Long id;
 
 	private JobCategory jobCategory;
 
@@ -87,7 +87,7 @@ public class Job extends MyEntity {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
@@ -153,7 +153,7 @@ public class Job extends MyEntity {
 	}
 
 	@Override
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

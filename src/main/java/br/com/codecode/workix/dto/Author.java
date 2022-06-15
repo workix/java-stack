@@ -11,7 +11,7 @@ public class Author extends MyEntity {
 
     private String aboutText;
 
-    private long id;
+    private Long id;
 
     private List<SocialMedia> medias;
 
@@ -70,7 +70,7 @@ public class Author extends MyEntity {
      * @return the id
      */
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -115,7 +115,7 @@ public class Author extends MyEntity {
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

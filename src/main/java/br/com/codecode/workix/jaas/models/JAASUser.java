@@ -65,7 +65,7 @@ public class JAASUser extends JAASBase {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(updatable = false, nullable = false)
 	@Override
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 

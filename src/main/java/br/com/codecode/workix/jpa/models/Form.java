@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Form extends MyEntity{
     private static final long serialVersionUID = 4441917823240375513L;
 
-    private long id;
+    private Long id;
 
     private String name;
 
@@ -30,12 +30,12 @@ public class Form extends MyEntity{
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false, nullable = false)
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

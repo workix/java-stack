@@ -10,7 +10,7 @@ public class Comment extends MyEntity {
 
     private String email;
 
-    private long id;
+    private Long id;
 
     private String name;
 
@@ -60,7 +60,7 @@ public class Comment extends MyEntity {
     }
 
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -93,7 +93,7 @@ public class Comment extends MyEntity {
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

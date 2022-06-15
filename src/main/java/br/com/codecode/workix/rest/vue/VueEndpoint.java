@@ -160,6 +160,7 @@ public class VueEndpoint extends BaseEndpoint {
         }
 
         try {
+            User user = em.merge(entity.getUser());
             entity = em.merge(entity);
         } catch (OptimisticLockException e) {
             return Response.status(Response.Status.CONFLICT)

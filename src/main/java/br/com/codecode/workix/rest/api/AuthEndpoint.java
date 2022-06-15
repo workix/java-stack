@@ -73,8 +73,10 @@ public class AuthEndpoint extends BaseEndpoint {
         String jwtToken = authorization.substring("Bearer".length()).trim();
         String jpqlCompany = "SELECT c FROM Company c LEFT JOIN FETCH c.user WHERE c.user.firebaseUUID = :fbUUID";
         String jpqlCandidate = "SELECT c FROM Candidate c LEFT JOIN FETCH c.user WHERE c.user.firebaseUUID = :fbUUID";
+        String jpqlResume = "SELECT r FROM Resume r LEFT JOIN FETCH r.candidate c LEFT JOIN FETCH c.user WHERE c.user.firebaseUUID = :fbUUID";
 
         Person entity;
+        Resume resume = null;
 
         try {
             Jws<Claims> claimsJws = jwtParser.parseClaimsJws(jwtToken);
@@ -88,10 +90,19 @@ public class AuthEndpoint extends BaseEndpoint {
                 TypedQuery<Candidate> findCandidate = em.createQuery(jpqlCandidate, Candidate.class);
                 findCandidate.setParameter("fbUUID", claimsJws.getBody().getId());
                 entity = findCandidate.getSingleResult();
+
+                try{
+                    TypedQuery<Resume> findResume = em.createQuery(jpqlResume, Resume.class);
+                    findResume.setParameter("fbUUID", claimsJws.getBody().getId());
+                    resume = findResume.getSingleResult();
+                }catch (NoResultException nre){
+                    resume = null;
+                }
+
             }
 
 
-            return Response.status(Response.Status.OK).entity(new JWTPayload(claimsJws.getBody(), entity)).build();
+            return Response.status(Response.Status.OK).entity(new JWTPayload(claimsJws.getBody(), entity, resume)).build();
         }catch (Exception ex){
             return Response.status(Response.Status.BAD_REQUEST).entity(new DefaultError(ex)).build();
         }

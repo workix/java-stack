@@ -1,6 +1,7 @@
 package br.com.codecode.workix.rest.dto.out;
 
 import br.com.codecode.workix.jpa.models.Person;
+import br.com.codecode.workix.jpa.models.Resume;
 import io.jsonwebtoken.Claims;
 
 import java.time.LocalDateTime;
@@ -15,10 +16,11 @@ public class JWTPayload {
     public LocalDateTime exp;
     public String type;
     public Person owner;
+    public Resume resume;
 
 
 
-    public JWTPayload(Claims body, Person owner) {
+    public JWTPayload(Claims body, Person owner, Resume resume) {
         this.jti = body.getId();
         this.sub = body.getSubject();
         this.iss = body.getIssuer();
@@ -30,5 +32,6 @@ public class JWTPayload {
                 .toLocalDateTime();
         this.type = owner.getClass().getSimpleName();
         this.owner = owner;
+        this.resume = resume;
     }
 }

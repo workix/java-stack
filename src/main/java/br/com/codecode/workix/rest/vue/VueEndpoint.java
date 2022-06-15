@@ -3,11 +3,8 @@ package br.com.codecode.workix.rest.vue;
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
 import br.com.codecode.workix.cdi.qualifiers.Persist;
-import br.com.codecode.workix.jpa.models.Candidate;
-import br.com.codecode.workix.jpa.models.Company;
+import br.com.codecode.workix.jpa.models.*;
 
-import br.com.codecode.workix.jpa.models.Person;
-import br.com.codecode.workix.jpa.models.User;
 import br.com.codecode.workix.rest.BaseEndpoint;
 
 import br.com.codecode.workix.rest.dto.in.CreateCandidate;
@@ -168,5 +165,33 @@ public class VueEndpoint extends BaseEndpoint {
         }
 
         return Response.status(Response.Status.OK).entity(entity).build();
+    }
+
+    @POST
+    @Path("/create_or_update_resume_by_token")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createOrUpdateResume(@Context HttpHeaders headers, Resume resume) {
+
+        String authorization = headers.getRequestHeader("Authorization").get(0);
+        String jwtToken = authorization.substring("Bearer".length()).trim();
+        Jws<Claims> claimsJws;
+        try {
+            claimsJws = jwtParser.parseClaimsJws(jwtToken);
+        }catch (ExpiredJwtException ex){
+            return Response.status(Response.Status.BAD_REQUEST).entity(new DefaultError(ex)).build();
+        }
+
+        if (!claimsJws.getBody().getId().equals(resume.getCandidate().getUser().getFirebaseUUID()) ) {
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+
+        if(resume.getId() == null){
+            em.persist(resume);
+        } else {
+            em.merge(resume);
+        }
+
+        return Response.status(Response.Status.OK).entity(resume).build();
     }
 }

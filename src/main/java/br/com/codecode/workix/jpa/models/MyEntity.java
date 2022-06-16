@@ -79,7 +79,8 @@ abstract class MyEntity implements Traceable, Persistable, Serializable {
     @PrePersist
     @Override
     public void prepareToPersist() {
-	Traceable.super.prepareToPersist();
+        setUpdatedAt(LocalDateTime.now());
+	    Traceable.super.prepareToPersist();
     }
 
     private void setCreatedAt(LocalDateTime createdAt) {

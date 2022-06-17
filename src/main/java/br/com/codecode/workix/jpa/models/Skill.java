@@ -30,12 +30,22 @@ public class Skill implements Serializable {
 
     private String skillName;
 
+	private Integer months;
+
     /**
      * Public Default Constructor for JPA Compatibility Only
      */
     public Skill(){}
+	@Column
+	public Integer getMonths() {
+		return months;
+	}
 
-    /**
+	public void setMonths(Integer months) {
+		this.months = months;
+	}
+
+	/**
      * Public Constructor for {@link Builder} Compatibility
      * 
      * @see Buildable

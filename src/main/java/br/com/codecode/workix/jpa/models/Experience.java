@@ -43,7 +43,17 @@ public class Experience implements Serializable {
 
     private LocalDate startDate;
 
-    /**
+	private String responsibilities;
+	@Column
+	public String getResponsibilities() {
+		return responsibilities;
+	}
+
+	public void setResponsibilities(String responsibilities) {
+		this.responsibilities = responsibilities;
+	}
+
+	/**
      * Public Default Constructor for JPA Compatibility Only
      */
     public Experience(){}

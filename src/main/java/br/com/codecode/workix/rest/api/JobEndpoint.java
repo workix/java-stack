@@ -6,12 +6,19 @@ import br.com.codecode.workix.cdi.qualifiers.Generic;
 import br.com.codecode.workix.jpa.models.Job;
 import br.com.codecode.workix.jsf.util.helper.Paginator;
 import br.com.codecode.workix.rest.BaseEndpoint;
+import br.com.codecode.workix.rest.dto.out.DefaultError;
 import br.com.codecode.workix.rest.dto.out.PaginatedList;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtParser;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.*;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
@@ -29,6 +36,10 @@ public class JobEndpoint extends BaseEndpoint {
 	@Inject
 	@Generic
 	private Crud<Job> jobDao;
+
+	@Inject
+	private JwtParser jwtParser;
+
 	@POST
 	@Consumes("application/json")
 	public Response create(Job entity) {
@@ -73,7 +84,7 @@ public class JobEndpoint extends BaseEndpoint {
 	@GET
 	@Produces("application/json")
 	public List<Job> listAll(@QueryParam("start") Integer startPosition,
-			@QueryParam("max") Integer maxResult) {
+							 @QueryParam("max") Integer maxResult) {
 		TypedQuery<Job> findAllQuery = em
 				.createQuery(
 						"SELECT DISTINCT j FROM Job j LEFT JOIN FETCH j.company ORDER BY j.id",
@@ -115,12 +126,12 @@ public class JobEndpoint extends BaseEndpoint {
 	@Path(value = "/feature")
 	@Produces("application/json")
 	public List<Job> listAllWithFeature(@QueryParam("start") Integer startPosition,
-							 @QueryParam("max") Integer maxResult, @QueryParam("feature") boolean feature) {
+										@QueryParam("max") Integer maxResult, @QueryParam("feature") boolean feature) {
 		String sql;
 
-		if(feature){
+		if (feature) {
 			sql = "SELECT DISTINCT j FROM Job j LEFT JOIN FETCH j.company WHERE j.feature = true ORDER BY j.id";
-		}else{
+		} else {
 			sql = "SELECT DISTINCT j FROM Job j LEFT JOIN FETCH j.company ORDER BY j.id";
 		}
 
@@ -184,8 +195,36 @@ public class JobEndpoint extends BaseEndpoint {
 
 		List<Job> jobs = jobDao.listAll(start - 1, limit);
 
-		PaginatedList<Job> paginatedList = new PaginatedList<>(jobs,paginator.getStart(),paginator.getEnd(),paginator.getTotalPages(),paginator.getCurrentPage(),paginator.getLimitRows(),paginator.getMaxRows());
+		PaginatedList<Job> paginatedList = new PaginatedList<>(jobs, paginator.getStart(), paginator.getEnd(), paginator.getTotalPages(), paginator.getCurrentPage(), paginator.getLimitRows(), paginator.getMaxRows());
 
 		return paginatedList;
 	}
+	@GET
+	@Path("/my_jobs")
+	@Produces("application/json")
+	public Response getMyJobs(@Context HttpHeaders headers) {
+		String authorization = headers.getRequestHeader("Authorization").get(0);
+		String jwtToken = authorization.substring("Bearer".length()).trim();
+		Jws<Claims> claimsJws;
+		try {
+			claimsJws = jwtParser.parseClaimsJws(jwtToken);
+		} catch (ExpiredJwtException ex) {
+			return Response.status(Response.Status.BAD_REQUEST).entity(new DefaultError(ex)).build();
+		}
+
+		TypedQuery<Job> findByIdQuery = em
+				.createQuery(
+						"SELECT DISTINCT j FROM Job j LEFT JOIN FETCH j.company c JOIN FETCH c.user u WHERE u.firebaseUUID = :firebaseUUID ORDER BY j.id",
+						Job.class);
+		findByIdQuery.setParameter("firebaseUUID", claimsJws.getBody().getId());
+		List<Job> jobs;
+		try {
+			jobs = findByIdQuery.getResultList();
+		} catch (NoResultException nre) {
+			jobs = new ArrayList<>();
+		}
+
+		return Response.status(Status.OK).entity(jobs).build();
+	}
+
 }

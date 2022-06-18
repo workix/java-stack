@@ -19,8 +19,8 @@ public class Pagination {
      * @return number of Pages between Limit and Max Rows
      */
     public int discoverTotalPages(int limitRows, int maxRows) {
-	
-	return Math.round(maxRows / limitRows);
+        double result = (((double) maxRows / limitRows));
+	    return (int) Math.ceil(result);
     }
 
     /**

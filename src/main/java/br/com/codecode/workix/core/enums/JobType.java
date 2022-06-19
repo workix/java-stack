@@ -8,5 +8,5 @@ package br.com.codecode.workix.core.enums;
  * @version 1.0
  */
 public enum JobType {
-    FREELANCE, FULLTIME, INTERNSHIP, PARTTIME, TEMPORARY
+    FREELANCE, FULLTIME, INTERNSHIP, PARTTIME, TEMPORARY, VOLUNTEER
 }

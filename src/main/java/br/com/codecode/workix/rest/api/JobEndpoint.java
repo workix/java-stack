@@ -249,4 +249,26 @@ public class JobEndpoint extends BaseEndpoint {
 		return Response.ok().entity(job).build();
 	}
 
+	@GET
+	@Path("/{id:[0-9][0-9]*}/company/{companyId:[0-9][0-9]*}")
+	@Produces("application/json")
+	public Response findByIdAndCompanyId(@PathParam("id") long id, @PathParam("companyId") long companyId) {
+		TypedQuery<Job> findByIdQuery = em
+				.createQuery(
+						"SELECT DISTINCT j FROM Job j LEFT JOIN FETCH j.company WHERE j.id = :jobId AND j.company.id = :companyId ORDER BY j.id",
+						Job.class);
+		findByIdQuery.setParameter("jobId", id);
+		findByIdQuery.setParameter("companyId", companyId);
+		Job entity;
+		try {
+			entity = findByIdQuery.getSingleResult();
+		} catch (NoResultException nre) {
+			entity = null;
+		}
+		if (entity == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		return Response.ok(entity).build();
+	}
+
 }

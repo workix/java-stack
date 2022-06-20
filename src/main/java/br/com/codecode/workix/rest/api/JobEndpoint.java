@@ -3,9 +3,11 @@ package br.com.codecode.workix.rest.api;
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
 
+import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.models.Job;
 import br.com.codecode.workix.jsf.util.helper.Paginator;
 import br.com.codecode.workix.rest.BaseEndpoint;
+import br.com.codecode.workix.rest.dto.in.SubscribeCandidateJob;
 import br.com.codecode.workix.rest.dto.out.DefaultError;
 import br.com.codecode.workix.rest.dto.out.PaginatedList;
 import io.jsonwebtoken.Claims;
@@ -17,11 +19,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.*;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -225,6 +224,29 @@ public class JobEndpoint extends BaseEndpoint {
 		}
 
 		return Response.status(Status.OK).entity(jobs).build();
+	}
+
+	@POST
+	@Path("/subscribe")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response subscribe(SubscribeCandidateJob subscribe) {
+		Job job = em.find(Job.class, subscribe.jobId);
+
+		if (job == null) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+
+		Candidate candidate = em.find(Candidate.class, subscribe.candidateId);
+
+		if (candidate == null){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		job.addCandidate(candidate);
+
+		em.persist(job);
+
+		return Response.ok().entity(job).build();
 	}
 
 }

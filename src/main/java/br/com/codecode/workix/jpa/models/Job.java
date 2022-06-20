@@ -1,6 +1,7 @@
 package br.com.codecode.workix.jpa.models;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -163,6 +164,17 @@ public class Job extends MyEntity {
 	@OneToMany(fetch = FetchType.EAGER)
 	public Set<Candidate> getCandidates() {
 		return candidates;
+	}
+
+	public void addCandidate(Candidate candidate){
+		if (candidates == null){
+			candidates = new HashSet<>();
+		}
+		candidates.add(candidate);
+	}
+
+	public void removeCandidate(Candidate candidate){
+		candidates.remove(candidate);
 	}
 
 	@Override

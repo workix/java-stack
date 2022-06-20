@@ -35,6 +35,7 @@ import br.com.codecode.workix.interfaces.Persistable;
 import br.com.codecode.workix.interfaces.Traceable;
 import br.com.codecode.workix.jaxrs.converter.LocalDateTimeAdapter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Selective Process JPA with Inherited Fields and Methods
@@ -68,6 +69,7 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
     @Column
     private LocalDateTime createdAt;
 
+    @JsonSerialize
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     @Column
     private LocalDateTime disabledAt;

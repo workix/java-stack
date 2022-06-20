@@ -1,6 +1,7 @@
 package br.com.codecode.workix.jpa.models;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
@@ -49,6 +50,8 @@ public class Job extends MyEntity {
     private BigDecimal minPayment, maxPayment;
 
     private String title, description, requirement, benefits;
+
+	private Set<Candidate> candidates;
 
     /**
      * Public Default Constructor for JPA Compatibility Only
@@ -157,7 +160,12 @@ public class Job extends MyEntity {
 	return title;
     }
 
-    @Override
+	@OneToMany(fetch = FetchType.EAGER)
+	public Set<Candidate> getCandidates() {
+		return candidates;
+	}
+
+	@Override
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
@@ -234,7 +242,11 @@ public class Job extends MyEntity {
 	this.title = title;
     }
 
-    /**
+	public void setCandidates(Set<Candidate> candidates) {
+		this.candidates = candidates;
+	}
+
+	/**
      * Builder to build {@link Job}.
      */    
     public static final class Builder extends Job implements Buildable<Job> {

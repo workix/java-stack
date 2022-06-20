@@ -222,4 +222,32 @@ public class VueEndpoint extends BaseEndpoint {
 
         return Response.status(Response.Status.OK).entity(job).build();
     }
+
+    @POST
+    @Path("/create_or_update_sp_by_token")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createOrUpdateSP(@Context HttpHeaders headers, SelectiveProcess sp) {
+
+        String authorization = headers.getRequestHeader("Authorization").get(0);
+        String jwtToken = authorization.substring("Bearer".length()).trim();
+        Jws<Claims> claimsJws;
+        try {
+            claimsJws = jwtParser.parseClaimsJws(jwtToken);
+        }catch (ExpiredJwtException ex){
+            return Response.status(Response.Status.BAD_REQUEST).entity(new DefaultError(ex)).build();
+        }
+
+        if (!claimsJws.getBody().getId().equals(sp.getJob().getCompany().getUser().getFirebaseUUID()) ) {
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+
+        if(sp.getId() == null){
+            em.persist(sp);
+        } else {
+            em.merge(sp);
+        }
+
+        return Response.status(Response.Status.OK).entity(sp).build();
+    }
 }

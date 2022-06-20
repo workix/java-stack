@@ -97,8 +97,7 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
     @Column
     private LocalDateTime updatedAt;
 
-    @JsonIgnore
-    @Column(nullable = false)
+    @Column(updatable = false, nullable = false)
     private String uuid;
 
     /**

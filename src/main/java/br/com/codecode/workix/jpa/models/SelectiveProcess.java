@@ -34,6 +34,7 @@ import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.interfaces.Persistable;
 import br.com.codecode.workix.interfaces.Traceable;
 import br.com.codecode.workix.jaxrs.converter.LocalDateTimeAdapter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Selective Process JPA with Inherited Fields and Methods
@@ -94,14 +95,9 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
     @Column
     private LocalDateTime updatedAt;
 
-    @XmlTransient
+    @JsonIgnore
     @Column(nullable = false)
     private String uuid;
-
-    @XmlTransient
-    @Version
-    @Column
-    private int version;
 
     /**
      * Public Default Constructor for JPA Compatibility Only
@@ -168,10 +164,6 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
      */
     public LocalDateTime getStart() {
 	return start;
-    }
-
-    protected int getVersion() {
-	return this.version;
     }
 
     @Override
@@ -298,22 +290,19 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
 	this.start = start;
     }
 
-    protected void setVersion(final int version) {
-	this.version = version;
-    }
-    
     @Override
     public void update(Observable observable, Object object) {
 
 	if (observable instanceof SelectiveProcess) {
 
 	    if (active = isElegible()) {
-		if (object instanceof Collection<?>) {
-		    countCandidates((Set<Candidate>) object);
-		}
+            if (object instanceof Collection<?>) {
+                countCandidates((Set<Candidate>) object);
+            }
 	    } else {
 		if (disabledAt != null)
 		    System.out.println("Max candidates Reached - Disabled Process at " + disabledAt);
+            throw new RuntimeException("Max candidates Reached - Disabled Process at " + disabledAt);
 	    }
 
 	}

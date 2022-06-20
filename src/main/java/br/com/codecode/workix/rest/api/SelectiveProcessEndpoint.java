@@ -1,14 +1,21 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.jpa.models.Job;
 import br.com.codecode.workix.jpa.models.SelectiveProcess;
 import br.com.codecode.workix.rest.BaseEndpoint;
+import br.com.codecode.workix.rest.dto.out.DefaultError;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtParser;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.*;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +24,9 @@ import java.util.List;
 @Stateless
 @Path("/selectiveprocesses")
 public class SelectiveProcessEndpoint extends BaseEndpoint {
+
+	@Inject
+	private JwtParser jwtParser;
 
 	@POST
 	@Consumes("application/json")
@@ -99,5 +109,33 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 		}
 
 		return Response.noContent().build();
+	}
+
+	@GET
+	@Path("/my_selective_processes")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSelectiveProcess(@Context HttpHeaders headers) {
+		String authorization = headers.getRequestHeader("Authorization").get(0);
+		String jwtToken = authorization.substring("Bearer".length()).trim();
+		Jws<Claims> claimsJws;
+		try {
+			claimsJws = jwtParser.parseClaimsJws(jwtToken);
+		} catch (ExpiredJwtException ex) {
+			return Response.status(Response.Status.BAD_REQUEST).entity(new DefaultError(ex)).build();
+		}
+
+		TypedQuery<SelectiveProcess> findByIdQuery = em
+				.createQuery(
+						"SELECT DISTINCT sp FROM SelectiveProcess sp LEFT JOIN FETCH sp.job  j LEFT JOIN FETCH j.company c JOIN FETCH c.user u WHERE u.firebaseUUID = :firebaseUUID ORDER BY j.id",
+						SelectiveProcess.class);
+		findByIdQuery.setParameter("firebaseUUID", claimsJws.getBody().getId());
+		List<SelectiveProcess> sps;
+		try {
+			sps = findByIdQuery.getResultList();
+		} catch (NoResultException nre) {
+			sps = new ArrayList<>();
+		}
+
+		return Response.status(Status.OK).entity(sps).build();
 	}
 }

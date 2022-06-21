@@ -1,8 +1,11 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.models.Job;
 import br.com.codecode.workix.jpa.models.SelectiveProcess;
 import br.com.codecode.workix.rest.BaseEndpoint;
+import br.com.codecode.workix.rest.dto.in.SubscribeCandidateJob;
+import br.com.codecode.workix.rest.dto.in.SubscribeCandidateSP;
 import br.com.codecode.workix.rest.dto.out.DefaultError;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -138,4 +141,37 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 
 		return Response.status(Status.OK).entity(sps).build();
 	}
+
+	@POST
+	@Path("/subscribe")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response subscribe(SubscribeCandidateSP subscribe) {
+		SelectiveProcess sp = em.find(SelectiveProcess.class, subscribe.spId);
+
+		if (sp == null) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+
+		Candidate candidate = em.find(Candidate.class, subscribe.candidateId);
+
+		if (candidate == null){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+
+		boolean registered = sp.registerCandidate(candidate);
+
+		if (registered){
+			// sp.addCandidate(candidate);
+
+			em.persist(sp);
+		} else{
+			return Response.status(Status.BAD_REQUEST)
+					.entity(new DefaultError("Candidate not subscribed"))
+					.build();
+		}
+
+		return Response.ok().entity(sp).build();
+	}
+
 }

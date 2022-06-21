@@ -100,6 +100,17 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
     @Column(updatable = false, nullable = false)
     private String uuid;
 
+    public void addCandidate(Candidate candidate){
+        if(this.candidates == null){
+            this.candidates = new HashSet<>();
+        }
+        this.candidates.add(candidate);
+    }
+
+    public void removeCandidate(Candidate candidate){
+        this.candidates.remove(candidate);
+    }
+
     /**
      * Public Default Constructor for JPA Compatibility Only
      */
@@ -238,6 +249,8 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
 	    System.out.println(candidate.getName() + " Cannot Registered");
 
 	    b = false;
+
+        // throw new RuntimeException(candidate.getName() + " Cannot Registered");
 	}
 
 	notifyChanges(candidates);
@@ -296,7 +309,7 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
 
 	if (observable instanceof SelectiveProcess) {
 
-	    if (active = isElegible()) {
+	    if (active == isElegible()) {
             if (object instanceof Collection<?>) {
                 countCandidates((Set<Candidate>) object);
             }

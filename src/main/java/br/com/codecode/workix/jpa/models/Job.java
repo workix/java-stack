@@ -161,7 +161,7 @@ public class Job extends MyEntity {
 	return title;
     }
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	public Set<Candidate> getCandidates() {
 		return candidates;
 	}

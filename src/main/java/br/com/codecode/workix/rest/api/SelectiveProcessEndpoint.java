@@ -142,6 +142,34 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 		return Response.status(Status.OK).entity(sps).build();
 	}
 
+	@GET
+	@Path("/my_selective_processes_subscribed")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSelectiveProcessSubscribed(@Context HttpHeaders headers) {
+		String authorization = headers.getRequestHeader("Authorization").get(0);
+		String jwtToken = authorization.substring("Bearer".length()).trim();
+		Jws<Claims> claimsJws;
+		try {
+			claimsJws = jwtParser.parseClaimsJws(jwtToken);
+		} catch (ExpiredJwtException ex) {
+			return Response.status(Response.Status.BAD_REQUEST).entity(new DefaultError(ex)).build();
+		}
+
+		TypedQuery<SelectiveProcess> findByIdQuery = em
+				.createQuery(
+						"SELECT DISTINCT sp FROM SelectiveProcess sp LEFT JOIN FETCH sp.job  j LEFT JOIN FETCH sp.candidates c JOIN FETCH c.user u WHERE u.firebaseUUID = :firebaseUUID ORDER BY j.id",
+						SelectiveProcess.class);
+		findByIdQuery.setParameter("firebaseUUID", claimsJws.getBody().getId());
+		List<SelectiveProcess> sps;
+		try {
+			sps = findByIdQuery.getResultList();
+		} catch (NoResultException nre) {
+			sps = new ArrayList<>();
+		}
+
+		return Response.status(Status.OK).entity(sps).build();
+	}
+
 	@POST
 	@Path("/subscribe")
 	@Consumes(MediaType.APPLICATION_JSON)

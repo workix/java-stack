@@ -1,12 +1,16 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.cdi.dao.Crud;
+import br.com.codecode.workix.cdi.qualifiers.Generic;
 import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.models.Job;
 import br.com.codecode.workix.jpa.models.SelectiveProcess;
+import br.com.codecode.workix.jsf.util.helper.Paginator;
 import br.com.codecode.workix.rest.BaseEndpoint;
 import br.com.codecode.workix.rest.dto.in.SubscribeCandidateJob;
 import br.com.codecode.workix.rest.dto.in.SubscribeCandidateSP;
 import br.com.codecode.workix.rest.dto.out.DefaultError;
+import br.com.codecode.workix.rest.dto.out.PaginatedList;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -18,6 +22,7 @@ import javax.persistence.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +32,10 @@ import java.util.List;
 @Stateless
 @Path("/selectiveprocesses")
 public class SelectiveProcessEndpoint extends BaseEndpoint {
+
+	@Inject
+	@Generic
+	private Crud<SelectiveProcess> spDao;
 
 	@Inject
 	private JwtParser jwtParser;
@@ -200,6 +209,28 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 		}
 
 		return Response.ok().entity(sp).build();
+	}
+
+	@GET
+	@Path("/paginated")
+	@Produces("application/json")
+	public PaginatedList<SelectiveProcess> listAllPaginated(@QueryParam("page") Integer page, @QueryParam("limit") Integer limit) {
+
+		BigInteger totalRows = spDao.countRegisters("selective_processes");
+
+		Paginator paginator = new Paginator(limit, page, totalRows.intValue());
+
+		int totalPages = paginator.getTotalPages();
+
+		int start = paginator.getStart();
+
+		int end = paginator.getEnd();
+
+		List<SelectiveProcess> sps = spDao.listAll(start - 1, limit);
+
+		PaginatedList<SelectiveProcess> paginatedList = new PaginatedList<>(sps, paginator.getStart(), paginator.getEnd(), paginator.getTotalPages(), paginator.getCurrentPage(), paginator.getLimitRows(), paginator.getMaxRows());
+
+		return paginatedList;
 	}
 
 }

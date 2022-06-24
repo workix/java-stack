@@ -10,10 +10,9 @@ import br.com.codecode.workix.rest.BaseEndpoint;
 import br.com.codecode.workix.rest.dto.in.CreateCandidate;
 import br.com.codecode.workix.rest.dto.in.CreateCompany;
 import br.com.codecode.workix.rest.dto.in.UpdateCandidateCompany;
-import br.com.codecode.workix.rest.dto.out.CandidateCreated;
-import br.com.codecode.workix.rest.dto.out.CompanyCreated;
-import br.com.codecode.workix.rest.dto.out.DefaultError;
-import br.com.codecode.workix.rest.dto.out.JWTToken;
+import br.com.codecode.workix.rest.dto.in.ValidateCPF;
+import br.com.codecode.workix.rest.dto.out.*;
+import br.com.codecode.workix.validation.CPFValidator;
 import io.jsonwebtoken.*;
 
 import javax.ejb.Stateless;
@@ -27,7 +26,9 @@ import javax.ws.rs.core.Response;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Stateless
 @Path("/vue")
@@ -249,5 +250,16 @@ public class VueEndpoint extends BaseEndpoint {
         }
 
         return Response.status(Response.Status.OK).entity(sp).build();
+    }
+
+    @POST
+    @Path("/validate_cpf")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response validateCPF(ValidateCPF validateCPF) {
+
+        boolean isValid = CPFValidator.validate(validateCPF.cpf);
+
+        return Response.ok().entity(new Valid(isValid)).build();
     }
 }

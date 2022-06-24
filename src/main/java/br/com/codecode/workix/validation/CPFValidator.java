@@ -25,14 +25,12 @@ public class CPFValidator {
         return acc;
     }
 
-    private static int returnMod(int acc) throws IllegalArgumentException{
+    private static int returnMod(int acc) {
         int mod = acc % 11;
         if (mod < 2) {
             return 0;
-        } else if (mod >= 2) {
-            return 11 - (mod);
         } else {
-            throw new IllegalArgumentException("Error on Validation");
+            return 11 - (mod);
         }
     }
 

@@ -91,7 +91,7 @@ public class Author extends MyEntity {
      * @return the id
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     @Override
     public Long getId() {

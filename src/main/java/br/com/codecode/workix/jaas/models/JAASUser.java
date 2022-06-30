@@ -62,7 +62,7 @@ public class JAASUser extends JAASBase {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(updatable = false, nullable = false)
 	@Override
 	public Long getId() {

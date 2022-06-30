@@ -27,7 +27,7 @@ public class Form extends MyEntity{
     private String message;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     @Override
     public Long getId() {

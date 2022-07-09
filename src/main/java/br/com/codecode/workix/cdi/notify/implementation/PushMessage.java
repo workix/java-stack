@@ -7,16 +7,18 @@
  * */
 package br.com.codecode.workix.cdi.notify.implementation;
 
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+
+import javax.annotation.PostConstruct;
+import javax.json.Json;
+import javax.json.JsonObject;
+
 import br.com.codecode.workix.cdi.notify.Notification;
 import br.com.codecode.workix.cdi.qualifiers.Push;
 import br.com.codecode.workix.interfaces.Debugable;
 import br.com.codecode.workix.interfaces.Notificable;
-import br.com.codecode.workix.util.Http;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonObject;
 
 /**
  * Push Message Implementation<br>
@@ -30,11 +32,7 @@ import javax.json.JsonObject;
 @Push
 public class PushMessage implements Notification, Debugable {
 
-    private final String WEB_API_KEY = "AIzaSyDF7Uc_yoj_VAOx-7fzag92DLTfyca88aE";
-
-    // TODO FIXME REMOVEME
-    @Inject
-    private Http http;
+    private final String WEB_API_KEY = "GET ME FROM PROPERTIES";    
 
     @PostConstruct
     private void init() {
@@ -43,30 +41,29 @@ public class PushMessage implements Notification, Debugable {
 
     @Override
     public void doSendMessage(Notificable to, String title, String body) {
-
-	JsonObject jsonObject = Json.createObjectBuilder().add("to", to.getFirebaseMessageToken())
-		.add("notification",
-			Json.createObjectBuilder().add("body", body).add("title", title).add("icon", "myicon").build())
-		.build();
-
-	String json = jsonObject.toString();
-
-	System.out.println(json);
+	
 
 	try {
+		JsonObject jsonObject = Json.createObjectBuilder().add("to", to.getFirebaseMessageToken())
+				.add("notification",
+					Json.createObjectBuilder().add("body", body).add("title", title).add("icon", "myicon").build())
+				.build();
 
-	    /*
-	     * //TODO FIXME TESTME Test this javax.ws.rs.core.Response r =
-	     * ClientBuilder.newClient().target(FCM_SERVER)
-	     * .property("Authorization", "key="+ WEB_API_KEY)
-	     * .request(MediaType.APPLICATION_JSON).post(Entity.json(json));
-	     */
+			String json = jsonObject.toString();
 
-	    // TODO FIXME REMOVEME
-        String FCM_SERVER = "https://fcm.googleapis.com/fcm/send";
-        String resp = http.sendPost(FCM_SERVER, json);
+			System.out.println(json);
 
-	    System.out.println(resp);
+		String FCM_SERVER = "https://fcm.googleapis.com/fcm/send";
+		
+		HttpRequest request = HttpRequest.newBuilder()
+				  .uri(new URI(FCM_SERVER))
+				  .header("Authorization", "key="+ WEB_API_KEY)				  
+				  .POST(BodyPublishers.ofString(json))
+				  .build();
+
+	   
+
+	    System.out.println(request.headers());
 
 	} catch (Exception e) {
 	    e.printStackTrace();

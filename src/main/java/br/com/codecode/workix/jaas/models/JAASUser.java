@@ -69,7 +69,7 @@ public class JAASUser extends JAASBase {
 		return id;
 	}
 
-	@Column
+	@Column(unique = true)
 	public String getLogin() {
 		return login;
 	}

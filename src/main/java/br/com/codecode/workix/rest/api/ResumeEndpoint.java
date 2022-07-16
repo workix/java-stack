@@ -2,6 +2,7 @@ package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.Job;
 import br.com.codecode.workix.jpa.models.Resume;
 import br.com.codecode.workix.jpa.resultsqldto.ResumeWithCandidateShort;
@@ -30,6 +31,7 @@ public class ResumeEndpoint extends BaseEndpoint {
 	@Generic
 	private Crud<Resume> resumeDao;
 
+	@Authorize
 	@POST
 	@Consumes("application/json")
 	public Response create(Resume entity) {
@@ -39,6 +41,7 @@ public class ResumeEndpoint extends BaseEndpoint {
 						.path(String.valueOf(entity.getId())).build()).build();
 	}
 
+	@Authorize
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") long id) {
@@ -50,6 +53,7 @@ public class ResumeEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
@@ -71,6 +75,7 @@ public class ResumeEndpoint extends BaseEndpoint {
 		return Response.ok(entity).build();
 	}
 
+	@Authorize
 	@GET
 	@Produces("application/json")
 	public List<Resume> listAll(@QueryParam("start") Integer startPosition,
@@ -89,6 +94,7 @@ public class ResumeEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
@@ -112,6 +118,7 @@ public class ResumeEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/list_with_candidates_short")
 	@Produces("application/json")
@@ -129,6 +136,7 @@ public class ResumeEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@GET
 	@Path("/list_with_candidates_short_paginated")
 	@Produces("application/json")

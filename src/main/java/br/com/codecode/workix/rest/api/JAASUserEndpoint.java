@@ -1,6 +1,7 @@
 package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.jaas.models.JAASUser;
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.rest.BaseEndpoint;
 
 import javax.ejb.Stateless;
@@ -15,8 +16,9 @@ import java.util.List;
  * 
  */
 @Stateless
-@Path("/jaasusers")
+@Path("/jaas_users")
 public class JAASUserEndpoint extends BaseEndpoint {
+	@Authorize
 	@POST
 	@Consumes("application/json")
 	public Response create(JAASUser entity) {
@@ -26,6 +28,7 @@ public class JAASUserEndpoint extends BaseEndpoint {
 						.path(String.valueOf(entity.getId())).build()).build();
 	}
 
+	@Authorize
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") long id) {
@@ -37,6 +40,7 @@ public class JAASUserEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
@@ -58,6 +62,7 @@ public class JAASUserEndpoint extends BaseEndpoint {
 		return Response.ok(entity).build();
 	}
 
+	@Authorize
 	@GET
 	@Produces("application/json")
 	public List<JAASUser> listAll(@QueryParam("start") Integer startPosition,
@@ -76,6 +81,7 @@ public class JAASUserEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")

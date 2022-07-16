@@ -18,11 +18,11 @@ public class CleanupDao extends BaseDao {
    
     private static final long serialVersionUID = 8313089022686190122L;
     
-    public List<SelectiveProcess> findExpiredProcesses(LocalDateTime expire) {
+    public List<SelectiveProcess> findExpiredProcesses(LocalDateTime expiresIn) {
 
-	String jpql = "select p from SelectiveProcess p where p.expire <= :expire";
+	String jpql = "select p from SelectiveProcess p where p.expiresIn <= :expiresIn";
 
-	return em.createQuery(jpql, SelectiveProcess.class).setParameter("expire", expire).getResultList();
+	return em.createQuery(jpql, SelectiveProcess.class).setParameter("expiresIn", expiresIn).getResultList();
 	 
     }
 

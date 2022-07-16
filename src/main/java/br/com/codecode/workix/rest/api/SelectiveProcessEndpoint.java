@@ -2,6 +2,7 @@ package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.models.Job;
 import br.com.codecode.workix.jpa.models.SelectiveProcess;
@@ -30,7 +31,7 @@ import java.util.List;
  * 
  */
 @Stateless
-@Path("/selectiveprocesses")
+@Path("/selective_processes")
 public class SelectiveProcessEndpoint extends BaseEndpoint {
 
 	@Inject
@@ -40,6 +41,7 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 	@Inject
 	private JwtParser jwtParser;
 
+	@Authorize
 	@POST
 	@Consumes("application/json")
 	public Response create(SelectiveProcess entity) {
@@ -49,6 +51,7 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 						.path(String.valueOf(entity.getId())).build()).build();
 	}
 
+	@Authorize
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") long id) {
@@ -60,6 +63,7 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
@@ -81,6 +85,7 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 		return Response.ok(entity).build();
 	}
 
+	@Authorize
 	@GET
 	@Produces("application/json")
 	public List<SelectiveProcess> listAll(
@@ -100,6 +105,7 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
@@ -123,6 +129,7 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/my_selective_processes")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -151,6 +158,7 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 		return Response.status(Status.OK).entity(sps).build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/my_selective_processes_subscribed")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -179,6 +187,7 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 		return Response.status(Status.OK).entity(sps).build();
 	}
 
+	@Authorize
 	@POST
 	@Path("/subscribe")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -211,6 +220,7 @@ public class SelectiveProcessEndpoint extends BaseEndpoint {
 		return Response.ok().entity(sp).build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/paginated")
 	@Produces("application/json")

@@ -1,5 +1,6 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.Company;
 import br.com.codecode.workix.rest.BaseEndpoint;
 import br.com.codecode.workix.rest.dto.out.CompanyLogo;
@@ -22,6 +23,7 @@ import java.util.List;
 @Path("/companies")
 public class CompanyEndpoint extends BaseEndpoint {
 
+	@Authorize
 	@POST
 	@Consumes("application/json")
 	public Response create(Company entity) {
@@ -31,6 +33,7 @@ public class CompanyEndpoint extends BaseEndpoint {
 						.path(String.valueOf(entity.getId())).build()).build();
 	}
 
+	@Authorize
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") long id) {
@@ -42,6 +45,7 @@ public class CompanyEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
@@ -63,6 +67,7 @@ public class CompanyEndpoint extends BaseEndpoint {
 		return Response.ok(entity).build();
 	}
 
+	@Authorize
 	@GET
 	@Produces("application/json")
 	public List<Company> listAll(@QueryParam("start") Integer startPosition,
@@ -80,6 +85,7 @@ public class CompanyEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@GET
 	@Path(value = "/logos")
 	@Produces("application/json")
@@ -100,6 +106,7 @@ public class CompanyEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")

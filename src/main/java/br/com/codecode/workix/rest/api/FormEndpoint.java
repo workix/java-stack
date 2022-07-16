@@ -1,5 +1,6 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.Form;
 import br.com.codecode.workix.rest.BaseEndpoint;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Path("/forms")
 public class FormEndpoint extends BaseEndpoint {
 
+	@Authorize
     @POST
     @Consumes("application/json")
     public Response create(Form entity) {
@@ -25,6 +27,7 @@ public class FormEndpoint extends BaseEndpoint {
                         .path(String.valueOf(entity.getId())).build()).build();
     }
 
+    @Authorize
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     public Response deleteById(@PathParam("id") long id) {
@@ -36,6 +39,7 @@ public class FormEndpoint extends BaseEndpoint {
         return Response.noContent().build();
     }
 
+    @Authorize
     @GET
     @Path("/{id:[0-9][0-9]*}")
     @Produces("application/json")
@@ -57,6 +61,7 @@ public class FormEndpoint extends BaseEndpoint {
         return Response.ok(entity).build();
     }
 
+    @Authorize
     @GET
     @Produces("application/json")
     public List<Form> listAll(@QueryParam("start") Integer startPosition,
@@ -74,6 +79,7 @@ public class FormEndpoint extends BaseEndpoint {
         return results;
     }
 
+    @Authorize
     @PUT
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")

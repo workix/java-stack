@@ -2,6 +2,7 @@ package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.*;
 import br.com.codecode.workix.rest.BaseEndpoint;
 import br.com.codecode.workix.rest.dto.out.Statistic;
@@ -35,6 +36,7 @@ public class StatisticsEndpoint extends BaseEndpoint {
     @Generic
     private Crud<Resume> resumeDao;
 
+    @Authorize
     @GET
     @Produces("application/json")
     public Statistic listStats() {

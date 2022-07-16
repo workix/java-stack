@@ -2,7 +2,7 @@ package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
-
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.models.Job;
 import br.com.codecode.workix.jsf.util.helper.Paginator;
@@ -39,6 +39,7 @@ public class JobEndpoint extends BaseEndpoint {
 	@Inject
 	private JwtParser jwtParser;
 
+	@Authorize
 	@POST
 	@Consumes("application/json")
 	public Response create(Job entity) {
@@ -48,6 +49,7 @@ public class JobEndpoint extends BaseEndpoint {
 						.path(String.valueOf(entity.getId())).build()).build();
 	}
 
+	@Authorize
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") long id) {
@@ -59,6 +61,7 @@ public class JobEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
@@ -80,6 +83,7 @@ public class JobEndpoint extends BaseEndpoint {
 		return Response.ok(entity).build();
 	}
 
+	@Authorize
 	@GET
 	@Produces("application/json")
 	public List<Job> listAll(@QueryParam("start") Integer startPosition,
@@ -98,6 +102,7 @@ public class JobEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
@@ -121,15 +126,16 @@ public class JobEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
-	@Path(value = "/feature")
+	@Path(value = "/featured")
 	@Produces("application/json")
 	public List<Job> listAllWithFeature(@QueryParam("start") Integer startPosition,
 										@QueryParam("max") Integer maxResult, @QueryParam("feature") boolean feature) {
 		String sql;
 
 		if (feature) {
-			sql = "SELECT DISTINCT j FROM Job j LEFT JOIN FETCH j.company WHERE j.feature = true ORDER BY j.id";
+			sql = "SELECT DISTINCT j FROM Job j LEFT JOIN FETCH j.company WHERE j.featured = true ORDER BY j.id";
 		} else {
 			sql = "SELECT DISTINCT j FROM Job j LEFT JOIN FETCH j.company ORDER BY j.id";
 		}
@@ -146,11 +152,12 @@ public class JobEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@GET
 	@Path(value = "/random_featured")
 	@Produces("application/json")
 	public Job getRandomFeature() {
-		String sql = "SELECT j FROM Job j LEFT JOIN FETCH j.company WHERE j.feature = true ORDER BY RAND()";
+		String sql = "SELECT j FROM Job j LEFT JOIN FETCH j.company WHERE j.featured = true ORDER BY RANDOM()";
 
 		TypedQuery<Job> findQuery = em.createQuery(sql, Job.class);
 
@@ -158,6 +165,7 @@ public class JobEndpoint extends BaseEndpoint {
 		return result.get(0);
 	}
 
+	@Authorize
 	@GET
 	@Path("/company/{id:[0-9][0-9]*}")
 	@Produces("application/json")
@@ -177,6 +185,7 @@ public class JobEndpoint extends BaseEndpoint {
 		return entities;
 	}
 
+	@Authorize
 	@GET
 	@Path("/paginated")
 	@Produces("application/json")
@@ -198,6 +207,8 @@ public class JobEndpoint extends BaseEndpoint {
 
 		return paginatedList;
 	}
+	
+	@Authorize
 	@GET
 	@Path("/my_jobs")
 	@Produces("application/json")
@@ -226,6 +237,7 @@ public class JobEndpoint extends BaseEndpoint {
 		return Response.status(Status.OK).entity(jobs).build();
 	}
 
+	@Authorize
 	@POST
 	@Path("/subscribe")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -249,6 +261,7 @@ public class JobEndpoint extends BaseEndpoint {
 		return Response.ok().entity(job).build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/{id:[0-9][0-9]*}/company/{companyId:[0-9][0-9]*}")
 	@Produces("application/json")

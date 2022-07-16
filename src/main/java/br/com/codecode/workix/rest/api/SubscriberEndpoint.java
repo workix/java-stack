@@ -1,5 +1,6 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.Subscriber;
 import br.com.codecode.workix.rest.BaseEndpoint;
 import br.com.codecode.workix.rest.dto.out.Subscribe;
@@ -20,6 +21,7 @@ import java.util.List;
 @Path("/subscribers")
 public class SubscriberEndpoint extends BaseEndpoint {
 
+	@Authorize
 	@POST
 	@Consumes("application/json")
 	public Response create(Subscriber entity) {
@@ -29,6 +31,7 @@ public class SubscriberEndpoint extends BaseEndpoint {
 						.path(String.valueOf(entity.getId())).build()).build();
 	}
 
+	@Authorize
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") long id) {
@@ -40,6 +43,7 @@ public class SubscriberEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
@@ -61,6 +65,7 @@ public class SubscriberEndpoint extends BaseEndpoint {
 		return Response.ok(entity).build();
 	}
 
+	@Authorize
 	@GET
 	@Produces("application/json")
 	public List<Subscriber> listAll(@QueryParam("start") Integer startPosition,
@@ -78,6 +83,7 @@ public class SubscriberEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
@@ -101,6 +107,7 @@ public class SubscriberEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@POST
 	@Path("/subscribe")
 	@Consumes("application/json")

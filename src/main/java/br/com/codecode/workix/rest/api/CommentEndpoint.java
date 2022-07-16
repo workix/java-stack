@@ -1,5 +1,6 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.Blog;
 import br.com.codecode.workix.jpa.models.Comment;
 import br.com.codecode.workix.rest.BaseEndpoint;
@@ -20,6 +21,7 @@ import java.util.List;
 @Path("/comments")
 public class CommentEndpoint extends BaseEndpoint {
 
+	@Authorize
 	@POST
 	@Consumes("application/json")
 	public Response create(Comment entity) {
@@ -29,6 +31,7 @@ public class CommentEndpoint extends BaseEndpoint {
 						.path(String.valueOf(entity.getId())).build()).build();
 	}
 
+	@Authorize
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") long id) {
@@ -40,6 +43,7 @@ public class CommentEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
@@ -61,6 +65,7 @@ public class CommentEndpoint extends BaseEndpoint {
 		return Response.ok(entity).build();
 	}
 
+	@Authorize
 	@GET
 	@Produces("application/json")
 	public List<Comment> listAll(@QueryParam("start") Integer startPosition,
@@ -79,6 +84,7 @@ public class CommentEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
@@ -102,6 +108,7 @@ public class CommentEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/recents")
 	@Produces("application/json")
@@ -121,6 +128,7 @@ public class CommentEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@POST
 	@Path("/blog")
 	@Consumes("application/json")

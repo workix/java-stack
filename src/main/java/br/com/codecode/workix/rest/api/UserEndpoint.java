@@ -29,6 +29,7 @@ public class UserEndpoint extends BaseEndpoint {
 	@Generic
 	private Crud<User> userDao;
 
+	@Authorize
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -44,6 +45,7 @@ public class UserEndpoint extends BaseEndpoint {
 		return Response.status(Status.CREATED).entity(entity).build();
 	}
 
+	@Authorize
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -58,6 +60,7 @@ public class UserEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -72,7 +75,8 @@ public class UserEndpoint extends BaseEndpoint {
 		}
 		return Response.ok(entity).build();
 	}
-	// @Authorize
+	
+	@Authorize
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> listAll(@QueryParam("start") Integer startPosition,
@@ -82,6 +86,7 @@ public class UserEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes(MediaType.APPLICATION_JSON)

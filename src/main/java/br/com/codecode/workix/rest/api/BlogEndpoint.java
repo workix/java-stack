@@ -2,6 +2,7 @@ package br.com.codecode.workix.rest.api;
 
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.Blog;
 
 import br.com.codecode.workix.jsf.util.helper.Paginator;
@@ -30,8 +31,9 @@ public class BlogEndpoint extends BaseEndpoint {
 
 	@Inject
 	@Generic
-	private Crud<Blog> bloDao;
+	private Crud<Blog> blogDao;
 
+	@Authorize
 	@POST
 	@Consumes("application/json")
 	public Response create(Blog entity) {
@@ -41,6 +43,7 @@ public class BlogEndpoint extends BaseEndpoint {
 						.path(String.valueOf(entity.getId())).build()).build();
 	}
 
+	@Authorize
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") long id) {
@@ -52,6 +55,7 @@ public class BlogEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
@@ -73,6 +77,7 @@ public class BlogEndpoint extends BaseEndpoint {
 		return Response.ok(entity).build();
 	}
 
+	@Authorize
 	@GET
 	@Produces("application/json")
 	public List<Blog> listAll(@QueryParam("start") Integer startPosition,
@@ -91,6 +96,7 @@ public class BlogEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
@@ -114,22 +120,23 @@ public class BlogEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/categories")
 	@Produces("application/json")
 	public List<String> listAllCategories() {
-		Query nativeQuery = em.createNativeQuery("SELECT DISTINCT category FROM blogs b");
+		Query nativeQuery = em.createNativeQuery("SELECT DISTINCT category FROM blogs_categories bc");
 
 		final List<String> results = nativeQuery.getResultList();
 		return results;
 	}
 
+	@Authorize
 	@GET
 	@Path("/time_periods")
 	@Produces("application/json")
 	public List<BlogTimePeriod> listTimePeriods() {
-		Query nativeQuery = em.createNativeQuery("SELECT YEAR(b.createdAt) as year, MONTH(b.createdAt) as month from blogs b\n" +
-				"                   GROUP BY YEAR(b.createdAt), MONTH(b.createdAt)");
+		Query nativeQuery = em.createNativeQuery("SELECT EXTRACT(YEAR FROM (b.created_at)) as year, EXTRACT(MONTH FROM(b.created_at)) as month from blogs b GROUP BY EXTRACT(YEAR FROM(b.created_at)), EXTRACT(MONTH FROM(b.created_at));");
 
 		final List<Object[]> rows = nativeQuery.getResultList();
 
@@ -139,6 +146,7 @@ public class BlogEndpoint extends BaseEndpoint {
 		return blogTimePeriods;
 	}
 
+	@Authorize
 	@GET
 	@Path("/recents")
 	@Produces("application/json")
@@ -158,12 +166,13 @@ public class BlogEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@GET
 	@Path("/paginated")
 	@Produces("application/json")
 	public PaginatedList<Blog> listAllPaginated(@QueryParam("page") Integer page, @QueryParam("limit") Integer limit) {
 
-		BigInteger totalRows = bloDao.countRegisters("blogs");
+		BigInteger totalRows = blogDao.countRegisters("blogs");
 
 		Paginator paginator = new Paginator(limit, page, totalRows.intValue());
 
@@ -173,7 +182,7 @@ public class BlogEndpoint extends BaseEndpoint {
 
 		int end = paginator.getEnd();
 
-		List<Blog> blogs = bloDao.listAll(start - 1, limit);
+		List<Blog> blogs = blogDao.listAll(start - 1, limit);
 
 		PaginatedList<Blog> paginatedList = new PaginatedList<>(blogs,paginator.getStart(),paginator.getEnd(),paginator.getTotalPages(),paginator.getCurrentPage(),paginator.getLimitRows(),paginator.getMaxRows());
 

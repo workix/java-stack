@@ -3,6 +3,7 @@ package br.com.codecode.workix.rest.api;
 import br.com.codecode.workix.cdi.notify.Notification;
 import br.com.codecode.workix.cdi.qualifiers.Email;
 import br.com.codecode.workix.cdi.qualifiers.Push;
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.resultsqldto.CandidateResume;
 import br.com.codecode.workix.rest.BaseEndpoint;
@@ -31,6 +32,7 @@ public class CandidateEndpoint extends BaseEndpoint {
 	@Email
 	private Notification mailNotification;
 
+	@Authorize
 	@POST
 	@Consumes("application/json")
 	public Response create(Candidate entity) {
@@ -40,6 +42,7 @@ public class CandidateEndpoint extends BaseEndpoint {
 						.path(String.valueOf(entity.getId())).build()).build();
 	}
 
+	@Authorize
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") long id) {
@@ -51,6 +54,7 @@ public class CandidateEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
@@ -72,6 +76,7 @@ public class CandidateEndpoint extends BaseEndpoint {
 		return Response.ok(entity).build();
 	}
 
+	@Authorize
 	@GET
 	@Produces("application/json")
 	public List<Candidate> listAll(@QueryParam("start") Integer startPosition,
@@ -89,6 +94,7 @@ public class CandidateEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
@@ -112,6 +118,7 @@ public class CandidateEndpoint extends BaseEndpoint {
 		return Response.noContent().build();
 	}
 
+	@Authorize
 	@GET
 	@Path("/short_list")
 	@Produces("application/json")
@@ -130,6 +137,7 @@ public class CandidateEndpoint extends BaseEndpoint {
 		return results;
 	}
 
+	@Authorize
 	@POST
 	@Path("notify")
 	@Consumes("application/json")

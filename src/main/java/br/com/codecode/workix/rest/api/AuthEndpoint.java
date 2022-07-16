@@ -1,5 +1,6 @@
 package br.com.codecode.workix.rest.api;
 
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.*;
 import br.com.codecode.workix.rest.BaseEndpoint;
 import br.com.codecode.workix.rest.dto.in.FirebaseAuthToken;
@@ -65,6 +66,7 @@ public class AuthEndpoint extends BaseEndpoint {
         }
     }
 
+    @Authorize
     @GET
     @Path("/me")
     @Produces(MediaType.APPLICATION_JSON)

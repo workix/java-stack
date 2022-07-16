@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -43,6 +45,8 @@ public class Comment extends MyEntity implements Persistable {
     private String name;
 
     private String text;
+    
+    private Comment parentComment;
 
     /**
      * Public Default Constructor for JPA Compatibility Only
@@ -89,6 +93,16 @@ public class Comment extends MyEntity implements Persistable {
     @Override
     public Long getId() {
 	return id;
+    }
+    
+    @ManyToOne(optional = true)
+    @JoinColumn(name="parent_id")
+    public Comment getParentComment() {
+    	return parentComment;
+    }
+    
+    public void setParentComment(Comment comment) {
+    	this.parentComment = comment;
     }
 
     /**

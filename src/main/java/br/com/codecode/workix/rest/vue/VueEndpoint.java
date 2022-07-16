@@ -3,6 +3,7 @@ package br.com.codecode.workix.rest.vue;
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
 import br.com.codecode.workix.cdi.qualifiers.Persist;
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.*;
 
 import br.com.codecode.workix.rest.BaseEndpoint;
@@ -52,6 +53,7 @@ public class VueEndpoint extends BaseEndpoint {
     @Generic
     private Crud<Company> companyDao;
 
+    @Authorize
     @POST
     @Path("/create_candidate")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -86,6 +88,7 @@ public class VueEndpoint extends BaseEndpoint {
         }
     }
 
+    @Authorize
     @POST
     @Path("/create_company")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -116,6 +119,7 @@ public class VueEndpoint extends BaseEndpoint {
         }
     }
 
+    @Authorize
     @PUT
     @Path("/update_by_token")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -168,6 +172,7 @@ public class VueEndpoint extends BaseEndpoint {
         return Response.status(Response.Status.OK).entity(entity).build();
     }
 
+    @Authorize
     @POST
     @Path("/create_or_update_resume_by_token")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -196,6 +201,7 @@ public class VueEndpoint extends BaseEndpoint {
         return Response.status(Response.Status.OK).entity(resume).build();
     }
 
+    @Authorize
     @POST
     @Path("/create_or_update_job_by_token")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -224,6 +230,7 @@ public class VueEndpoint extends BaseEndpoint {
         return Response.status(Response.Status.OK).entity(job).build();
     }
 
+    @Authorize
     @POST
     @Path("/create_or_update_sp_by_token")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -252,6 +259,7 @@ public class VueEndpoint extends BaseEndpoint {
         return Response.status(Response.Status.OK).entity(sp).build();
     }
 
+    @Authorize
     @POST
     @Path("/validate_cpf")
     @Consumes(MediaType.APPLICATION_JSON)

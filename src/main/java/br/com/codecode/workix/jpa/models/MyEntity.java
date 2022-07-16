@@ -8,12 +8,11 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.Version;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import br.com.codecode.workix.interfaces.Persistable;
 import br.com.codecode.workix.interfaces.Traceable;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * MyEntity JPA with Inherited Fields and Methods <br>

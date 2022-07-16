@@ -115,7 +115,7 @@ public class EntityManagerProducer implements Serializable {
      */
     private String getContextParam() throws RuntimeException {
 
-	String s = System.getProperty("default.database", "MySQL");
+	String s = System.getProperty("default.database", "PostgreSQL");
 
 	if (s != null && !s.isEmpty()) {
 	    return s;

@@ -1,17 +1,22 @@
 package br.com.codecode.workix.jpa.models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import br.com.codecode.workix.interfaces.Persistable;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.interfaces.Buildable;
+import br.com.codecode.workix.interfaces.Persistable;
 
 /**
  * Comment JPA with Inherited Fields and Methods
@@ -99,8 +104,7 @@ public class Comment extends MyEntity implements Persistable {
      * @return the text
      */
     @NotEmpty
-    @Column
-    @Lob
+    @Column(columnDefinition = "text")    
     public String getText() {
 	return text;
     }

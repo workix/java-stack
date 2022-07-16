@@ -5,6 +5,7 @@ import javax.enterprise.inject.Model;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
@@ -35,9 +36,10 @@ public class BlogsMB extends BaseMB {
 
     private DataModel<Comment> comments;
 
+       
     @PostConstruct
     @Override
-    protected void init() {
+    public void init() {
 
         list = new ListDataModel<Blog>(dao.listAll(0, Integer.MAX_VALUE));
 

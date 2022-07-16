@@ -1,16 +1,25 @@
 package br.com.codecode.workix.jpa.models;
 
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.interfaces.Buildable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.List;
 
 /**
  * Company JPA with Inherited Fields and Methods 
@@ -91,8 +100,7 @@ public class Company extends Person {
     /**
      * @return the description
      */
-    @Column
-    @Lob    
+    @Column(columnDefinition = "text")        
     public String getDescription() {
         return description;
     }

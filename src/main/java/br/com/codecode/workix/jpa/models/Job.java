@@ -5,7 +5,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -103,8 +115,8 @@ public class Job extends MyEntity {
 	return true;
     }
 
-    @Lob
-    @Column(nullable = false)
+    
+    @Column(nullable = false, columnDefinition = "text")    
     public String getBenefits() {
 	return benefits;
     }
@@ -113,9 +125,8 @@ public class Job extends MyEntity {
     public Company getCompany() {
 	return company;
     }
-
-    @Lob
-    @Column(nullable = false)
+    
+    @Column(nullable = false, columnDefinition = "text")
     public String getDescription() {
 	return description;
     }
@@ -149,9 +160,8 @@ public class Job extends MyEntity {
     public BigDecimal getMinPayment() {
 	return minPayment;
     }
-
-    @Lob
-    @Column(nullable = false)
+    
+    @Column(nullable = false, columnDefinition = "text")
     public String getRequirement() {
 	return requirement;
     }
@@ -203,6 +213,7 @@ public class Job extends MyEntity {
     public boolean isActivated() {
 	return activated;
     }
+    
 	@Column(nullable = true)
 	public boolean isFeatured() {
 		return featured;

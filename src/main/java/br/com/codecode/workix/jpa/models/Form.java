@@ -70,7 +70,7 @@ public class Form extends MyEntity{
     }
 
     @NotEmpty
-    @Column
+    @Column(columnDefinition = "text")
     public String getMessage() {
         return message;
     }

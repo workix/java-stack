@@ -1,15 +1,23 @@
 package br.com.codecode.workix.jpa.models;
 
-import br.com.codecode.workix.cdi.qualifiers.Persist;
-import br.com.codecode.workix.jpa.resultsqldto.CandidateResume;
+import java.time.LocalDate;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.time.LocalDate;
-import java.util.Date;
+
+import br.com.codecode.workix.cdi.qualifiers.Persist;
+import br.com.codecode.workix.jpa.resultsqldto.CandidateResume;
 
 /**
  * Candidate JPA with Inherited Fields and Methods

@@ -51,7 +51,7 @@ public class JobsFragment extends BaseMB {
 
     @PostConstruct
     @Override
-    protected void init() {
+    public void init() {
 
         List<Job> jobs = dao.listAll(0, 10);
 

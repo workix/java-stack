@@ -1,17 +1,33 @@
 package br.com.codecode.workix.jpa.models;
 
-import br.com.codecode.workix.cdi.qualifiers.Persist;
-import br.com.codecode.workix.interfaces.Buildable;
-import br.com.codecode.workix.jpa.resultsqldto.CandidateResume;
-import br.com.codecode.workix.jpa.resultsqldto.ResumeWithCandidateShort;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.*;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.HashSet;
-import java.util.Set;
+
+import br.com.codecode.workix.cdi.qualifiers.Persist;
+import br.com.codecode.workix.interfaces.Buildable;
+import br.com.codecode.workix.jpa.resultsqldto.ResumeWithCandidateShort;
 
 /**
  * Resume JPA with Inherited Fields and Methods
@@ -144,8 +160,8 @@ public class Resume extends MyEntity {
 	return candidate;
     }
 
-	@Lob
-	@Column
+	
+	@Column(columnDefinition = "text")
     public String getContent() {
 	return content;
     }

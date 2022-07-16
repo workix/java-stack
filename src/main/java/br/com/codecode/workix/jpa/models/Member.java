@@ -1,16 +1,27 @@
 package br.com.codecode.workix.jpa.models;
 
-import br.com.codecode.workix.cdi.qualifiers.Persist;
-import br.com.codecode.workix.interfaces.Buildable;
-import org.hibernate.validator.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+import br.com.codecode.workix.cdi.qualifiers.Persist;
+import br.com.codecode.workix.interfaces.Buildable;
 
 /**
  * Member JPA with Inherited Fields and Methods

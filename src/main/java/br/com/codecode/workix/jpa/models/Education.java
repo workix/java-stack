@@ -5,7 +5,6 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Lob;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -69,8 +68,8 @@ public class Education implements Serializable {
 	return new Builder();
     }
 
-    @Lob
-    @Column
+    
+    @Column(columnDefinition = "text")
     public String getDescription() {
 	return description;
     }
@@ -80,8 +79,8 @@ public class Education implements Serializable {
 	return endDate;
     }
 
-    @Lob
-    @Column
+    
+    @Column(columnDefinition = "text")
     public String getQualification() {
 	return qualification;
     }

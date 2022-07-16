@@ -1,6 +1,12 @@
 package br.com.codecode.workix.jpa.models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -113,9 +119,8 @@ public class Testimonial extends MyEntity {
     /**
      * @return the text
      */
-    @NotEmpty
-    @Lob
-    @Column
+    @NotEmpty    
+    @Column(columnDefinition = "text")
     public String getText() {
 	return text;
     }

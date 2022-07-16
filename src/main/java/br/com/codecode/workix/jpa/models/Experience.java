@@ -5,17 +5,16 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Lob;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.interfaces.Buildable;
 import br.com.codecode.workix.jaxrs.converter.LocalDateAdapter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Experience JPA Embeddable
@@ -86,9 +85,8 @@ public class Experience implements Serializable {
     public static Builder builder() {
 	return new Builder();
     }
-
-    @Lob
-    @Column
+    
+    @Column(columnDefinition = "text")
     public String getDescription() {
 	return description;
     }

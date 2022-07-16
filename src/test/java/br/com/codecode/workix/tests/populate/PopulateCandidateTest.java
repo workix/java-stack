@@ -23,7 +23,7 @@ import org.junit.Test;
 
 import com.google.gson.reflect.TypeToken;
 
-import br.com.codecode.workix.core.enums.Estate;
+import br.com.codecode.workix.core.enums.State;
 import br.com.codecode.workix.jpa.models.Contact;
 import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.models.Locale;
@@ -87,7 +87,7 @@ public class PopulateCandidateTest extends BaseTest implements CommonPopTest<Can
 	    
 	    c.setLocale(Locale.builder()
 		    .withCity("São José dos Campos")
-		    .withEstate(Estate.SP)
+		    .withEstate(State.SP)
 		    .withNeighborhood("Bairro")
 		    .withZipCode(45632145)
 		    .withStreet("Rua")

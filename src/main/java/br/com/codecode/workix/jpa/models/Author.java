@@ -82,7 +82,7 @@ public class Author extends MyEntity {
      * @return the aboutText
      */
     @NotEmpty
-    @Column
+    @Column(name = "about_text")
     public String getAboutText() {
         return aboutText;
     }

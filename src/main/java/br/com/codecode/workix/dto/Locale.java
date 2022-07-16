@@ -1,6 +1,6 @@
 package br.com.codecode.workix.dto;
 
-import br.com.codecode.workix.core.enums.Estate;
+import br.com.codecode.workix.core.enums.State;
 import br.com.codecode.workix.interfaces.Buildable;
 
 import java.io.Serializable;
@@ -11,7 +11,7 @@ public class Locale implements Serializable {
 
     private String city;
 
-    private Estate estate;
+    private State estate;
 
     private String neighborhood;
 
@@ -54,7 +54,7 @@ public class Locale implements Serializable {
 	return city;
     }
 
-    public Estate getEstate() {
+    public State getEstate() {
 	return estate;
     }
 
@@ -78,7 +78,7 @@ public class Locale implements Serializable {
 	this.city = city;
     }
 
-    public void setEstate(Estate estate) {
+    public void setEstate(State estate) {
 	this.estate = estate;
     }
 
@@ -134,7 +134,7 @@ public class Locale implements Serializable {
 	    return this;
 	}
 
-	public Builder withEstate(Estate estate) {
+	public Builder withEstate(State estate) {
 	    this.setEstate(estate);
 	    return this;
 	}

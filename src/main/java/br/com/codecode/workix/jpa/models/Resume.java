@@ -127,12 +127,12 @@ public class Resume extends MyEntity {
 	    this.skills.add(skill);
 
     }
-	@Enumerated(EnumType.ORDINAL)
-	@Column
+	@Enumerated(EnumType.STRING)
+	@Column(name="carrer_level")
 	public CarrerLevel getCarrerLevel() {
 		return carrerLevel;
 	}
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	@Column
 	public Presence getPresence() {
 		return presence;

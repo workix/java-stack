@@ -46,7 +46,7 @@ public class SelectiveProcessObserver {
 
 	System.out.println("[-----------------------]");
 
-	if (process.isActive()) {
+	if (process.isActivated()) {
 	    System.out.println("Process is Active");
 	} else {
 	    System.out.println("Process is no More Elegible");

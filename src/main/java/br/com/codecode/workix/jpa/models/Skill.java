@@ -36,7 +36,8 @@ public class Skill implements Serializable {
      * Public Default Constructor for JPA Compatibility Only
      */
     public Skill(){}
-	@Column
+	
+    @Column
 	public Integer getMonths() {
 		return months;
 	}
@@ -68,7 +69,7 @@ public class Skill implements Serializable {
     /**
      * @return the Skill Name
      */
-    @Column
+    @Column(name="skill_name")
     public String getSkillName() {
 	return this.skillName;
     }

@@ -60,7 +60,7 @@ public class Contact implements Serializable {
     /**
      * @return the Mobile Phone
      */
-    @Column
+    @Column(name="mobile_phone")
     public long getMobilePhone() {
 	return mobilePhone;
     }

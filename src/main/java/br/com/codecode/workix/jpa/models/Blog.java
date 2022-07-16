@@ -176,6 +176,7 @@ public class Blog extends MyEntity implements Persistable {
      */
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "blogs_pictures", joinColumns = @JoinColumn(name = "id"))
+    @Column(name="picture")
     public Set<String> getPictures() {
 	return pictures;
     }
@@ -190,6 +191,9 @@ public class Blog extends MyEntity implements Persistable {
 
     }
     @OneToMany(fetch=FetchType.EAGER)
+    @JoinTable(name = "blogs_comments", 
+    joinColumns = @JoinColumn(name = "blog_id"), 
+    inverseJoinColumns = @JoinColumn(name = "comment_id"))
     public Set<Comment> getComments() {
         return comments;
     }

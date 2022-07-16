@@ -75,7 +75,7 @@ public class Education implements Serializable {
 	return description;
     }
 
-    @Column
+    @Column(name="end_date")
     public LocalDate getEndDate() {
 	return endDate;
     }
@@ -86,12 +86,12 @@ public class Education implements Serializable {
 	return qualification;
     }
 
-    @Column
+    @Column(name="school_name")
     public String getSchoolName() {
 	return schoolName;
     }
 
-    @Column
+    @Column(name="start_date")
     public LocalDate getStartDate() {
 	return startDate;
     }

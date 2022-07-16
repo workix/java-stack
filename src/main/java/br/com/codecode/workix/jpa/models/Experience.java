@@ -44,6 +44,7 @@ public class Experience implements Serializable {
     private LocalDate startDate;
 
 	private String responsibilities;
+	
 	@Column
 	public String getResponsibilities() {
 		return responsibilities;
@@ -92,24 +93,24 @@ public class Experience implements Serializable {
 	return description;
     }
 
-    @Column
+    @Column(name="employer_name")
     public String getEmployerName() {
 	return employerName;
     }
 
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
-    @Column    
+    @Column(name="end_date")    
     public LocalDate getEndDate() {
 	return endDate;
     }
 
-    @Column
+    @Column(name="job_title")
     public String getJobTitle() {
 	return jobTitle;
     }
 
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
-    @Column
+    @Column(name="start_date")
     public LocalDate getStartDate() {
 	return startDate;
     }

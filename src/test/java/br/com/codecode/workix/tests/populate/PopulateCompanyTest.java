@@ -19,7 +19,7 @@ import org.junit.Test;
 
 import com.google.gson.reflect.TypeToken;
 
-import br.com.codecode.workix.core.enums.Estate;
+import br.com.codecode.workix.core.enums.State;
 import br.com.codecode.workix.jpa.models.Contact;
 import br.com.codecode.workix.jpa.models.Company;
 import br.com.codecode.workix.jpa.models.Locale;
@@ -84,7 +84,7 @@ public class PopulateCompanyTest extends BaseTest implements CommonPopTest<Compa
 
 		    .withLocale(Locale.builder()
 			    .withCity("São José dos Campos")
-			    .withEstate(Estate.SP)
+			    .withEstate(State.SP)
 			    .withNeighborhood("Bairro")
 			    .withNumber("212")
 			    .withStreet("Rua")

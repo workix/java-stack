@@ -33,9 +33,9 @@ public class Job extends MyEntity {
    
     private static final long serialVersionUID = 2246753300384053586L;
 
-    private boolean active;
+    private boolean activated;
 
-	private boolean feature;
+	private boolean featured;
 
     /**
      * Many {@link Job} To One {@link Company}
@@ -67,8 +67,8 @@ public class Job extends MyEntity {
      *            Builder for Generate a New Job
      */
     private Job(Builder builder) {	
-	this.active = builder.isActive();
-	this.feature = builder.isFeature();
+	this.activated = builder.isActivated();
+	this.featured = builder.isFeatured();
 	this.title = builder.getTitle();
 	this.description = builder.getDescription();
 	this.requirement = builder.getRequirement();
@@ -128,24 +128,24 @@ public class Job extends MyEntity {
 	return this.id;
     }
 
-    @Column
+    @Column(name="job_category")
     @Enumerated(EnumType.STRING)
     public JobCategory getJobCategory() {
 	return jobCategory;
     }
 
-    @Column
+    @Column(name="job_type")
     @Enumerated(EnumType.STRING)
     public JobType getJobType() {
 	return jobType;
     }
 
-    @Column
+    @Column(name="max_payment")
     public BigDecimal getMaxPayment() {
 	return maxPayment;
     }
 
-    @Column
+    @Column(name="min_payment")
     public BigDecimal getMinPayment() {
 	return minPayment;
     }
@@ -162,6 +162,9 @@ public class Job extends MyEntity {
     }
 
 	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "jobs_candidates", 
+    joinColumns = @JoinColumn(name = "job_id"), 
+    inverseJoinColumns = @JoinColumn(name = "candidate_id"))
 	public Set<Candidate> getCandidates() {
 		return candidates;
 	}
@@ -192,25 +195,25 @@ public class Job extends MyEntity {
     private void init() {
 	minPayment = BigDecimal.ZERO;
 	maxPayment = BigDecimal.ZERO;
-	active = true;
-	feature = false;
+	activated = true;
+	featured = false;
     }
 
     @Column
-    public boolean isActive() {
-	return active;
+    public boolean isActivated() {
+	return activated;
     }
 	@Column(nullable = true)
-	public boolean isFeature() {
-		return feature;
+	public boolean isFeatured() {
+		return featured;
 	}
 
-    public void setActive(boolean active) {
-	this.active = active;
+    public void setActivated(boolean active) {
+	this.activated = active;
     }
 
-	public void setFeature(boolean feature) {
-		this.feature = feature;
+	public void setFeatured(boolean feature) {
+		this.featured = feature;
 	}
 
     public void setBenefits(String benefits) {
@@ -278,12 +281,12 @@ public class Job extends MyEntity {
 	}
 
 	public Builder withActive(boolean active) {
-	    super.active = active;
+	    super.activated = active;
 	    return this;
 	}
 
 	public Builder withFeature(boolean feature) {
-		super.feature = feature;
+		super.featured = feature;
 		return this;
 	}
 

@@ -2,10 +2,10 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
                                          "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-	<session-factory name="Default">
-		<property name="hibernate.hbm2ddl.auto">update</property>
-		<property name="hibernate.show_sql">false</property>
-		<property name="hibernate.format_sql">true</property>
-		<property name="hibernate.use_sql_comments">false</property>
-	</session-factory>
+ <session-factory name="Default">
+  <property name="hibernate.hbm2ddl.auto">create-drop</property>
+  <property name="hibernate.show_sql">false</property>
+  <property name="hibernate.format_sql">true</property>
+  <property name="hibernate.use_sql_comments">false</property>
+ </session-factory>
 </hibernate-configuration>

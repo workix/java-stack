@@ -135,7 +135,7 @@ public class Member extends MyEntity {
      * @return the shortText
      */
     @NotEmpty
-    @Column
+    @Column(name="short_text")
     public String getShortText() {
         return shortText;
     }

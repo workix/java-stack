@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
 import br.com.codecode.workix.cdi.qualifiers.Persist;
-import br.com.codecode.workix.core.enums.Estate;
+import br.com.codecode.workix.core.enums.State;
 import br.com.codecode.workix.core.enums.JobCategory;
 import br.com.codecode.workix.core.enums.JobType;
 import br.com.codecode.workix.core.exceptions.NotImplementedYetException;
@@ -42,7 +42,7 @@ public class PostAJobMB extends BaseMB {
     @Persist
     private Job job;
 
-    private DataModel<Estate> estates;
+    private DataModel<State> estates;
 
     private DataModel<JobType> jobTypes;
 
@@ -56,7 +56,7 @@ public class PostAJobMB extends BaseMB {
 
         employeers = companyDao.listAll(0, 100);
 
-        estates = new ListDataModel<>(Arrays.asList(Estate.values()));
+        estates = new ListDataModel<>(Arrays.asList(State.values()));
 
         jobTypes = new ListDataModel<>(Arrays.asList(JobType.values()));
 
@@ -67,7 +67,7 @@ public class PostAJobMB extends BaseMB {
 
     private void debug() {
         if (job != null) {
-            job.setActive(true);
+            job.setActivated(true);
             job.setJobCategory(JobCategory.OPERATOR);
             job.setCompany(employeers.get(3));
             job.setDescription("WHATEVER TEXT ");
@@ -75,7 +75,7 @@ public class PostAJobMB extends BaseMB {
 
     }
 
-    public DataModel<Estate> getEstates() {
+    public DataModel<State> getEstates() {
         return estates;
     }
 

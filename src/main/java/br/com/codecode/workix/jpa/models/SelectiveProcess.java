@@ -46,24 +46,24 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
     private static final long serialVersionUID = -5336099006523168288L;
 
     @Column
-    private boolean active;
+    private boolean activated;
 
-    @JoinTable(name = "selective_processes_candidates",
-	    joinColumns = @JoinColumn(name = "sp_id"), inverseJoinColumns = @JoinColumn(name = "candidate_id"))
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "selective_processes_candidates",
+    joinColumns = @JoinColumn(name = "sp_id"), inverseJoinColumns = @JoinColumn(name = "candidate_id"))
     private Set<Candidate> candidates;
 
-    @Column
+    @Column(name="created_at")
     private LocalDateTime createdAt;
 
     @JsonSerialize
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
-    @Column
+    @Column(name="disabled_at")
     private LocalDateTime disabledAt;
 
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
-    @Column
-    private LocalDateTime expire;
+    @Column(name="expires_in")
+    private LocalDateTime expiresIn;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,15 +73,15 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
     @ManyToOne(optional = false)
     private Job job;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name="max_candidates")
     private int maxCandidates;
 
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
-    @Column
-    private LocalDateTime start;
+    @Column(name="starts_in")
+    private LocalDateTime startsIn;
 
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
-    @Column
+    @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
     @Column(updatable = false, nullable = false)
@@ -141,8 +141,8 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
     /**
      * @return the expire
      */
-    public LocalDateTime getExpire() {
-	return expire;
+    public LocalDateTime getExpiresIn() {
+	return expiresIn;
     }
 
     @Override
@@ -161,8 +161,8 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
     /**
      * @return the start
      */
-    public LocalDateTime getStart() {
-	return start;
+    public LocalDateTime getStartsIn() {
+	return startsIn;
     }
 
     @Override
@@ -179,7 +179,7 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
     @PostConstruct
     private void init() {
 	this.addObserver(this);
-	active = true;
+	activated = true;
 	candidates = new HashSet<>();
     }
 
@@ -188,8 +188,8 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
 	createdAt = LocalDateTime.now();
     }
 
-    public boolean isActive() {
-	return active;
+    public boolean isActivated() {
+	return activated;
     }
 
     private boolean isElegible() {
@@ -223,7 +223,7 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
 
 	boolean b = false;
 
-	if ((isActive()) && (isElegible()) && (!isInProcess(candidate))) {
+	if ((isActivated()) && (isElegible()) && (!isInProcess(candidate))) {
 
 	    candidates.add(candidate);
 
@@ -246,13 +246,13 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
 
     }
 
-    public void setActive(boolean active) {
+    public void setActivated(boolean active) {
 
 	if (!active) {
 	    disabledAt = LocalDateTime.now();
 	}
 
-	this.active = active;
+	this.activated = active;
 
 	notifyChanges();
     }
@@ -266,8 +266,8 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
      * @param expire
      *            the expire to set
      */
-    public void setExpire(LocalDateTime expire) {
-	this.expire = expire;
+    public void setExpiresIn(LocalDateTime expire) {
+	this.expiresIn = expire;
     }
 
     @Override
@@ -287,8 +287,8 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
      * @param start
      *            the start to set
      */
-    public void setStart(LocalDateTime start) {
-	this.start = start;
+    public void setStartsIn(LocalDateTime start) {
+	this.startsIn = start;
     }
 
     @Override
@@ -296,7 +296,7 @@ public class SelectiveProcess extends Observable implements Observer, Traceable,
 
 	if (observable instanceof SelectiveProcess) {
 
-	    if (active == isElegible()) {
+	    if (activated == isElegible()) {
             if (object instanceof Collection<?>) {
                 countCandidates((Set<Candidate>) object);
             }

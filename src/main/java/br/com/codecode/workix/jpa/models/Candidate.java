@@ -47,7 +47,7 @@ public class Candidate extends Person {
     public Candidate(){}
 
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "birth_date")
     public LocalDate getBirthDate() {
         return birthDate;
     }

@@ -66,7 +66,7 @@ public class TimerBean {
 	    
 	    for (SelectiveProcess sp : expireds) {
 		
-		sp.setActive(false);
+		sp.setActivated(false);
 		
 		spDao.save(sp);
 		

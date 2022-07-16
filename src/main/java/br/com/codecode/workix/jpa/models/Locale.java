@@ -1,7 +1,7 @@
 package br.com.codecode.workix.jpa.models;
 
 import br.com.codecode.workix.cdi.qualifiers.Persist;
-import br.com.codecode.workix.core.enums.Estate;
+import br.com.codecode.workix.core.enums.State;
 import br.com.codecode.workix.interfaces.Buildable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,7 +33,7 @@ public class Locale implements Serializable {
 
     private String city;
 
-    private Estate estate;
+    private State state;
 
     private String neighborhood;
 
@@ -70,7 +70,7 @@ public class Locale implements Serializable {
 	this.neighborhood = builder.getNeighborhood();
 	this.street = builder.getStreet();
 	this.number = builder.getNumber();
-	this.estate = builder.getEstate();
+	this.state = builder.getState();
     }
 
 	@Column
@@ -80,8 +80,8 @@ public class Locale implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	@Column
-    public Estate getEstate() {
-	return estate;
+    public State getState() {
+	return state;
     }
 
 	@Column
@@ -99,7 +99,7 @@ public class Locale implements Serializable {
 	return street;
     }
 
-	@Column
+	@Column(name="zip_code")
 	public long getZipCode() {
 	return zipCode;
     }
@@ -108,8 +108,8 @@ public class Locale implements Serializable {
 	this.city = city;
     }
 
-    public void setEstate(Estate estate) {
-	this.estate = estate;
+    public void setState(State estate) {
+	this.state = estate;
     }
 
     public void setNeighborhood(String neighborhood) {
@@ -132,7 +132,7 @@ public class Locale implements Serializable {
     public String toString() {	
 	return city +
             ", " +
-            estate;
+            state;
     }
 
     /**
@@ -164,8 +164,8 @@ public class Locale implements Serializable {
 	    return this;
 	}
 
-	public Builder withEstate(Estate estate) {
-	    this.setEstate(estate);
+	public Builder withEstate(State estate) {
+	    this.setState(estate);
 	    return this;
 	}
 

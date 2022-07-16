@@ -25,7 +25,7 @@ import java.io.Serializable;
  * @see Serializable
  */
 @Entity
-@Table(name = "JAAS_Role")
+@Table(name = "jaas_role")
 @XmlRootElement
 public class JAASRole implements Serializable {
 

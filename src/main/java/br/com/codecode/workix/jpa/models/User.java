@@ -1,14 +1,19 @@
 package br.com.codecode.workix.jpa.models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.interfaces.Buildable;
@@ -33,7 +38,7 @@ public class User extends MyEntity implements Notificable {
    
     private static final long serialVersionUID = -610648880358327958L;
 
-    private boolean active;
+    private boolean activated;
 
     private String email, firebaseUUID, firebaseMessageToken;
 
@@ -53,7 +58,7 @@ public class User extends MyEntity implements Notificable {
      */
     public User(Builder builder) {
 
-	this.active = builder.isActive();
+	this.activated = builder.isActivated();
 
 	this.email = builder.getEmail();
 
@@ -81,13 +86,14 @@ public class User extends MyEntity implements Notificable {
 	return email;
     }
 
-    @Column
+    @Column(name="firebase_message_token")
     @Override
     public String getFirebaseMessageToken() {
 	return firebaseMessageToken;
     }
+    
     @NotEmpty
-    @Column
+    @Column(name="firebase_uuid")
     @Override
     public String getFirebaseUUID() {
 	return firebaseUUID;
@@ -102,12 +108,12 @@ public class User extends MyEntity implements Notificable {
     }
 
     @Column
-    public boolean isActive() {
-	return active;
+    public boolean isActivated() {
+	return activated;
     }
 
-    public void setActive(boolean active) {
-	this.active = active;
+    public void setActivated(boolean active) {
+	this.activated = active;
     }
 
     @Override
@@ -163,7 +169,7 @@ public class User extends MyEntity implements Notificable {
 	 * @return Builder
 	 */
 	public Builder withActive(boolean active) {
-	    this.setActive(active);
+	    this.setActivated(active);
 	    return this;
 	}
 

@@ -15,6 +15,7 @@ import br.com.codecode.workix.cdi.dao.Crud;
 import br.com.codecode.workix.cdi.qualifiers.Generic;
 import br.com.codecode.workix.config.JAXRSConfiguration;
 import br.com.codecode.workix.core.exceptions.NotImplementedYetException;
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.models.Resume;
 import br.com.codecode.workix.jpa.models.User;
@@ -46,6 +47,7 @@ public class SaveOrUpdateEndpoint {
     @Generic
     private Crud<Resume> daoResume;
 
+    @Authorize
     @Path("user")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -74,6 +76,7 @@ public class SaveOrUpdateEndpoint {
 	return Response.ok(user).build();
     }
 
+    @Authorize
     @Path("candidate")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -100,6 +103,7 @@ public class SaveOrUpdateEndpoint {
 	return Response.ok(candidate).build();
     }
 
+    @Authorize
     @Path("resume")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

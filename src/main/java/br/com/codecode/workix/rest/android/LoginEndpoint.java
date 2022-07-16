@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response.Status;
 
 import br.com.codecode.workix.config.JAXRSConfiguration;
 import br.com.codecode.workix.core.common.Token;
+import br.com.codecode.workix.jaxrs.interfaces.Authorize;
 import br.com.codecode.workix.jpa.models.Contact;
 import br.com.codecode.workix.jpa.models.Candidate;
 import br.com.codecode.workix.jpa.models.Locale;
@@ -31,6 +32,7 @@ import br.com.codecode.workix.rest.BaseEndpoint;
 @Path("login")
 public class LoginEndpoint extends BaseEndpoint {
 
+	@Authorize
     @POST
     @Path("firebaselogin")
     @Consumes(MediaType.APPLICATION_JSON)

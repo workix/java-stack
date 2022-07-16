@@ -18,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -52,7 +53,7 @@ public class Blog extends MyEntity implements Persistable {
 
     private Author author;
 
-    private BlogCategory category;    
+    private Set<BlogCategory> categories;    
 
     private String citation;
 
@@ -86,7 +87,7 @@ public class Blog extends MyEntity implements Persistable {
      */
     private Blog(Builder builder) {
 	this.author = builder.getAuthor();
-	this.category = builder.getCategory();
+	this.categories = builder.getCategories();
 	this.citation = builder.getCitation();
 	this.content = builder.getContent();
 	this.date = builder.getDate();	
@@ -147,8 +148,11 @@ public class Blog extends MyEntity implements Persistable {
      * @return the blogCategory
      */    
     @Enumerated(EnumType.STRING)
-    public BlogCategory getCategory() {
-	return category;
+    @ElementCollection(targetClass = BlogCategory.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "blogs_categories", joinColumns = @JoinColumn(name = "id"))  
+    @Column(name="category")
+    public Set<BlogCategory> getCategories() {
+	return categories;
     }
 
     /**
@@ -263,8 +267,19 @@ public class Blog extends MyEntity implements Persistable {
     /**
      * @param blogCategory the blogCategory to set
      */
-    public void setCategory(BlogCategory blogCategory) {
-	this.category = blogCategory;
+    public void setCategories(Set<BlogCategory> blogCategories) {
+	this.categories = blogCategories;
+    }
+    
+    public void addCategory(BlogCategory blogCategory) {
+    	if (this.categories == null) {
+    		this.categories = new HashSet<>();    		
+    	}
+    	this.categories.add(blogCategory);
+    }
+    
+    public void removeCategory(BlogCategory blogCategory) {
+    	this.categories.remove(blogCategory);
     }
 
 
@@ -346,7 +361,10 @@ public class Blog extends MyEntity implements Persistable {
 	}
 
 	public Builder withBlogCategory(BlogCategory category) {
-	    super.category = category;
+		if(super.categories == null) {
+			super.categories = new HashSet<>();
+		}
+	    super.categories.add(category);
 	    return this;
 	}
 

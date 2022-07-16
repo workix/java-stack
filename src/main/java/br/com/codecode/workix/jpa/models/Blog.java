@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.codecode.workix.cdi.qualifiers.Persist;
 import br.com.codecode.workix.core.enums.BlogCategory;
 import br.com.codecode.workix.interfaces.Buildable;
@@ -197,11 +199,13 @@ public class Blog extends MyEntity implements Persistable {
 	return pictures;
     }
 
+    @JsonIgnore
     @Transient
     public List<String> getPicturesAsList() {
         return getPictures().stream().collect(Collectors.toList());
     }
 
+    @JsonIgnore
     @Transient
     public void setPicturesAsList(){
 

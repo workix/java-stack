@@ -1,0 +1,30 @@
+version: "3"
+services:
+  postgres:
+    restart: always
+    image: postgres:latest
+    container_name: "pg_workix"
+    environment:
+      - POSTGRES_DB=workix
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust       
+    volumes:
+      - "./data/postgres:/var/lib/postgresql/data"
+    ports:
+      - 5432:5432
+  mysql:
+    restart: always
+    image: mysql:5.7    
+    container_name: "mysql_workix"
+    environment:
+      MYSQL_DATABASE: 'workix'      
+      MYSQL_USER: 'workix'      
+      MYSQL_PASSWORD: 'workix'      
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:      
+      - '3306:3306'
+    expose:
+      - '3306'     
+    volumes:
+      - "./data/mysql:/var/lib/mysql"

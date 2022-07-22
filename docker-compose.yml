@@ -1,7 +1,6 @@
 version: "3"
 services:
   postgres:
-    restart: always
     image: postgres:latest
     container_name: "pg_workix"
     environment:
@@ -14,7 +13,6 @@ services:
     ports:
       - 5432:5432
   mysql:
-    restart: always
     image: mysql:5.7    
     container_name: "mysql_workix"
     environment:

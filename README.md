@@ -6,7 +6,7 @@ https://workix.slack.com
 
 ## Precisamos de investidores
 **Estamos no Pipe Social:**
-https://pipe.social/startup/907/perfil
+https://pipe.social/startup/15295/perfil
 
 ### Descrição do Projeto
 **Plataforma de Empregos Totalmente Grátis**

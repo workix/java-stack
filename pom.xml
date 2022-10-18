@@ -178,7 +178,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
-        <jackson-version>LATEST</jackson-version>
+        <jackson-version>2.13.4.1</jackson-version>
         <version.jboss.bom>10.0.0.Final</version.jboss.bom>
         <version.api>7.0</version.api>
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>

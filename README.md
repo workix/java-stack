@@ -41,7 +41,7 @@ https://www.youtube.com/playlist?list=PLDzyDVZ4JbDhYUQvZf_fti3kDujvt4o5F
 
 ### Documentação Java
 --
-https://frmichetti.github.io/workix/java-docs/index.html
+https://workix.github.io/java-docs/
 
 ### Licença
 --

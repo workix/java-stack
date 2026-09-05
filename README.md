@@ -5,11 +5,9 @@
 https://workix.slack.com
 
 ## Precisamos de investidores
-**Estamos no Pipe Social:**
-https://pipe.social/startup/15295/perfil
 
 ### Descrição do Projeto
-**Plataforma de Empregos Totalmente Grátis**
+**Uma rede profissional enxuta, feita para conectar quem contrata a quem procura**
 
 #### ...Imagine uma Plataforma de Empregos...
 
@@ -23,7 +21,7 @@ https://pipe.social/startup/15295/perfil
 
 #### ...Onde você é avisado de toda a etapa do processo seletivo
 
-#### ...Imagine uma Plataforma de Empregos... que irá fazer tudo isso de graça para você.
+#### ...Imagine uma Plataforma de Empregos... que irá fazer tudo isso para você.
 
 **Screenshots**
 
